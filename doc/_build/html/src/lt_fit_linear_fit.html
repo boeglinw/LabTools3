@@ -1,0 +1,284 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>linear_fit &#8212; LabTools3 2.8 documentation</title>
+    <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="gen_fit" href="lt_fit_gen_fit.html" />
+    <link rel="prev" title="parameters" href="lt_fit_parameters.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="lt_fit_gen_fit.html" title="gen_fit"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="lt_fit_parameters.html" title="parameters"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">LabTools3 2.8 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../LT_Fit.html" accesskey="U">The LT_Fit Package</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="linear-fit">
+<span id="id1"></span><h1>linear_fit<a class="headerlink" href="#linear-fit" title="Permalink to this headline">¶</a></h1>
+<span class="target" id="module-LT_Fit.linear_fit"></span><p>Tools for linear least square fitting also called linear regression.</p>
+<hr class="docutils" />
+<dl class="py class">
+<dt id="LT_Fit.linear_fit.linefit">
+<em class="property">class </em><code class="sig-prename descclassname">LT_Fit.linear_fit.</code><code class="sig-name descname">linefit</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span></em>, <em class="sig-param"><span class="n">y</span></em>, <em class="sig-param"><span class="n">yerr</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">quiet</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="headerlink" href="#LT_Fit.linear_fit.linefit" title="Permalink to this definition">¶</a></dt>
+<dd><p>simple line fit for a set of data. Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">R</span> <span class="o">=</span> <span class="n">linefit</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span> <span class="p">[</span><span class="n">yerr</span> <span class="o">=</span> <span class="n">errors</span><span class="p">])</span>      <span class="c1"># do the fit</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">R</span><span class="o">.</span><span class="n">res</span><span class="p">[</span><span class="s1">&#39;parameters&#39;</span><span class="p">])</span>              <span class="c1"># print the parameters</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plot</span><span class="p">(</span><span class="n">R</span><span class="o">.</span><span class="n">xpl</span><span class="p">,</span> <span class="n">R</span><span class="o">.</span><span class="n">ypl</span><span class="p">)</span>                     <span class="c1"># plot the fitted line</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">R</span><span class="o">.</span><span class="n">line</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>                              <span class="c1"># evaluate the fitted function at x </span>
+</pre></div>
+</div>
+<p>x and y are arrays (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.array.html#numpy.array" title="(in NumPy v1.19)"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.array()</span></code></a>)
+R is an object containing the results of the fit with the following additional useful members:</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 15%" />
+<col style="width: 85%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Member</p></th>
+<th class="head"><p>Meaning</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>offset</p></td>
+<td><p>offset of the line</p></td>
+</tr>
+<tr class="row-odd"><td><p>slope</p></td>
+<td><p>slope of the line</p></td>
+</tr>
+<tr class="row-even"><td><p>sigma_o</p></td>
+<td><p>error in  offset</p></td>
+</tr>
+<tr class="row-odd"><td><p>sigma_s</p></td>
+<td><p>error in slope</p></td>
+</tr>
+<tr class="row-even"><td><p>chi_red</p></td>
+<td><p>reduce chi square</p></td>
+</tr>
+<tr class="row-odd"><td><p>CL</p></td>
+<td><p>probability to find a chi square larger than the fit result (ideal 50%)</p></td>
+</tr>
+<tr class="row-even"><td><p>cov</p></td>
+<td><p>covariance matrix (2D <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.array.html#numpy.array" title="(in NumPy v1.19)"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.array()</span></code></a>)</p></td>
+</tr>
+<tr class="row-odd"><td><p>res</p></td>
+<td><p>dictionary with all fit information</p></td>
+</tr>
+</tbody>
+</table>
+<p>NOTE: to use the covariance matrix you should scale it with the reduced chi square</p>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="py class">
+<dt id="LT_Fit.linear_fit.polyfit">
+<em class="property">class </em><code class="sig-prename descclassname">LT_Fit.linear_fit.</code><code class="sig-name descname">polyfit</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span></em>, <em class="sig-param"><span class="n">y</span></em>, <em class="sig-param"><span class="n">yerr</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">order</span><span class="o">=</span><span class="default_value">2</span></em>, <em class="sig-param"><span class="n">np_scale</span><span class="o">=</span><span class="default_value">5</span></em>, <em class="sig-param"><span class="n">parameters</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">quiet</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="headerlink" href="#LT_Fit.linear_fit.polyfit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Polynomial fit of order n, example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">R</span> <span class="o">=</span> <span class="n">polyfit</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span> <span class="n">order</span><span class="p">,</span> <span class="p">[</span><span class="n">yerr</span> <span class="o">=</span> <span class="n">errors</span><span class="p">])</span> <span class="c1"># perform the fit </span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">R</span><span class="p">[</span><span class="s1">&#39;parameters&#39;</span><span class="p">])</span>                    <span class="c1"># R is a dictionary containing the results of the fit</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plot</span><span class="p">(</span><span class="n">R</span><span class="o">.</span><span class="n">xpl</span><span class="p">,</span> <span class="n">R</span><span class="o">.</span><span class="n">ypl</span><span class="p">)</span>                       <span class="c1"># plot the fitted curve</span>
+</pre></div>
+</div>
+<p>x and y are arrays (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.array.html#numpy.array" title="(in NumPy v1.19)"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.array()</span></code></a>)
+If you want to use predefined parameters to store the results:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">C0</span> <span class="o">=</span> <span class="n">P</span><span class="o">.</span><span class="n">Parameter</span><span class="p">(</span><span class="mf">0.</span><span class="p">,</span> <span class="s1">&#39;const&#39;</span><span class="p">);</span> <span class="n">C1</span> <span class="o">=</span> <span class="n">P</span><span class="o">.</span><span class="n">Parameter</span><span class="p">(</span><span class="mf">0.</span><span class="p">,</span> <span class="s1">&#39;lin&#39;</span><span class="p">);</span> <span class="n">C2</span> <span class="o">=</span> <span class="n">P</span><span class="o">.</span><span class="n">Parameter</span><span class="p">(</span><span class="mf">0.</span><span class="p">,</span><span class="s1">&#39;quad&#39;</span><span class="p">)</span> <span class="c1"># create Parameter objects</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">R</span> <span class="o">=</span> <span class="n">polyfit</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span> <span class="n">order</span><span class="p">,</span> <span class="n">parameters</span><span class="o">=</span><span class="p">[</span><span class="n">C0</span><span class="p">,</span><span class="n">C1</span><span class="p">,</span><span class="n">C2</span><span class="p">])</span>                                          <span class="c1"># perform the fit</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">R</span><span class="o">.</span><span class="n">show_parameters</span><span class="p">()</span>                                                                     <span class="c1"># will show the fit result</span>
+</pre></div>
+</div>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 15%" />
+<col style="width: 85%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Member</p></th>
+<th class="head"><p>Meaning</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>chi_red</p></td>
+<td><p>reduce chi square</p></td>
+</tr>
+<tr class="row-odd"><td><p>CL</p></td>
+<td><p>probability to find a chi square larger than the fit result (ideal 50%)</p></td>
+</tr>
+<tr class="row-even"><td><p>par</p></td>
+<td><p>parameters (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.array.html#numpy.array" title="(in NumPy v1.19)"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.array()</span></code></a>)</p></td>
+</tr>
+<tr class="row-odd"><td><p>parameters</p></td>
+<td><p>parameter (list of <code class="xref py py-class docutils literal notranslate"><span class="pre">Parameter</span></code> objects)</p></td>
+</tr>
+<tr class="row-even"><td><p>sig_par</p></td>
+<td><p>parameter errors (variances)</p></td>
+</tr>
+<tr class="row-odd"><td><p>cov</p></td>
+<td><p>covarance matric (2D <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.array.html#numpy.array" title="(in NumPy v1.19)"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.array()</span></code></a>)</p></td>
+</tr>
+<tr class="row-even"><td><p>res</p></td>
+<td><p>dictionary with all fit information</p></td>
+</tr>
+<tr class="row-odd"><td><p>poly(x)</p></td>
+<td><p>evaluate the fitted function at x</p></td>
+</tr>
+</tbody>
+</table>
+<p>NOTE: to use the covariance matrix you should scale it with the reduced chi square</p>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="py class">
+<dt id="LT_Fit.linear_fit.gen_linfit">
+<em class="property">class </em><code class="sig-prename descclassname">LT_Fit.linear_fit.</code><code class="sig-name descname">gen_linfit</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">functions</span></em>, <em class="sig-param"><span class="n">x</span></em>, <em class="sig-param"><span class="n">y</span></em>, <em class="sig-param"><span class="n">parameters</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">yerr</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">np_scale</span><span class="o">=</span><span class="default_value">5</span></em>, <em class="sig-param"><span class="n">quiet</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="headerlink" href="#LT_Fit.linear_fit.gen_linfit" title="Permalink to this definition">¶</a></dt>
+<dd><p>general linear fit of:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">f</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">=</span> <span class="n">a0</span><span class="o">*</span><span class="n">f0</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">+</span> <span class="n">a1</span><span class="o">*</span><span class="n">f1</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">+</span> <span class="o">...</span>
+</pre></div>
+</div>
+<p>where:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">f</span> <span class="o">=</span> <span class="p">[</span><span class="n">f0</span><span class="p">,</span> <span class="n">f1</span><span class="p">,</span> <span class="n">f2</span><span class="p">,</span> <span class="o">..</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>is a list of functions provided by the user.</p>
+<p>An example of making a list of function and using it in a fit:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">f0</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">sin</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>                                                             <span class="c1"># define lambda functions</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f1</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">sin</span><span class="p">(</span><span class="mf">2.</span><span class="o">*</span><span class="n">x</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f2</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">sin</span><span class="p">(</span><span class="mf">4.</span><span class="o">*</span><span class="n">x</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a0</span> <span class="o">=</span> <span class="n">P</span><span class="o">.</span><span class="n">Parameter</span><span class="p">(</span><span class="mf">0.</span><span class="p">,</span><span class="s1">&#39;ax&#39;</span><span class="p">);</span> <span class="n">a1</span> <span class="o">=</span> <span class="n">P</span><span class="o">.</span><span class="n">Parameter</span><span class="p">(</span><span class="mf">0.</span><span class="p">,</span><span class="s1">&#39;a2x&#39;</span><span class="p">);</span> <span class="n">a2</span> <span class="o">=</span> <span class="n">P</span><span class="o">.</span><span class="n">Parameter</span><span class="p">(</span><span class="mf">0.</span><span class="p">,</span><span class="s1">&#39;a4x&#39;</span><span class="p">)</span> <span class="c1"># define Parameter objects (optional)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">R</span> <span class="o">=</span> <span class="n">gen_linfit</span><span class="p">([</span><span class="n">f0</span><span class="p">,</span> <span class="n">f1</span><span class="p">,</span> <span class="n">f2</span><span class="p">],</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">parameters</span> <span class="o">=</span> <span class="p">[</span><span class="n">a0</span><span class="p">,</span> <span class="n">a1</span><span class="p">,</span> <span class="n">a2</span><span class="p">],</span> <span class="n">yerr</span> <span class="o">=</span> <span class="n">sig_y</span><span class="p">)</span>       <span class="c1"># do the fit</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plot</span><span class="p">(</span><span class="n">R</span><span class="o">.</span><span class="n">xpl</span><span class="p">,</span> <span class="n">R</span><span class="o">.</span><span class="n">ypl</span><span class="p">)</span>                                                                <span class="c1"># plot the fit</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">R</span><span class="o">.</span><span class="n">show_parameters</span><span class="p">()</span>                                                               <span class="c1"># print the parameters</span>
+</pre></div>
+</div>
+<p>R is a gen_linfit object containing the fit results and the fitted function</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 15%" />
+<col style="width: 85%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Member</p></th>
+<th class="head"><p>Meaning</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>chi_red</p></td>
+<td><p>reduce chi square</p></td>
+</tr>
+<tr class="row-odd"><td><p>CL</p></td>
+<td><p>probability to find a chi square larger than the fit result (ideal 50%)</p></td>
+</tr>
+<tr class="row-even"><td><p>par</p></td>
+<td><p>parameters (numpy array)</p></td>
+</tr>
+<tr class="row-odd"><td><p>parameters</p></td>
+<td><p>parameter (list of Parameter objects)</p></td>
+</tr>
+<tr class="row-even"><td><p>sig_par</p></td>
+<td><p>parameter errors (variances)</p></td>
+</tr>
+<tr class="row-odd"><td><p>cov</p></td>
+<td><p>covariance matrix (2D <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.array.html#numpy.array" title="(in NumPy v1.19)"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.array()</span></code></a>)</p></td>
+</tr>
+<tr class="row-even"><td><p>res</p></td>
+<td><p>dictionary with all fit information</p></td>
+</tr>
+<tr class="row-odd"><td><p>func(x)</p></td>
+<td><p>evaluate the fitted function at x</p></td>
+</tr>
+</tbody>
+</table>
+<p>NOTE: to use the covariance matrix you should scale it with the reduced chi square</p>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="lt_fit_parameters.html"
+                        title="previous chapter">parameters</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="lt_fit_gen_fit.html"
+                        title="next chapter">gen_fit</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/src/lt_fit_linear_fit.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="lt_fit_gen_fit.html" title="gen_fit"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="lt_fit_parameters.html" title="parameters"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">LabTools3 2.8 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../LT_Fit.html" >The LT_Fit Package</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2011, Werner Boeglin.
+      Last updated on Jul 18, 2020.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.0.3.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,486 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>datafile &#8212; LabTools3 2.8 documentation</title>
+    <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="parameterfile" href="lt_parameterfile.html" />
+    <link rel="prev" title="box" href="lt_box.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="lt_parameterfile.html" title="parameterfile"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="lt_box.html" title="box"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">LabTools3 2.8 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../LT.html" accesskey="U">The LT Package</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="datafile">
+<span id="id1"></span><h1>datafile<a class="headerlink" href="#datafile" title="Permalink to this headline">¶</a></h1>
+<span class="target" id="module-LT.datafile"></span><p>Reads a file containing columns of data and creates a dictionary according to header information
+using the following format:</p>
+<ol class="arabic">
+<li><p>comments start with <code class="docutils literal notranslate"><span class="pre">#</span></code> in the <strong>first column</strong> : <code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">My</span> <span class="pre">Comment</span></code></p></li>
+<li><p>header information starts with <code class="docutils literal notranslate"><span class="pre">#!</span></code>, where <code class="docutils literal notranslate"><span class="pre">#</span></code> is also in the <strong>first column</strong>. It must precede the data.</p></li>
+<li><p>each columns is represented by <code class="docutils literal notranslate"><span class="pre">name[dtype,</span> <span class="pre">col.nr.]/</span></code>,  <em>dtype</em> (optional) is the data type and <em>col.nr</em>
+(starting at 0) is the column number</p></li>
+<li><p>data are separated by white space <strong>NOT commas!</strong></p></li>
+<li><p>data types:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>s : string</p></li>
+<li><p>f : float</p></li>
+<li><p>i : integer</p></li>
+</ul>
+</div></blockquote>
+</li>
+<li><p>blank lines are ignored</p></li>
+</ol>
+<blockquote>
+<div><p><strong>NOTE</strong>: if data formats are entered they should be specified for all columns</p>
+</div></blockquote>
+<p>Example data:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="ch">#! p_miss[0]/ siglt[2]/ s01[3]/ alt[4]/</span>
+<span class="mf">200.</span> <span class="mf">1.35e-4</span> <span class="o">-</span><span class="mf">1.e-3</span>    <span class="mf">0.1</span>
+<span class="mf">220.</span> <span class="mf">2.56e-4</span> <span class="o">-</span><span class="mf">2.e-4</span>    <span class="o">-</span><span class="mf">0.1</span>
+<span class="mf">230.</span> <span class="mf">3.47e-6</span> <span class="o">-</span><span class="mf">3.e-5</span>    <span class="mf">1.1</span>
+</pre></div>
+</div>
+<p>The header can also contain data type information:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="ch">#! p_miss[f,0]/ siglt[f,2]/ s01[f,3]/ alt[f,4]/</span>
+
+<span class="mf">200.</span> <span class="mf">1.35e-4</span> <span class="o">-</span><span class="mf">1.e-3</span>    <span class="mf">0.1</span>
+<span class="mf">220.</span> <span class="mf">2.56e-4</span> <span class="o">-</span><span class="mf">2.e-4</span>    <span class="o">-</span><span class="mf">0.1</span>
+<span class="mf">230.</span> <span class="mf">3.47e-6</span> <span class="o">-</span><span class="mf">3.e-5</span>    <span class="mf">1.1</span>
+</pre></div>
+</div>
+<p>Example that opens a file and create a dfile object:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">f0</span> <span class="o">=</span> <span class="n">dfile</span><span class="p">(</span><span class="s1">&#39;sig_LT.dat&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Loop over content:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">f0</span><span class="p">:</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="o">...</span><span class="n">pm</span> <span class="o">=</span> <span class="n">l</span><span class="p">[</span><span class="s1">&#39;p_miss&#39;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="o">...</span><span class="n">sig_lt</span> <span class="o">=</span> <span class="n">l</span><span class="p">[</span><span class="s1">&#39;siglt&#39;</span><span class="p">]</span><span class="o">*</span><span class="mf">10000.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="o">...</span><span class="n">print</span> <span class="n">pm</span><span class="p">,</span> <span class="n">sig_lt</span><span class="p">,</span> <span class="n">l</span><span class="p">[</span><span class="s1">&#39;alt&#39;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># end for l</span>
+</pre></div>
+</div>
+<p>Variables can also be accessed directly as numpy arrays (if installed):</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">pm</span> <span class="o">=</span> <span class="n">f0</span><span class="p">[</span><span class="s1">&#39;p_miss&#39;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sig_lt</span> <span class="o">=</span> <span class="n">f0</span><span class="p">[</span><span class="s1">&#39;siglt&#39;</span><span class="p">]</span><span class="o">*</span><span class="mf">10000.</span>
+</pre></div>
+</div>
+<p>They can also be converted to attributes:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">f0</span><span class="o">.</span><span class="n">make_attr</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span> <span class="n">f0</span><span class="o">.</span><span class="n">p_miss</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span> <span class="n">f0</span><span class="o">.</span><span class="n">sig_lt</span>
+</pre></div>
+</div>
+<p>Variable names are also called keys.</p>
+<p>Save the data file as a csv file, this is useful for exporting and formatting for 
+documents (other than latex)</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">f0</span><span class="o">.</span><span class="n">write_csv</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+</pre></div>
+</div>
+<hr class="docutils" />
+<dl class="py class">
+<dt id="LT.datafile.dfile">
+<em class="property">class </em><code class="sig-prename descclassname">LT.datafile.</code><code class="sig-name descname">dfile</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">filename</span></em>, <em class="sig-param"><span class="n">debug</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">new</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">skip</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">use_numpy</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">fast</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="headerlink" href="#LT.datafile.dfile" title="Permalink to this definition">¶</a></dt>
+<dd><p>Open a file, read and interpret the contents and return a dfile object:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">df</span> <span class="o">=</span> <span class="n">dfile</span><span class="p">(</span><span class="s1">&#39;my_datafile&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>keywords:</p>
+<blockquote>
+<div><p>debug = False (default) : print additional iformation</p>
+<dl class="simple">
+<dt>fast = False (default)<span class="classifier">load data in a fast way (using np.loadtxt) this has</span></dt><dd><p>some limits for string entries. Best used for large purely
+numerical data.</p>
+</dd>
+<dt>use_numpy = True (if numpy is installed)<span class="classifier">set automatically but can be overridden</span></dt><dd><p>some attributes of datafile are not availables when
+numpy is not present</p>
+</dd>
+</dl>
+</div></blockquote>
+<dl class="py method">
+<dt id="LT.datafile.dfile.add_data">
+<code class="sig-name descname">add_data</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">keys</span></em>, <em class="sig-param"><span class="n">line</span></em><span class="sig-paren">)</span><a class="headerlink" href="#LT.datafile.dfile.add_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>add data to the data file</p>
+<p>d.add_data(‘x:y:z’,’xval yval zval’)</p>
+<p>xval, yval, zval are the values as they would be netered in a data file line</p>
+<p>both arguments are strings !</p>
+<p>IMPORTANT: add the values to all current lines of the data file !</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="LT.datafile.dfile.add_header_comment">
+<code class="sig-name descname">add_header_comment</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">text</span></em><span class="sig-paren">)</span><a class="headerlink" href="#LT.datafile.dfile.add_header_comment" title="Permalink to this definition">¶</a></dt>
+<dd><p>add a comment line to the header. The # at the beginning is automatically added !</p>
+<ul class="simple">
+<li><p>for a normal comment start with a space</p></li>
+<li><p>to add a parameter start the comment with a</p></li>
+</ul>
+</dd></dl>
+
+<dl class="py method">
+<dt id="LT.datafile.dfile.add_key">
+<code class="sig-name descname">add_key</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">key</span></em>, <em class="sig-param"><span class="n">format</span><span class="o">=</span><span class="default_value">'f'</span></em><span class="sig-paren">)</span><a class="headerlink" href="#LT.datafile.dfile.add_key" title="Permalink to this definition">¶</a></dt>
+<dd><p>add a new key, this is useful if you want to add new data
+assign new values using a loop like:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">df</span><span class="o">.</span><span class="n">add_key</span><span class="p">(</span><span class="s1">&#39;newkey&#39;</span><span class="p">,</span><span class="nb">format</span><span class="o">=</span><span class="s1">&#39;i&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The new data need to be stored as follows:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">data</span><span class="p">:</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="n">d</span><span class="p">[</span><span class="s1">&#39;newkey&#39;</span><span class="p">]</span><span class="o">=</span> <span class="n">some_new_value</span>
+</pre></div>
+</div>
+<p>where df is the datafile and ‘newkey’ the new key. The new data set
+can be saved using <code class="docutils literal notranslate"><span class="pre">fp</span> <span class="pre">=</span> <span class="pre">open('new_file','w')</span></code> and <code class="docutils literal notranslate"><span class="pre">df.write_all(fp)</span></code></p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="LT.datafile.dfile.add_parameter">
+<code class="sig-name descname">add_parameter</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">name</span></em>, <em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="headerlink" href="#LT.datafile.dfile.add_parameter" title="Permalink to this definition">¶</a></dt>
+<dd><p>add a parameter to the comment section</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="LT.datafile.dfile.check_data">
+<code class="sig-name descname">check_data</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">func</em>, <em class="sig-param">data</em>, <em class="sig-param">key</em>, <em class="sig-param">\*args</em><span class="sig-paren">)</span><a class="headerlink" href="#LT.datafile.dfile.check_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>function used to check if data fulfill a condition provided
+by the user. The function is assumed to return True of False.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="LT.datafile.dfile.delete_key">
+<code class="sig-name descname">delete_key</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">key</span></em><span class="sig-paren">)</span><a class="headerlink" href="#LT.datafile.dfile.delete_key" title="Permalink to this definition">¶</a></dt>
+<dd><p>remove a key and all values associated with it</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="LT.datafile.dfile.eval_data">
+<code class="sig-name descname">eval_data</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">eval_str</span></em><span class="sig-paren">)</span><a class="headerlink" href="#LT.datafile.dfile.eval_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>iterator over all data evaluating an expression contained in eval_str</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="LT.datafile.dfile.get_all_data">
+<code class="sig-name descname">get_all_data</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em><span class="sig-paren">)</span><a class="headerlink" href="#LT.datafile.dfile.get_all_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>return a list of all data stored</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="LT.datafile.dfile.get_data">
+<code class="sig-name descname">get_data</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">key</span></em>, <em class="sig-param"><span class="n">sel_func</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">sel_args</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#LT.datafile.dfile.get_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>return all data for <cite>key</cite> subject to the results of a selector function.</p>
+<p>one can define a selector function (<cite>sel_func</cite>) using the arguments stored in <cite>sel_args</cite>.
+This function is evaluated for each data record and only
+those data are returned for which the condition is fulfilled.</p>
+<ol class="arabic simple">
+<li><p>sel_func: a user provided function returning True or False</p></li>
+<li><p>sel_args: a list of arguments used in the sel_func function</p></li>
+</ol>
+<dl class="simple">
+<dt>Example::</dt><dd><p>assume the data contain a variable (key) called ‘name’
+you want to select only those data where name contains a certain substring ‘Jo’</p>
+</dd>
+</dl>
+<p>Define this function:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">myfind</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">key</span> <span class="p">,</span> <span class="n">what</span><span class="p">):</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="o">...</span><span class="n">where</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="o">...</span><span class="k">return</span> <span class="p">(</span><span class="nb">str</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">where</span><span class="p">,</span> <span class="n">what</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>now you can select the data using:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">df</span><span class="o">.</span><span class="n">get_data</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">,</span><span class="n">myfind</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">,</span><span class="s1">&#39;Jo&#39;</span><span class="p">]</span> <span class="p">)</span>
+</pre></div>
+</div>
+<p>This should return a list of names containing the substring ‘Jo’</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="LT.datafile.dfile.get_data_eval">
+<code class="sig-name descname">get_data_eval</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">key</span></em>, <em class="sig-param"><span class="n">eval_str</span></em><span class="sig-paren">)</span><a class="headerlink" href="#LT.datafile.dfile.get_data_eval" title="Permalink to this definition">¶</a></dt>
+<dd><p>return all data for the <cite>key</cite> under the condition that the expression in <cite>eval_str</cite>
+is True.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="LT.datafile.dfile.get_data_list">
+<code class="sig-name descname">get_data_list</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">keylist</span></em>, <em class="sig-param"><span class="n">sel_func</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">sel_args</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#LT.datafile.dfile.get_data_list" title="Permalink to this definition">¶</a></dt>
+<dd><p>return all the data corresponding to the key list
+as follows:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">get_data_list</span><span class="p">(</span><span class="s1">&#39;key1:key2:key3&#39;</span><span class="p">)</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">get_data_list</span><span class="p">(</span><span class="s1">&#39;key1:key2:key3&#39;</span><span class="p">,</span> <span class="n">myfind</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">,</span><span class="s1">&#39;J&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>return those data where the <cite>name</cite> values contain the character <cite>J</cite></p>
+<p><em>a</em> contains the list of data</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="LT.datafile.dfile.get_data_list_eval">
+<code class="sig-name descname">get_data_list_eval</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">keylist</span></em>, <em class="sig-param"><span class="n">eval_str</span></em><span class="sig-paren">)</span><a class="headerlink" href="#LT.datafile.dfile.get_data_list_eval" title="Permalink to this definition">¶</a></dt>
+<dd><p>similar function as select_data_eval but it only returns the
+values for the keys defined in <cite>keylist</cite>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="LT.datafile.dfile.get_full_header">
+<code class="sig-name descname">get_full_header</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em><span class="sig-paren">)</span><a class="headerlink" href="#LT.datafile.dfile.get_full_header" title="Permalink to this definition">¶</a></dt>
+<dd><p>return all line up to the header line</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="LT.datafile.dfile.get_header">
+<code class="sig-name descname">get_header</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em><span class="sig-paren">)</span><a class="headerlink" href="#LT.datafile.dfile.get_header" title="Permalink to this definition">¶</a></dt>
+<dd><p>return the header lines</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="LT.datafile.dfile.get_keys">
+<code class="sig-name descname">get_keys</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em><span class="sig-paren">)</span><a class="headerlink" href="#LT.datafile.dfile.get_keys" title="Permalink to this definition">¶</a></dt>
+<dd><p>return a list of keys</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="LT.datafile.dfile.name">
+<code class="sig-name descname">name</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em><span class="sig-paren">)</span><a class="headerlink" href="#LT.datafile.dfile.name" title="Permalink to this definition">¶</a></dt>
+<dd><p>print the filename associate with this instance</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="LT.datafile.dfile.save">
+<code class="sig-name descname">save</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">file</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#LT.datafile.dfile.save" title="Permalink to this definition">¶</a></dt>
+<dd><p>Save the current datafile.</p>
+<p>With the keyword: <em>file</em> = ‘new_file’</p>
+<p>the datafile will be written into the new_file name</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="LT.datafile.dfile.scale">
+<code class="sig-name descname">scale</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">key</span></em>, <em class="sig-param"><span class="n">factor</span></em><span class="sig-paren">)</span><a class="headerlink" href="#LT.datafile.dfile.scale" title="Permalink to this definition">¶</a></dt>
+<dd><p>multiply all values of key with a factor</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="LT.datafile.dfile.select_data">
+<code class="sig-name descname">select_data</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">sel_func</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">sel_args</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#LT.datafile.dfile.select_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>returns an iterator for the data. As in get_data() a selector function and
+its arguments can be supplied:</p>
+<p>conditions can be applied:</p>
+<ol class="arabic simple">
+<li><p>sel_func: a user provided function returning True or False</p></li>
+<li><p>sel_args: a list of arguments used in the sel_func function</p></li>
+</ol>
+<p>The iterator returned can be used as follows:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">select_data</span><span class="p">():</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="o">...</span><span class="n">print</span> <span class="n">d</span>
+</pre></div>
+</div>
+<p>or the result can be converted to a list:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">list</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">select_data</span><span class="p">())</span>
+</pre></div>
+</div>
+<p>Using a selector function:</p>
+<dl class="simple">
+<dt>Example: assume the data contain a variable (key) called ‘name’</dt><dd><p>you want to select only those data where name contains a certain substring ‘sub’</p>
+</dd>
+</dl>
+<p>Define this function:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">myfind</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">key</span> <span class="p">,</span> <span class="n">what</span><span class="p">):</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="o">...</span><span class="n">where</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="o">...</span><span class="k">return</span> <span class="p">(</span><span class="nb">str</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">where</span><span class="p">,</span> <span class="n">what</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>now you can select the data using:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">list</span><span class="p">(</span> <span class="n">df</span><span class="o">.</span><span class="n">select_data</span><span class="p">(</span> <span class="n">myfind</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;sub&#39;</span><span class="p">)</span> <span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt id="LT.datafile.dfile.select_data_eval">
+<code class="sig-name descname">select_data_eval</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">eval_str</span></em><span class="sig-paren">)</span><a class="headerlink" href="#LT.datafile.dfile.select_data_eval" title="Permalink to this definition">¶</a></dt>
+<dd><p>returns an iterator for data selected with an <em>eval</em> expression
+stored in the string <cite>eval_str</cite> each dataset item is accessed using the name data:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">df</span><span class="o">.</span><span class="n">select_data_eval</span><span class="p">(</span><span class="s2">&quot;data[&#39;x&#39;] &gt;= 0.&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>returns only those data items where the value of the x-column in the file
+is larger than or equal to 0.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="LT.datafile.dfile.show_all_data">
+<code class="sig-name descname">show_all_data</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em><span class="sig-paren">)</span><a class="headerlink" href="#LT.datafile.dfile.show_all_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>print all data and keys stored</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="LT.datafile.dfile.show_data">
+<code class="sig-name descname">show_data</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">keylist</span></em><span class="sig-paren">)</span><a class="headerlink" href="#LT.datafile.dfile.show_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>print all the data corresponding to the key list:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">df</span><span class="o">.</span><span class="n">show_data</span><span class="p">(</span><span class="s1">&#39;key1:key2:key3&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt id="LT.datafile.dfile.show_keys">
+<code class="sig-name descname">show_keys</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em><span class="sig-paren">)</span><a class="headerlink" href="#LT.datafile.dfile.show_keys" title="Permalink to this definition">¶</a></dt>
+<dd><p>print a list of variable names in the dictionary</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="LT.datafile.dfile.sort">
+<code class="sig-name descname">sort</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">key</em>, <em class="sig-param">\*\*kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#LT.datafile.dfile.sort" title="Permalink to this definition">¶</a></dt>
+<dd><p>sort the data according to the values in key</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="LT.datafile.dfile.update_header">
+<code class="sig-name descname">update_header</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em><span class="sig-paren">)</span><a class="headerlink" href="#LT.datafile.dfile.update_header" title="Permalink to this definition">¶</a></dt>
+<dd><p>update header line of this data file including format. This
+makes sure that the header line is in sync with the dictionary keys</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="LT.datafile.dfile.write_all">
+<code class="sig-name descname">write_all</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">fp</span></em>, <em class="sig-param"><span class="n">complete_header</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="headerlink" href="#LT.datafile.dfile.write_all" title="Permalink to this definition">¶</a></dt>
+<dd><p>write all data to a file associated to fp</p>
+<p>if complete_header = True include the complete header including all comments</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="LT.datafile.dfile.write_complete_header">
+<code class="sig-name descname">write_complete_header</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">fp</span></em><span class="sig-paren">)</span><a class="headerlink" href="#LT.datafile.dfile.write_complete_header" title="Permalink to this definition">¶</a></dt>
+<dd><p>write entire header including comments and internal parameters to file with
+handle fp. Example:</p>
+<p>fp = open(‘mydile.data’,’w’)</p>
+<p>datafile.write_comlete_header(fp)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="LT.datafile.dfile.write_csv">
+<code class="sig-name descname">write_csv</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">f</span></em><span class="sig-paren">)</span><a class="headerlink" href="#LT.datafile.dfile.write_csv" title="Permalink to this definition">¶</a></dt>
+<dd><p>save the current file as a csv file</p>
+<p>f : file name  to be used</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="LT.datafile.dfile.write_header">
+<code class="sig-name descname">write_header</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">fp</span></em><span class="sig-paren">)</span><a class="headerlink" href="#LT.datafile.dfile.write_header" title="Permalink to this definition">¶</a></dt>
+<dd><p>write only header line of this data file into file fp, including format</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="LT.datafile.dfile.write_line">
+<code class="sig-name descname">write_line</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">fp</span></em>, <em class="sig-param"><span class="n">i</span></em><span class="sig-paren">)</span><a class="headerlink" href="#LT.datafile.dfile.write_line" title="Permalink to this definition">¶</a></dt>
+<dd><p>write data line i into file fp</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="LT.datafile.dfile.write_selected">
+<code class="sig-name descname">write_selected</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">fp</span></em>, <em class="sig-param"><span class="n">index_list</span></em>, <em class="sig-param"><span class="n">complete_header</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="headerlink" href="#LT.datafile.dfile.write_selected" title="Permalink to this definition">¶</a></dt>
+<dd><p>write a new datafile with an identical header but enter only
+those data with an index given in index_list. If the index does not
+exist print a message and skip it.</p>
+<p>if complete_header = True include the complete header including all comments</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="lt_box.html"
+                        title="previous chapter">box</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="lt_parameterfile.html"
+                        title="next chapter">parameterfile</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/src/lt_datafile.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="lt_parameterfile.html" title="parameterfile"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="lt_box.html" title="box"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">LabTools3 2.8 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../LT.html" >The LT Package</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2011, Werner Boeglin.
+      Last updated on Jul 18, 2020.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.0.3.
+    </div>
+  </body>
+</html>

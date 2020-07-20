@@ -1,0 +1,168 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>parameters &#8212; LabTools3 2.8 documentation</title>
+    <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="linear_fit" href="lt_fit_linear_fit.html" />
+    <link rel="prev" title="The LT_Fit Package" href="../LT_Fit.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="lt_fit_linear_fit.html" title="linear_fit"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../LT_Fit.html" title="The LT_Fit Package"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">LabTools3 2.8 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../LT_Fit.html" accesskey="U">The LT_Fit Package</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="parameters">
+<span id="id1"></span><h1>parameters<a class="headerlink" href="#parameters" title="Permalink to this headline">¶</a></h1>
+<span class="target" id="module-LT_Fit.parameters"></span><p>These are the fit parameter objects. They store the <em>name</em>, the <em>value</em>
+and the <em>error</em> of each parameter and are used in various fitting tools.</p>
+<hr class="docutils" />
+<dl class="py class">
+<dt id="LT_Fit.parameters.Parameter">
+<em class="property">class </em><code class="sig-prename descclassname">LT_Fit.parameters.</code><code class="sig-name descname">Parameter</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em>, <em class="sig-param"><span class="n">name</span><span class="o">=</span><span class="default_value">'var'</span></em>, <em class="sig-param"><span class="n">err</span><span class="o">=</span><span class="default_value">0.0</span></em><span class="sig-paren">)</span><a class="headerlink" href="#LT_Fit.parameters.Parameter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Define a parameter as follows:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">LT_Fit.Parameter</span> <span class="k">as</span> <span class="nn">P</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mypar</span> <span class="o">=</span> <span class="n">P</span><span class="o">.</span><span class="n">Parameter</span><span class="p">(</span><span class="mf">0.</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mypar</span> <span class="o">=</span> <span class="n">P</span><span class="o">.</span><span class="n">Parameter</span><span class="p">(</span><span class="mf">0.</span><span class="p">,</span> <span class="s1">&#39;my_first_parameter&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mypar</span> <span class="o">=</span> <span class="n">P</span><span class="o">.</span><span class="n">Parameter</span><span class="p">(</span><span class="mf">0.</span><span class="p">,</span> <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;my_first_parameter&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mypar</span> <span class="o">=</span> <span class="n">P</span><span class="o">.</span><span class="n">Parameter</span><span class="p">(</span><span class="mf">0.</span><span class="p">,</span> <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;my_first_parameter&#39;</span><span class="p">,</span> <span class="n">err</span> <span class="o">=</span> <span class="mf">0.1</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Other possible operations:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">mypar</span><span class="p">()</span>     <span class="c1"># if the parameter is called it returns it&#39;s current value only</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mypar</span><span class="o">.</span><span class="n">get</span><span class="p">()</span> <span class="c1"># returns the tuple (name, value, error)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">mypar</span><span class="p">)</span> <span class="c1"># print a string representation of the name, value and error</span>
+</pre></div>
+</div>
+<dl class="py method">
+<dt id="LT_Fit.parameters.Parameter.get">
+<code class="sig-name descname">get</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em><span class="sig-paren">)</span><a class="headerlink" href="#LT_Fit.parameters.Parameter.get" title="Permalink to this definition">¶</a></dt>
+<dd><p>return the current value</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="LT_Fit.parameters.Parameter.set">
+<code class="sig-name descname">set</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">value</span></em>, <em class="sig-param"><span class="n">name</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">err</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#LT_Fit.parameters.Parameter.set" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the value of a parameter:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">mypar</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="mf">50.</span><span class="p">)</span> <span class="c1"># this value is now 50</span>
+</pre></div>
+</div>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 18%" />
+<col style="width: 82%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Keyword</p></th>
+<th class="head"><p>Meaning</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>value</p></td>
+<td><p>set the value</p></td>
+</tr>
+<tr class="row-odd"><td><p>name</p></td>
+<td><p>assign a name (string)</p></td>
+</tr>
+<tr class="row-even"><td><p>err</p></td>
+<td><p>set the error</p></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="../LT_Fit.html"
+                        title="previous chapter">The LT_Fit Package</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="lt_fit_linear_fit.html"
+                        title="next chapter">linear_fit</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/src/lt_fit_parameters.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="lt_fit_linear_fit.html" title="linear_fit"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="../LT_Fit.html" title="The LT_Fit Package"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">LabTools3 2.8 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../LT_Fit.html" >The LT_Fit Package</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2011, Werner Boeglin.
+      Last updated on Jul 18, 2020.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.0.3.
+    </div>
+  </body>
+</html>

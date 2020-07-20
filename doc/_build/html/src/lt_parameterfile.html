@@ -1,0 +1,241 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>parameterfile &#8212; LabTools3 2.8 documentation</title>
+    <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="pdatafile" href="lt_pdatafile.html" />
+    <link rel="prev" title="datafile" href="lt_datafile.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="lt_pdatafile.html" title="pdatafile"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="lt_datafile.html" title="datafile"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">LabTools3 2.8 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../LT.html" accesskey="U">The LT Package</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="parameterfile">
+<span id="id1"></span><h1>parameterfile<a class="headerlink" href="#parameterfile" title="Permalink to this headline">¶</a></h1>
+<span class="target" id="module-LT.parameterfile"></span><p>Module that reads a parameter file and returns a dictionary with the
+variable names and values (all as strings)</p>
+<p>The file format is as follows:</p>
+<blockquote>
+<div><ul>
+<li><p>comments start with <code class="docutils literal notranslate"><span class="pre">#</span></code> in the <strong>first column</strong> : <code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">My</span> <span class="pre">Comment</span></code></p></li>
+<li><p>each line can have one or more name, value pairs, separated by semi colons</p>
+<p><code class="docutils literal notranslate"><span class="pre">name1</span> <span class="pre">=</span> <span class="pre">value1;</span> <span class="pre">name2</span> <span class="pre">=</span> <span class="pre">value2</span></code></p>
+</li>
+</ul>
+</div></blockquote>
+<p>In the following example assume that <code class="docutils literal notranslate"><span class="pre">value1</span></code> is a float:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">pf</span> <span class="o">=</span> <span class="n">parameterfile</span><span class="o">.</span><span class="n">pfile</span><span class="p">(</span><span class="s1">&#39;my_file&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>As an alternative the data can also be provided in a list of strings.
+This is useful if parameters are stored in a datafile or are provided
+from another source.</p>
+<p>Example: the data are stored in the string array my_data:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">pf</span> <span class="o">=</span> <span class="n">parameterfile</span><span class="o">.</span><span class="n">pfile</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">data</span> <span class="o">=</span> <span class="n">my_data</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Accessing the values of a parameters file:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">value1</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">pf</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;name1&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>Values can also be retrieved using the get_value(name, dtype) function:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">value2</span> <span class="o">=</span> <span class="n">pf</span><span class="o">.</span><span class="n">get_value</span><span class="p">(</span><span class="s1">&#39;name2&#39;</span><span class="p">,</span> <span class="n">var_type</span> <span class="o">=</span> <span class="nb">float</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Possible data types (dtype) are:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>float</p></li>
+<li><p>int</p></li>
+<li><p>parameterfile.Bool ( converts ASCII True, False to a python bool value True, False)</p></li>
+</ul>
+</div></blockquote>
+<p>If <code class="docutils literal notranslate"><span class="pre">var_type</span></code> keyword agrument is not used, the function tries to convert to float or bool. If both fails it
+returns the string value.</p>
+<p>Variable names are also called keys.</p>
+<dl class="py class">
+<dt id="LT.parameterfile.pfile">
+<em class="property">class </em><code class="sig-prename descclassname">LT.parameterfile.</code><code class="sig-name descname">pfile</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">filename</span></em>, <em class="sig-param"><span class="n">data</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#LT.parameterfile.pfile" title="Permalink to this definition">¶</a></dt>
+<dd><p>Open a parameter file, read it and create a pfile object</p>
+<p>example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">pf</span><span class="o">=</span><span class="n">pfile</span><span class="p">(</span><span class="s1">&#39;my_datafile&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="py method">
+<dt id="LT.parameterfile.pfile.Bool">
+<code class="sig-name descname">Bool</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">x</span></em><span class="sig-paren">)</span><a class="headerlink" href="#LT.parameterfile.pfile.Bool" title="Permalink to this definition">¶</a></dt>
+<dd><p>convert ascii True and False to bool values. Any other value will result in False
+example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">d</span><span class="o">.</span><span class="n">Bool</span><span class="p">(</span><span class="s1">&#39;True&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>returns:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kc">True</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt id="LT.parameterfile.pfile.get_all_data">
+<code class="sig-name descname">get_all_data</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em><span class="sig-paren">)</span><a class="headerlink" href="#LT.parameterfile.pfile.get_all_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>return a list of all data stored</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="LT.parameterfile.pfile.get_data">
+<code class="sig-name descname">get_data</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">keylist</span></em><span class="sig-paren">)</span><a class="headerlink" href="#LT.parameterfile.pfile.get_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>return all data according to the key list
+which has the following format:</p>
+<p>key1:key2:key3: …</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="LT.parameterfile.pfile.get_value">
+<code class="sig-name descname">get_value</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">key</span></em>, <em class="sig-param"><span class="n">var_type</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#LT.parameterfile.pfile.get_value" title="Permalink to this definition">¶</a></dt>
+<dd><p>return a value of a given data type for key.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">get_valye</span><span class="p">(</span><span class="s1">&#39;my_var&#39;</span><span class="p">,</span> <span class="n">var_type</span> <span class="o">=</span> <span class="nb">float</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>prints an error message and returns none if it cannot convert.</p>
+<p>possible data types are: float, int, parameterfile.Bool</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="LT.parameterfile.pfile.get_variable_names">
+<code class="sig-name descname">get_variable_names</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em><span class="sig-paren">)</span><a class="headerlink" href="#LT.parameterfile.pfile.get_variable_names" title="Permalink to this definition">¶</a></dt>
+<dd><p>return a list of keys</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="LT.parameterfile.pfile.make_attr">
+<code class="sig-name descname">make_attr</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em><span class="sig-paren">)</span><a class="headerlink" href="#LT.parameterfile.pfile.make_attr" title="Permalink to this definition">¶</a></dt>
+<dd><p>Save values and names as attributes</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="LT.parameterfile.pfile.name">
+<code class="sig-name descname">name</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em><span class="sig-paren">)</span><a class="headerlink" href="#LT.parameterfile.pfile.name" title="Permalink to this definition">¶</a></dt>
+<dd><p>print the filename associate with this instance</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="LT.parameterfile.pfile.show_all_data">
+<code class="sig-name descname">show_all_data</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em><span class="sig-paren">)</span><a class="headerlink" href="#LT.parameterfile.pfile.show_all_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>print all data and keys stored</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="LT.parameterfile.pfile.show_variable_names">
+<code class="sig-name descname">show_variable_names</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em><span class="sig-paren">)</span><a class="headerlink" href="#LT.parameterfile.pfile.show_variable_names" title="Permalink to this definition">¶</a></dt>
+<dd><p>print a list of variable names in the dictionary</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="LT.parameterfile.pfile.write_all">
+<code class="sig-name descname">write_all</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">fp</span></em><span class="sig-paren">)</span><a class="headerlink" href="#LT.parameterfile.pfile.write_all" title="Permalink to this definition">¶</a></dt>
+<dd><p>write all parameter file data into a new file
+using the provided file pointer fp which has been
+obtained from the open statment:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">fp</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;new_file.par&#39;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pf</span><span class="o">.</span><span class="n">write_all</span><span class="p">(</span><span class="n">fp</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="lt_datafile.html"
+                        title="previous chapter">datafile</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="lt_pdatafile.html"
+                        title="next chapter">pdatafile</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/src/lt_parameterfile.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="lt_pdatafile.html" title="pdatafile"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="lt_datafile.html" title="datafile"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">LabTools3 2.8 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../LT.html" >The LT Package</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2011, Werner Boeglin.
+      Last updated on Jul 18, 2020.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.0.3.
+    </div>
+  </body>
+</html>

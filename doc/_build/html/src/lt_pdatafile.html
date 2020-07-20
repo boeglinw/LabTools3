@@ -1,0 +1,183 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>pdatafile &#8212; LabTools3 2.8 documentation</title>
+    <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="plotting" href="lt_plotting.html" />
+    <link rel="prev" title="parameterfile" href="lt_parameterfile.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="lt_plotting.html" title="plotting"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="lt_parameterfile.html" title="parameterfile"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">LabTools3 2.8 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../LT.html" accesskey="U">The LT Package</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="pdatafile">
+<span id="id1"></span><h1>pdatafile<a class="headerlink" href="#pdatafile" title="Permalink to this headline">¶</a></h1>
+<span class="target" id="module-LT.pdatafile"></span><p>Combined datafile and parameterfile</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>All lines before the <strong>header line</strong> (starting with <code class="docutils literal notranslate"><span class="pre">#!</span></code> ) that begin with <code class="docutils literal notranslate"><span class="pre">#\</span></code>
+are interpreted as parameter file data</p></li>
+<li><p>if these are present a parameterfile object is created : <em>pf.par</em> (<em>pf</em>
+is the name of the <strong>pdatafile</strong> object)
+if nothing was present the value of <em>pf.par</em> is None</p></li>
+</ul>
+</div></blockquote>
+<p>Example data:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1">#\ my_var = 5.0   </span>
+<span class="c1">#\ my_other_var = 10.0</span>
+<span class="c1">#</span>
+<span class="c1"># just a regular comment</span>
+<span class="c1">#</span>
+<span class="c1"># the data start below</span>
+<span class="c1">#! p_miss[0]/ siglt[2]/ s01[3]/ alt[4]/</span>
+<span class="mf">200.</span> <span class="mf">1.35e-4</span> <span class="o">-</span><span class="mf">1.e-3</span>    <span class="mf">0.1</span>
+<span class="mf">220.</span> <span class="mf">2.56e-4</span> <span class="o">-</span><span class="mf">2.e-4</span>    <span class="o">-</span><span class="mf">0.1</span>
+<span class="mf">230.</span> <span class="mf">3.47e-6</span> <span class="o">-</span><span class="mf">3.e-5</span>    <span class="mf">1.1</span>
+</pre></div>
+</div>
+<p>Opening this file as following</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">LT.pdatafile</span> <span class="kn">import</span> <span class="n">pdfile</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pp</span> <span class="o">=</span> <span class="n">pdfile</span><span class="p">(</span><span class="s1">&#39;my_file.data&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>To get the raw (string) values</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">pp</span><span class="o">.</span><span class="n">par</span><span class="o">.</span><span class="n">get_data</span><span class="p">(</span><span class="s1">&#39;my_var&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>To see all variables and their values</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">pp</span><span class="o">.</span><span class="n">par</span><span class="o">.</span><span class="n">show_all_data</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>To convert the value to e.g. a float or a bool</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">pp</span><span class="o">.</span><span class="n">par</span><span class="o">.</span><span class="n">get_value</span><span class="p">(</span><span class="s1">&#39;my_var&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>To convert to an int:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">i</span> <span class="o">=</span> <span class="n">pp</span><span class="o">.</span><span class="n">par</span><span class="o">.</span><span class="n">get_value</span><span class="p">(</span><span class="s1">&#39;my_var&#39;</span><span class="p">,</span> <span class="n">var_type</span> <span class="o">=</span> <span class="nb">int</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">j</span> <span class="o">=</span> <span class="n">pp</span><span class="o">.</span><span class="n">par</span><span class="o">.</span><span class="n">get_value</span><span class="p">(</span><span class="s1">&#39;my_var&#39;</span><span class="p">,</span> <span class="n">var_type</span> <span class="o">=</span> <span class="nb">int</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>In general <strong>pp.par</strong> is a <a class="reference internal" href="lt_parameterfile.html#LT.parameterfile.pfile" title="LT.parameterfile.pfile"><code class="xref py py-class docutils literal notranslate"><span class="pre">pfile</span></code></a> object attached to a
+<a class="reference internal" href="lt_datafile.html#LT.datafile.dfile" title="LT.datafile.dfile"><code class="xref py py-class docutils literal notranslate"><span class="pre">dfile</span></code></a>.</p>
+<dl class="py class">
+<dt id="LT.pdatafile.pdfile">
+<em class="property">class </em><code class="sig-prename descclassname">LT.pdatafile.</code><code class="sig-name descname">pdfile</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">filename</span></em>, <em class="sig-param"><span class="n">debug</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="headerlink" href="#LT.pdatafile.pdfile" title="Permalink to this definition">¶</a></dt>
+<dd><p>open a pdata file an scan the contents for for a format that can be 
+interpreted</p>
+<p>example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">pp</span><span class="o">=</span><span class="n">pdfile</span><span class="p">(</span><span class="s1">&#39;my_datafile&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="py method">
+<dt id="LT.pdatafile.pdfile.add_parameter">
+<code class="sig-name descname">add_parameter</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">name</span></em>, <em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="headerlink" href="#LT.pdatafile.pdfile.add_parameter" title="Permalink to this definition">¶</a></dt>
+<dd><p>add a parameter to the file, it will be saved into a new file
+with write_all(file_o, complete_header = True)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="LT.pdatafile.pdfile.set_parameter">
+<code class="sig-name descname">set_parameter</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">name</span></em>, <em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="headerlink" href="#LT.pdatafile.pdfile.set_parameter" title="Permalink to this definition">¶</a></dt>
+<dd><p>set a parameters value in the header so that it is saved when the file
+is saved with full header</p>
+<p>name: variable name
+value: the value to be stored this MUST be a string</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="lt_parameterfile.html"
+                        title="previous chapter">parameterfile</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="lt_plotting.html"
+                        title="next chapter">plotting</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/src/lt_pdatafile.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="lt_plotting.html" title="plotting"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="lt_parameterfile.html" title="parameterfile"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">LabTools3 2.8 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../LT.html" >The LT Package</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2011, Werner Boeglin.
+      Last updated on Jul 18, 2020.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.0.3.
+    </div>
+  </body>
+</html>
