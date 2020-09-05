@@ -4,7 +4,8 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <title>Installation &#8212; LabTools3 2.8 documentation</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Installation &#8212; LabTools3 1.0 documentation</title>
     <link rel="stylesheet" href="_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     
@@ -34,7 +35,8 @@
         <li class="right" >
           <a href="src/lt_fit_gen_fit.html" title="gen_fit"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">LabTools3 2.8 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">LabTools3 1.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Installation</a></li> 
       </ul>
     </div>  
 
@@ -45,14 +47,18 @@
             
   <div class="section" id="installation">
 <h1>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h1>
-<p>These instructions assume that you have all necessary software <a class="reference external" href="http://wanda.fiu.edu/boeglinw/LabTools3/doc/needs.html">requirements</a> installed and running.</p>
-<p>You can download the <code class="docutils literal notranslate"><span class="pre">LabTools3</span></code> package from <a class="reference download internal" download="" href="_downloads/8806124fce21fe9baa2ae514beedd7ad/LabTools3-0.2.9.zip"><code class="xref download docutils literal notranslate"><span class="pre">LabTools3-0.2.9.zip</span></code></a></p>
+<p>These instructions assume that you have all necessary software <a class="reference external" href="http://wanda.fiu.edu/LabTools3/doc/needs.html">requirements</a> installed and running.</p>
 <p><strong>Important:</strong></p>
 <p>Install <code class="docutils literal notranslate"><span class="pre">LabTools3</span></code> only <strong>after</strong> you have installed Anaconda or any
 other python distribution you want to use.</p>
-<p>After downloading, extract the <code class="docutils literal notranslate"><span class="pre">LabTools3</span></code> zip file which most likely resides in your
+<p>There are several methods available for installation:</p>
+<ol class="arabic simple">
+<li><p>Download the installation script <a class="reference download internal" download="" href="_downloads/73e1fa05c2c61befe2e669ff60f1925c/install_labtools.py"><code class="xref download docutils literal notranslate"><span class="pre">install_labtools.py</span></code></a></p></li>
+<li><p>You can download the <code class="docutils literal notranslate"><span class="pre">LabTools3</span></code> package from <a class="reference download internal" download="" href="_downloads/02452b05c0500cb1cb3b93144e3d94bb/LabTools3-1.0.2.zip"><code class="xref download docutils literal notranslate"><span class="pre">LabTools3-1.0.2.zip</span></code></a>
+After downloading, extract the <code class="docutils literal notranslate"><span class="pre">LabTools3</span></code> zip file which most likely resides in your
 <code class="docutils literal notranslate"><span class="pre">Downloads</span></code> folder. In Windows it is important that you really extract the file (select extract all)
-and not just look at the contents of the zip file.</p>
+and not just look at the contents of the zip file.</p></li>
+</ol>
 <div class="section" id="installation-using-anaconda">
 <h2>Installation using Anaconda<a class="headerlink" href="#installation-using-anaconda" title="Permalink to this headline">¶</a></h2>
 <p>Start <strong>Spyder</strong> and, using the file explorer, go to the directory (or folder) where you extracted the LabTools file.</p>
@@ -60,14 +66,17 @@ and not just look at the contents of the zip file.</p>
 <span id="st-fig1"></span><a class="reference internal image-reference" href="_images/anaconda_install.png"><img alt="_images/anaconda_install.png" src="_images/anaconda_install.png" style="width: 687.15px; height: 444.6px;" /></a>
 <p class="caption"><span class="caption-text">Figure 1: Select directory where you extracted the LabTools</span><a class="headerlink" href="#id1" title="Permalink to this image">¶</a></p>
 </div>
-<p>Once you selected the download directory where the LabTools are located as shown in <a class="reference internal" href="#st-fig1"><span class="std std-ref">Fig. 1</span></a> enter the command
+<p>If you selected moethod 1 above, select the directory where the <em>install_labtools.py</em> script is
+located and execute it by doing <em>%run install_labtools</em></p>
+<p>If you selected downloading the zip file go to the directory where the extracted LabTools are located as shown in <a class="reference internal" href="#st-fig1"><span class="std std-ref">Fig. 1</span></a> enter the command
 <em>%run setup.py install</em> (red ellipse in the figure).
 This will install the software. Restart spyder and you are ready to use the <code class="docutils literal notranslate"><span class="pre">LabTools3</span></code>.</p>
-<p>Now you should be ready to do the start the <a class="reference external" href="http://wanda.fiu.edu/boeglinw/LabTools3/doc/python_fundamtentals.html">tutorial</a>.</p>
+<p>Now you should be ready to do the start the <a class="reference external" href="http://wanda.fiu.edu/LabTools3/doc/python_fundamtentals.html">tutorial</a>.</p>
 </div>
 </div>
 
 
+            <div class="clearer"></div>
           </div>
         </div>
       </div>
@@ -123,13 +132,14 @@ This will install the software. Restart spyder and you are ready to use the <cod
         <li class="right" >
           <a href="src/lt_fit_gen_fit.html" title="gen_fit"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">LabTools3 2.8 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">LabTools3 1.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Installation</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2011, Werner Boeglin.
-      Last updated on Jul 18, 2020.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.0.3.
+      Last updated on Sep 05, 2020.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.1.2.
     </div>
   </body>
 </html>

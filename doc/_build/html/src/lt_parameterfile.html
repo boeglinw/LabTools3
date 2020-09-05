@@ -4,7 +4,8 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <title>parameterfile &#8212; LabTools3 2.8 documentation</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>parameterfile &#8212; LabTools3 1.0 documentation</title>
     <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     
@@ -34,8 +35,9 @@
         <li class="right" >
           <a href="lt_datafile.html" title="datafile"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">LabTools3 2.8 documentation</a> &#187;</li>
-          <li class="nav-item nav-item-1"><a href="../LT.html" accesskey="U">The LT Package</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="../index.html">LabTools3 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../LT.html" accesskey="U">The LT Package</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">parameterfile</a></li> 
       </ul>
     </div>  
 
@@ -97,7 +99,7 @@ returns the string value.</p>
 </div>
 <dl class="py method">
 <dt id="LT.parameterfile.pfile.Bool">
-<code class="sig-name descname">Bool</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">x</span></em><span class="sig-paren">)</span><a class="headerlink" href="#LT.parameterfile.pfile.Bool" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">Bool</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span></em><span class="sig-paren">)</span><a class="headerlink" href="#LT.parameterfile.pfile.Bool" title="Permalink to this definition">¶</a></dt>
 <dd><p>convert ascii True and False to bool values. Any other value will result in False
 example:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">d</span><span class="o">.</span><span class="n">Bool</span><span class="p">(</span><span class="s1">&#39;True&#39;</span><span class="p">)</span>
@@ -111,13 +113,13 @@ example:</p>
 
 <dl class="py method">
 <dt id="LT.parameterfile.pfile.get_all_data">
-<code class="sig-name descname">get_all_data</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em><span class="sig-paren">)</span><a class="headerlink" href="#LT.parameterfile.pfile.get_all_data" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">get_all_data</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#LT.parameterfile.pfile.get_all_data" title="Permalink to this definition">¶</a></dt>
 <dd><p>return a list of all data stored</p>
 </dd></dl>
 
 <dl class="py method">
 <dt id="LT.parameterfile.pfile.get_data">
-<code class="sig-name descname">get_data</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">keylist</span></em><span class="sig-paren">)</span><a class="headerlink" href="#LT.parameterfile.pfile.get_data" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">get_data</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">keylist</span></em><span class="sig-paren">)</span><a class="headerlink" href="#LT.parameterfile.pfile.get_data" title="Permalink to this definition">¶</a></dt>
 <dd><p>return all data according to the key list
 which has the following format:</p>
 <p>key1:key2:key3: …</p>
@@ -125,7 +127,7 @@ which has the following format:</p>
 
 <dl class="py method">
 <dt id="LT.parameterfile.pfile.get_value">
-<code class="sig-name descname">get_value</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">key</span></em>, <em class="sig-param"><span class="n">var_type</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#LT.parameterfile.pfile.get_value" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">get_value</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">key</span></em>, <em class="sig-param"><span class="n">var_type</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#LT.parameterfile.pfile.get_value" title="Permalink to this definition">¶</a></dt>
 <dd><p>return a value of a given data type for key.</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">get_valye</span><span class="p">(</span><span class="s1">&#39;my_var&#39;</span><span class="p">,</span> <span class="n">var_type</span> <span class="o">=</span> <span class="nb">float</span><span class="p">)</span>
 </pre></div>
@@ -136,37 +138,37 @@ which has the following format:</p>
 
 <dl class="py method">
 <dt id="LT.parameterfile.pfile.get_variable_names">
-<code class="sig-name descname">get_variable_names</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em><span class="sig-paren">)</span><a class="headerlink" href="#LT.parameterfile.pfile.get_variable_names" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">get_variable_names</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#LT.parameterfile.pfile.get_variable_names" title="Permalink to this definition">¶</a></dt>
 <dd><p>return a list of keys</p>
 </dd></dl>
 
 <dl class="py method">
 <dt id="LT.parameterfile.pfile.make_attr">
-<code class="sig-name descname">make_attr</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em><span class="sig-paren">)</span><a class="headerlink" href="#LT.parameterfile.pfile.make_attr" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">make_attr</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#LT.parameterfile.pfile.make_attr" title="Permalink to this definition">¶</a></dt>
 <dd><p>Save values and names as attributes</p>
 </dd></dl>
 
 <dl class="py method">
 <dt id="LT.parameterfile.pfile.name">
-<code class="sig-name descname">name</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em><span class="sig-paren">)</span><a class="headerlink" href="#LT.parameterfile.pfile.name" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">name</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#LT.parameterfile.pfile.name" title="Permalink to this definition">¶</a></dt>
 <dd><p>print the filename associate with this instance</p>
 </dd></dl>
 
 <dl class="py method">
 <dt id="LT.parameterfile.pfile.show_all_data">
-<code class="sig-name descname">show_all_data</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em><span class="sig-paren">)</span><a class="headerlink" href="#LT.parameterfile.pfile.show_all_data" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">show_all_data</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#LT.parameterfile.pfile.show_all_data" title="Permalink to this definition">¶</a></dt>
 <dd><p>print all data and keys stored</p>
 </dd></dl>
 
 <dl class="py method">
 <dt id="LT.parameterfile.pfile.show_variable_names">
-<code class="sig-name descname">show_variable_names</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em><span class="sig-paren">)</span><a class="headerlink" href="#LT.parameterfile.pfile.show_variable_names" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">show_variable_names</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#LT.parameterfile.pfile.show_variable_names" title="Permalink to this definition">¶</a></dt>
 <dd><p>print a list of variable names in the dictionary</p>
 </dd></dl>
 
 <dl class="py method">
 <dt id="LT.parameterfile.pfile.write_all">
-<code class="sig-name descname">write_all</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">fp</span></em><span class="sig-paren">)</span><a class="headerlink" href="#LT.parameterfile.pfile.write_all" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">write_all</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">fp</span></em><span class="sig-paren">)</span><a class="headerlink" href="#LT.parameterfile.pfile.write_all" title="Permalink to this definition">¶</a></dt>
 <dd><p>write all parameter file data into a new file
 using the provided file pointer fp which has been
 obtained from the open statment:</p>
@@ -181,6 +183,7 @@ obtained from the open statment:</p>
 </div>
 
 
+            <div class="clearer"></div>
           </div>
         </div>
       </div>
@@ -228,14 +231,15 @@ obtained from the open statment:</p>
         <li class="right" >
           <a href="lt_datafile.html" title="datafile"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">LabTools3 2.8 documentation</a> &#187;</li>
-          <li class="nav-item nav-item-1"><a href="../LT.html" >The LT Package</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="../index.html">LabTools3 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../LT.html" >The LT Package</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">parameterfile</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2011, Werner Boeglin.
-      Last updated on Jul 18, 2020.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.0.3.
+      Last updated on Sep 05, 2020.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.1.2.
     </div>
   </body>
 </html>

@@ -4,7 +4,8 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <title>plotting &#8212; LabTools3 2.8 documentation</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>plotting &#8212; LabTools3 1.0 documentation</title>
     <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     
@@ -34,8 +35,9 @@
         <li class="right" >
           <a href="lt_pdatafile.html" title="pdatafile"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">LabTools3 2.8 documentation</a> &#187;</li>
-          <li class="nav-item nav-item-1"><a href="../LT.html" accesskey="U">The LT Package</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="../index.html">LabTools3 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../LT.html" accesskey="U">The LT Package</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">plotting</a></li> 
       </ul>
     </div>  
 
@@ -79,7 +81,7 @@
 <hr class="docutils" />
 <dl class="py function">
 <dt id="LT.plotting.plot_exp">
-<code class="sig-prename descclassname">LT.plotting.</code><code class="sig-name descname">plot_exp</code><span class="sig-paren">(</span><em class="sig-param">x</em>, <em class="sig-param">y</em>, <em class="sig-param">dy=[]</em>, <em class="sig-param">dyt=[]</em>, <em class="sig-param">marker='.'</em>, <em class="sig-param">linestyle='None'</em>, <em class="sig-param">label='_nolegend_'</em>, <em class="sig-param">ecolor_1='black'</em>, <em class="sig-param">elinewidth=2</em>, <em class="sig-param">capsize=4</em>, <em class="sig-param">mew=2</em>, <em class="sig-param">linewidth=2</em>, <em class="sig-param">logy=False</em>, <em class="sig-param">min_val=None</em>, <em class="sig-param">scale=1.0</em>, <em class="sig-param">x_label=None</em>, <em class="sig-param">y_label=None</em>, <em class="sig-param">plot_title=None</em>, <em class="sig-param">skip_labels=False</em>, <em class="sig-param">axes=None</em>, <em class="sig-param">\*\*kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#LT.plotting.plot_exp" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">LT.plotting.</code><code class="sig-name descname">plot_exp</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span></em>, <em class="sig-param"><span class="n">y</span></em>, <em class="sig-param"><span class="n">dy</span><span class="o">=</span><span class="default_value">[]</span></em>, <em class="sig-param"><span class="n">dyt</span><span class="o">=</span><span class="default_value">[]</span></em>, <em class="sig-param"><span class="n">marker</span><span class="o">=</span><span class="default_value">'.'</span></em>, <em class="sig-param"><span class="n">linestyle</span><span class="o">=</span><span class="default_value">'None'</span></em>, <em class="sig-param"><span class="n">label</span><span class="o">=</span><span class="default_value">'_nolegend_'</span></em>, <em class="sig-param"><span class="n">ecolor_1</span><span class="o">=</span><span class="default_value">'black'</span></em>, <em class="sig-param"><span class="n">elinewidth</span><span class="o">=</span><span class="default_value">2</span></em>, <em class="sig-param"><span class="n">capsize</span><span class="o">=</span><span class="default_value">4</span></em>, <em class="sig-param"><span class="n">mew</span><span class="o">=</span><span class="default_value">2</span></em>, <em class="sig-param"><span class="n">linewidth</span><span class="o">=</span><span class="default_value">2</span></em>, <em class="sig-param"><span class="n">logy</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">min_val</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">scale</span><span class="o">=</span><span class="default_value">1.0</span></em>, <em class="sig-param"><span class="n">x_label</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">y_label</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">plot_title</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">skip_labels</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">axes</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#LT.plotting.plot_exp" title="Permalink to this definition">¶</a></dt>
 <dd><p>Plot experimental data using a linear scale by default. Below are a few
 examples</p>
 <p>(it is assumed that the module as been imported as <code class="docutils literal notranslate"><span class="pre">import</span>
@@ -110,16 +112,16 @@ examples</p>
 <td><p>array with additional error values (e.g. total errors)</p></td>
 </tr>
 <tr class="row-even"><td><p>marker</p></td>
-<td><p>marker type (see <code class="xref py py-func docutils literal notranslate"><span class="pre">plot()</span></code>)</p></td>
+<td><p>marker type (see <a class="reference external" href="https://matplotlib.org/api/_as_gen/matplotlib.pyplot.plot.html#matplotlib.pyplot.plot" title="(in Matplotlib v3.3.1)"><code class="xref py py-func docutils literal notranslate"><span class="pre">plot()</span></code></a>)</p></td>
 </tr>
 <tr class="row-odd"><td><p>linestyle</p></td>
-<td><p>line style (see <code class="xref py py-func docutils literal notranslate"><span class="pre">plot()</span></code>)</p></td>
+<td><p>line style (see <a class="reference external" href="https://matplotlib.org/api/_as_gen/matplotlib.pyplot.plot.html#matplotlib.pyplot.plot" title="(in Matplotlib v3.3.1)"><code class="xref py py-func docutils literal notranslate"><span class="pre">plot()</span></code></a>)</p></td>
 </tr>
 <tr class="row-even"><td><p>logy</p></td>
 <td><p>use log y-scale (True/False)</p></td>
 </tr>
 <tr class="row-odd"><td><p>label</p></td>
-<td><p>label for data (used in <code class="xref py py-func docutils literal notranslate"><span class="pre">legend()</span></code> )</p></td>
+<td><p>label for data (used in <a class="reference external" href="https://matplotlib.org/api/_as_gen/matplotlib.pyplot.legend.html#matplotlib.pyplot.legend" title="(in Matplotlib v3.3.1)"><code class="xref py py-func docutils literal notranslate"><span class="pre">legend()</span></code></a> )</p></td>
 </tr>
 <tr class="row-even"><td><p>min_val</p></td>
 <td><p>min. values to be plotted</p></td>
@@ -143,14 +145,14 @@ examples</p>
 </table>
 <p>There are more key words, but ususally you do not need to change them
 and you should be familiar with matplotlib before you do so.  Keywords
-which are not listed here are passed along on to <code class="xref py py-func docutils literal notranslate"><span class="pre">plot()</span></code>, or <code class="xref py py-func docutils literal notranslate"><span class="pre">errorbar()</span></code> 
+which are not listed here are passed along on to <a class="reference external" href="https://matplotlib.org/api/_as_gen/matplotlib.pyplot.plot.html#matplotlib.pyplot.plot" title="(in Matplotlib v3.3.1)"><code class="xref py py-func docutils literal notranslate"><span class="pre">plot()</span></code></a>, or <a class="reference external" href="https://matplotlib.org/api/_as_gen/matplotlib.pyplot.errorbar.html#matplotlib.pyplot.errorbar" title="(in Matplotlib v3.3.1)"><code class="xref py py-func docutils literal notranslate"><span class="pre">errorbar()</span></code></a> 
 routines.</p>
 </dd></dl>
 
 <hr class="docutils" />
 <dl class="py function">
 <dt id="LT.plotting.plot_line">
-<code class="sig-prename descclassname">LT.plotting.</code><code class="sig-name descname">plot_line</code><span class="sig-paren">(</span><em class="sig-param">x</em>, <em class="sig-param">y</em>, <em class="sig-param">label='_nolegend_'</em>, <em class="sig-param">logy=False</em>, <em class="sig-param">convx=1.0</em>, <em class="sig-param">convy=1.0</em>, <em class="sig-param">axes=None</em>, <em class="sig-param">\*\*kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#LT.plotting.plot_line" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">LT.plotting.</code><code class="sig-name descname">plot_line</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span></em>, <em class="sig-param"><span class="n">y</span></em>, <em class="sig-param"><span class="n">label</span><span class="o">=</span><span class="default_value">'_nolegend_'</span></em>, <em class="sig-param"><span class="n">logy</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">convx</span><span class="o">=</span><span class="default_value">1.0</span></em>, <em class="sig-param"><span class="n">convy</span><span class="o">=</span><span class="default_value">1.0</span></em>, <em class="sig-param"><span class="n">axes</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#LT.plotting.plot_line" title="Permalink to this definition">¶</a></dt>
 <dd><p>Plot a line through a set of data point using a linear scale by default. Below are a few
 examples. This is mostly used to plot a calculated curve.</p>
 <p>(it is assumed that the module as been imported as <code class="docutils literal notranslate"><span class="pre">import</span>
@@ -171,7 +173,7 @@ examples. This is mostly used to plot a calculated curve.</p>
 </thead>
 <tbody>
 <tr class="row-even"><td><p>label</p></td>
-<td><p>label for curve (used in <code class="xref py py-func docutils literal notranslate"><span class="pre">legend()</span></code> )</p></td>
+<td><p>label for curve (used in <a class="reference external" href="https://matplotlib.org/api/_as_gen/matplotlib.pyplot.legend.html#matplotlib.pyplot.legend" title="(in Matplotlib v3.3.1)"><code class="xref py py-func docutils literal notranslate"><span class="pre">legend()</span></code></a> )</p></td>
 </tr>
 <tr class="row-odd"><td><p>logy</p></td>
 <td><p>use log y-scale (True/False)</p></td>
@@ -184,13 +186,13 @@ examples. This is mostly used to plot a calculated curve.</p>
 </tr>
 </tbody>
 </table>
-<p>Additional keywords are passed along to the <code class="xref py py-func docutils literal notranslate"><span class="pre">plot()</span></code> command.</p>
+<p>Additional keywords are passed along to the <a class="reference external" href="https://matplotlib.org/api/_as_gen/matplotlib.pyplot.plot.html#matplotlib.pyplot.plot" title="(in Matplotlib v3.3.1)"><code class="xref py py-func docutils literal notranslate"><span class="pre">plot()</span></code></a> command.</p>
 </dd></dl>
 
 <hr class="docutils" />
 <dl class="py function">
 <dt id="LT.plotting.plot_spline">
-<code class="sig-prename descclassname">LT.plotting.</code><code class="sig-name descname">plot_spline</code><span class="sig-paren">(</span><em class="sig-param">x</em>, <em class="sig-param">y</em>, <em class="sig-param">marker='None'</em>, <em class="sig-param">min_val=5e-12</em>, <em class="sig-param">label='_nolegend_'</em>, <em class="sig-param">nstep=5.0</em>, <em class="sig-param">conv=1.0</em>, <em class="sig-param">convx=1.0</em>, <em class="sig-param">convy=1.0</em>, <em class="sig-param">logy=False</em>, <em class="sig-param">axes=None</em>, <em class="sig-param">\*\*kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#LT.plotting.plot_spline" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">LT.plotting.</code><code class="sig-name descname">plot_spline</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span></em>, <em class="sig-param"><span class="n">y</span></em>, <em class="sig-param"><span class="n">marker</span><span class="o">=</span><span class="default_value">'None'</span></em>, <em class="sig-param"><span class="n">min_val</span><span class="o">=</span><span class="default_value">5e-12</span></em>, <em class="sig-param"><span class="n">label</span><span class="o">=</span><span class="default_value">'_nolegend_'</span></em>, <em class="sig-param"><span class="n">nstep</span><span class="o">=</span><span class="default_value">5</span></em>, <em class="sig-param"><span class="n">conv</span><span class="o">=</span><span class="default_value">1.0</span></em>, <em class="sig-param"><span class="n">convx</span><span class="o">=</span><span class="default_value">1.0</span></em>, <em class="sig-param"><span class="n">convy</span><span class="o">=</span><span class="default_value">1.0</span></em>, <em class="sig-param"><span class="n">logy</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">axes</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#LT.plotting.plot_spline" title="Permalink to this definition">¶</a></dt>
 <dd><p>Plot a line through a set of data point using a linear scale by default. Below are a few
 examples. This is mostly used to plot a calculated curve.</p>
 <p>(it is assumed that the module as been imported as <code class="docutils literal notranslate"><span class="pre">import</span>
@@ -211,7 +213,7 @@ examples. This is mostly used to plot a calculated curve.</p>
 </thead>
 <tbody>
 <tr class="row-even"><td><p>label</p></td>
-<td><p>label for curve (used in <code class="xref py py-func docutils literal notranslate"><span class="pre">legend()</span></code> )</p></td>
+<td><p>label for curve (used in <a class="reference external" href="https://matplotlib.org/api/_as_gen/matplotlib.pyplot.legend.html#matplotlib.pyplot.legend" title="(in Matplotlib v3.3.1)"><code class="xref py py-func docutils literal notranslate"><span class="pre">legend()</span></code></a> )</p></td>
 </tr>
 <tr class="row-odd"><td><p>logy</p></td>
 <td><p>use log y-scale (True/False)</p></td>
@@ -227,13 +229,13 @@ examples. This is mostly used to plot a calculated curve.</p>
 </tr>
 </tbody>
 </table>
-<p>Additional keywords are passed along to the <code class="xref py py-func docutils literal notranslate"><span class="pre">plot()</span></code> command.</p>
+<p>Additional keywords are passed along to the <a class="reference external" href="https://matplotlib.org/api/_as_gen/matplotlib.pyplot.plot.html#matplotlib.pyplot.plot" title="(in Matplotlib v3.3.1)"><code class="xref py py-func docutils literal notranslate"><span class="pre">plot()</span></code></a> command.</p>
 </dd></dl>
 
 <hr class="docutils" />
 <dl class="py function">
 <dt id="LT.plotting.datafile_plot_exp">
-<code class="sig-prename descclassname">LT.plotting.</code><code class="sig-name descname">datafile_plot_exp</code><span class="sig-paren">(</span><em class="sig-param">set</em>, <em class="sig-param">x='x'</em>, <em class="sig-param">y='y'</em>, <em class="sig-param">dy=None</em>, <em class="sig-param">dyt=None</em>, <em class="sig-param">linestyle='None'</em>, <em class="sig-param">marker='.'</em>, <em class="sig-param">label='_nolegend_'</em>, <em class="sig-param">ecolor_1='black'</em>, <em class="sig-param">elinewidth=2</em>, <em class="sig-param">capsize=4</em>, <em class="sig-param">mew=2</em>, <em class="sig-param">linewidth=2</em>, <em class="sig-param">logy=False</em>, <em class="sig-param">min_val=None</em>, <em class="sig-param">scale=1.0</em>, <em class="sig-param">x_label=None</em>, <em class="sig-param">y_label=None</em>, <em class="sig-param">plot_title=None</em>, <em class="sig-param">skip_labels=False</em>, <em class="sig-param">axes=None</em>, <em class="sig-param">\*\*kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#LT.plotting.datafile_plot_exp" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">LT.plotting.</code><code class="sig-name descname">datafile_plot_exp</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">set</span></em>, <em class="sig-param"><span class="n">x</span><span class="o">=</span><span class="default_value">'x'</span></em>, <em class="sig-param"><span class="n">y</span><span class="o">=</span><span class="default_value">'y'</span></em>, <em class="sig-param"><span class="n">dy</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">dyt</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">linestyle</span><span class="o">=</span><span class="default_value">'None'</span></em>, <em class="sig-param"><span class="n">marker</span><span class="o">=</span><span class="default_value">'.'</span></em>, <em class="sig-param"><span class="n">label</span><span class="o">=</span><span class="default_value">'_nolegend_'</span></em>, <em class="sig-param"><span class="n">ecolor_1</span><span class="o">=</span><span class="default_value">'black'</span></em>, <em class="sig-param"><span class="n">elinewidth</span><span class="o">=</span><span class="default_value">2</span></em>, <em class="sig-param"><span class="n">capsize</span><span class="o">=</span><span class="default_value">4</span></em>, <em class="sig-param"><span class="n">mew</span><span class="o">=</span><span class="default_value">2</span></em>, <em class="sig-param"><span class="n">linewidth</span><span class="o">=</span><span class="default_value">2</span></em>, <em class="sig-param"><span class="n">logy</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">min_val</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">scale</span><span class="o">=</span><span class="default_value">1.0</span></em>, <em class="sig-param"><span class="n">x_label</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">y_label</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">plot_title</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">skip_labels</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">axes</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#LT.plotting.datafile_plot_exp" title="Permalink to this definition">¶</a></dt>
 <dd><p>Plot experimental data from a datafile using the variable names
 defined there.</p>
 <p>(it is assumed that the module as been imported as <code class="docutils literal notranslate"><span class="pre">import</span>
@@ -270,13 +272,13 @@ defined there.</p>
 <td><p>variable name  with additional error values (e.g. total errors)</p></td>
 </tr>
 <tr class="row-even"><td><p>marker</p></td>
-<td><p>marker type (see <code class="xref py py-func docutils literal notranslate"><span class="pre">plot()</span></code>)</p></td>
+<td><p>marker type (see <a class="reference external" href="https://matplotlib.org/api/_as_gen/matplotlib.pyplot.plot.html#matplotlib.pyplot.plot" title="(in Matplotlib v3.3.1)"><code class="xref py py-func docutils literal notranslate"><span class="pre">plot()</span></code></a>)</p></td>
 </tr>
 <tr class="row-odd"><td><p>linestyle</p></td>
-<td><p>line style (see <code class="xref py py-func docutils literal notranslate"><span class="pre">plot()</span></code>)</p></td>
+<td><p>line style (see <a class="reference external" href="https://matplotlib.org/api/_as_gen/matplotlib.pyplot.plot.html#matplotlib.pyplot.plot" title="(in Matplotlib v3.3.1)"><code class="xref py py-func docutils literal notranslate"><span class="pre">plot()</span></code></a>)</p></td>
 </tr>
 <tr class="row-even"><td><p>label</p></td>
-<td><p>label for data (used in <code class="xref py py-func docutils literal notranslate"><span class="pre">legend()</span></code> )</p></td>
+<td><p>label for data (used in <a class="reference external" href="https://matplotlib.org/api/_as_gen/matplotlib.pyplot.legend.html#matplotlib.pyplot.legend" title="(in Matplotlib v3.3.1)"><code class="xref py py-func docutils literal notranslate"><span class="pre">legend()</span></code></a> )</p></td>
 </tr>
 <tr class="row-odd"><td><p>logy</p></td>
 <td><p>use log y-scale (True/False)</p></td>
@@ -303,15 +305,15 @@ defined there.</p>
 </table>
 <p>There are more key words, but ususally you do not need to change them
 and you should be familiar with matplotlib before you do so.  Keywords
-which are not listed here are passed along on to <code class="xref py py-func docutils literal notranslate"><span class="pre">plot()</span></code>,
-or <code class="xref py py-func docutils literal notranslate"><span class="pre">errorbar()</span></code>
+which are not listed here are passed along on to <a class="reference external" href="https://matplotlib.org/api/_as_gen/matplotlib.pyplot.plot.html#matplotlib.pyplot.plot" title="(in Matplotlib v3.3.1)"><code class="xref py py-func docutils literal notranslate"><span class="pre">plot()</span></code></a>,
+or <a class="reference external" href="https://matplotlib.org/api/_as_gen/matplotlib.pyplot.errorbar.html#matplotlib.pyplot.errorbar" title="(in Matplotlib v3.3.1)"><code class="xref py py-func docutils literal notranslate"><span class="pre">errorbar()</span></code></a>
 routines.</p>
 </dd></dl>
 
 <hr class="docutils" />
 <dl class="py function">
 <dt id="LT.plotting.datafile_plot_theory">
-<code class="sig-prename descclassname">LT.plotting.</code><code class="sig-name descname">datafile_plot_theory</code><span class="sig-paren">(</span><em class="sig-param">set</em>, <em class="sig-param">x='x'</em>, <em class="sig-param">y='y'</em>, <em class="sig-param">marker='None'</em>, <em class="sig-param">min_val=5e-12</em>, <em class="sig-param">color='b'</em>, <em class="sig-param">label='_nolegend_'</em>, <em class="sig-param">convx=1.0</em>, <em class="sig-param">convy=1.0</em>, <em class="sig-param">logy=False</em>, <em class="sig-param">axes=None</em>, <em class="sig-param">\*\*kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#LT.plotting.datafile_plot_theory" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">LT.plotting.</code><code class="sig-name descname">datafile_plot_theory</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">set</span></em>, <em class="sig-param"><span class="n">x</span><span class="o">=</span><span class="default_value">'x'</span></em>, <em class="sig-param"><span class="n">y</span><span class="o">=</span><span class="default_value">'y'</span></em>, <em class="sig-param"><span class="n">marker</span><span class="o">=</span><span class="default_value">'None'</span></em>, <em class="sig-param"><span class="n">min_val</span><span class="o">=</span><span class="default_value">5e-12</span></em>, <em class="sig-param"><span class="n">color</span><span class="o">=</span><span class="default_value">'b'</span></em>, <em class="sig-param"><span class="n">label</span><span class="o">=</span><span class="default_value">'_nolegend_'</span></em>, <em class="sig-param"><span class="n">convx</span><span class="o">=</span><span class="default_value">1.0</span></em>, <em class="sig-param"><span class="n">convy</span><span class="o">=</span><span class="default_value">1.0</span></em>, <em class="sig-param"><span class="n">logy</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">axes</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#LT.plotting.datafile_plot_theory" title="Permalink to this definition">¶</a></dt>
 <dd><p>Plot a line through data using the variable names and datafile object directly. 
 Keywords similar to <a class="reference internal" href="#LT.plotting.plot_line" title="LT.plotting.plot_line"><code class="xref py py-meth docutils literal notranslate"><span class="pre">plot_line()</span></code></a></p>
 </dd></dl>
@@ -319,7 +321,7 @@ Keywords similar to <a class="reference internal" href="#LT.plotting.plot_line" 
 <hr class="docutils" />
 <dl class="py function">
 <dt id="LT.plotting.datafile_spline_plot_theory">
-<code class="sig-prename descclassname">LT.plotting.</code><code class="sig-name descname">datafile_spline_plot_theory</code><span class="sig-paren">(</span><em class="sig-param">set</em>, <em class="sig-param">x='x'</em>, <em class="sig-param">y='y'</em>, <em class="sig-param">marker='None'</em>, <em class="sig-param">min_val=5e-12</em>, <em class="sig-param">color='b'</em>, <em class="sig-param">label='_nolegend_'</em>, <em class="sig-param">nstep=5.0</em>, <em class="sig-param">convx=1.0</em>, <em class="sig-param">convy=1.0</em>, <em class="sig-param">logy=False</em>, <em class="sig-param">axes=None</em>, <em class="sig-param">\*\*kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#LT.plotting.datafile_spline_plot_theory" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">LT.plotting.</code><code class="sig-name descname">datafile_spline_plot_theory</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">set</span></em>, <em class="sig-param"><span class="n">x</span><span class="o">=</span><span class="default_value">'x'</span></em>, <em class="sig-param"><span class="n">y</span><span class="o">=</span><span class="default_value">'y'</span></em>, <em class="sig-param"><span class="n">marker</span><span class="o">=</span><span class="default_value">'None'</span></em>, <em class="sig-param"><span class="n">min_val</span><span class="o">=</span><span class="default_value">5e-12</span></em>, <em class="sig-param"><span class="n">color</span><span class="o">=</span><span class="default_value">'b'</span></em>, <em class="sig-param"><span class="n">label</span><span class="o">=</span><span class="default_value">'_nolegend_'</span></em>, <em class="sig-param"><span class="n">nstep</span><span class="o">=</span><span class="default_value">5</span></em>, <em class="sig-param"><span class="n">convx</span><span class="o">=</span><span class="default_value">1.0</span></em>, <em class="sig-param"><span class="n">convy</span><span class="o">=</span><span class="default_value">1.0</span></em>, <em class="sig-param"><span class="n">logy</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">axes</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#LT.plotting.datafile_spline_plot_theory" title="Permalink to this definition">¶</a></dt>
 <dd><p>Plot a spline through data using the variable names and datafile object directly.
 Keywords similar to <a class="reference internal" href="#LT.plotting.plot_spline" title="LT.plotting.plot_spline"><code class="xref py py-meth docutils literal notranslate"><span class="pre">plot_spline()</span></code></a></p>
 </dd></dl>
@@ -327,27 +329,28 @@ Keywords similar to <a class="reference internal" href="#LT.plotting.plot_spline
 <hr class="docutils" />
 <dl class="py function">
 <dt id="LT.plotting.dplot_exp">
-<code class="sig-prename descclassname">LT.plotting.</code><code class="sig-name descname">dplot_exp</code><span class="sig-paren">(</span><em class="sig-param">\*args</em>, <em class="sig-param">\*\*kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#LT.plotting.dplot_exp" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">LT.plotting.</code><code class="sig-name descname">dplot_exp</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#LT.plotting.dplot_exp" title="Permalink to this definition">¶</a></dt>
 <dd><p>see <a class="reference internal" href="#LT.plotting.datafile_plot_exp" title="LT.plotting.datafile_plot_exp"><code class="xref py py-func docutils literal notranslate"><span class="pre">LT.plotting.datafile_plot_exp()</span></code></a></p>
 </dd></dl>
 
 <hr class="docutils" />
 <dl class="py function">
 <dt id="LT.plotting.dplot_line">
-<code class="sig-prename descclassname">LT.plotting.</code><code class="sig-name descname">dplot_line</code><span class="sig-paren">(</span><em class="sig-param">\*args</em>, <em class="sig-param">\*\*kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#LT.plotting.dplot_line" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">LT.plotting.</code><code class="sig-name descname">dplot_line</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#LT.plotting.dplot_line" title="Permalink to this definition">¶</a></dt>
 <dd><p>see <a class="reference internal" href="#LT.plotting.datafile_plot_theory" title="LT.plotting.datafile_plot_theory"><code class="xref py py-func docutils literal notranslate"><span class="pre">LT.plotting.datafile_plot_theory()</span></code></a></p>
 </dd></dl>
 
 <hr class="docutils" />
 <dl class="py function">
 <dt id="LT.plotting.dplot_spline">
-<code class="sig-prename descclassname">LT.plotting.</code><code class="sig-name descname">dplot_spline</code><span class="sig-paren">(</span><em class="sig-param">\*args</em>, <em class="sig-param">\*\*kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#LT.plotting.dplot_spline" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">LT.plotting.</code><code class="sig-name descname">dplot_spline</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#LT.plotting.dplot_spline" title="Permalink to this definition">¶</a></dt>
 <dd><p>see <a class="reference internal" href="#LT.plotting.datafile_spline_plot_theory" title="LT.plotting.datafile_spline_plot_theory"><code class="xref py py-func docutils literal notranslate"><span class="pre">LT.plotting.datafile_spline_plot_theory()</span></code></a></p>
 </dd></dl>
 
 </div>
 
 
+            <div class="clearer"></div>
           </div>
         </div>
       </div>
@@ -395,14 +398,15 @@ Keywords similar to <a class="reference internal" href="#LT.plotting.plot_spline
         <li class="right" >
           <a href="lt_pdatafile.html" title="pdatafile"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">LabTools3 2.8 documentation</a> &#187;</li>
-          <li class="nav-item nav-item-1"><a href="../LT.html" >The LT Package</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="../index.html">LabTools3 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../LT.html" >The LT Package</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">plotting</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2011, Werner Boeglin.
-      Last updated on Jul 18, 2020.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.0.3.
+      Last updated on Sep 05, 2020.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.1.2.
     </div>
   </body>
 </html>

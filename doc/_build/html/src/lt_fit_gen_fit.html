@@ -4,7 +4,8 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <title>gen_fit &#8212; LabTools3 2.8 documentation</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>gen_fit &#8212; LabTools3 1.0 documentation</title>
     <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     
@@ -34,8 +35,9 @@
         <li class="right" >
           <a href="lt_fit_linear_fit.html" title="linear_fit"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">LabTools3 2.8 documentation</a> &#187;</li>
-          <li class="nav-item nav-item-1"><a href="../LT_Fit.html" accesskey="U">The LT_Fit Package</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="../index.html">LabTools3 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../LT_Fit.html" accesskey="U">The LT_Fit Package</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">gen_fit</a></li> 
       </ul>
     </div>  
 
@@ -126,34 +128,34 @@ decide to change which parameters are fixed and which are to be fitted.</p>
 </tr>
 </tbody>
 </table>
-<p>Additional keyword arguments are passed on to <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.leastsq.html#scipy.optimize.leastsq" title="(in SciPy v1.5.1)"><code class="xref py py-func docutils literal notranslate"><span class="pre">scipy.optimize.leastsq()</span></code></a></p>
+<p>Additional keyword arguments are passed on to <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.leastsq.html#scipy.optimize.leastsq" title="(in SciPy v1.5.2)"><code class="xref py py-func docutils literal notranslate"><span class="pre">scipy.optimize.leastsq()</span></code></a></p>
 <dl class="py method">
 <dt id="LT_Fit.gen_fit.genfit.get_parameters">
-<code class="sig-name descname">get_parameters</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em><span class="sig-paren">)</span><a class="headerlink" href="#LT_Fit.gen_fit.genfit.get_parameters" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">get_parameters</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#LT_Fit.gen_fit.genfit.get_parameters" title="Permalink to this definition">¶</a></dt>
 <dd><p>use the saved parameters</p>
 </dd></dl>
 
 <dl class="py method">
 <dt id="LT_Fit.gen_fit.genfit.save_parameters">
-<code class="sig-name descname">save_parameters</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em><span class="sig-paren">)</span><a class="headerlink" href="#LT_Fit.gen_fit.genfit.save_parameters" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">save_parameters</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#LT_Fit.gen_fit.genfit.save_parameters" title="Permalink to this definition">¶</a></dt>
 <dd><p>make a deep copy of the current parameters to be saved</p>
 </dd></dl>
 
 <dl class="py method">
 <dt id="LT_Fit.gen_fit.genfit.set_xval">
-<code class="sig-name descname">set_xval</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">x</span></em><span class="sig-paren">)</span><a class="headerlink" href="#LT_Fit.gen_fit.genfit.set_xval" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">set_xval</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span></em><span class="sig-paren">)</span><a class="headerlink" href="#LT_Fit.gen_fit.genfit.set_xval" title="Permalink to this definition">¶</a></dt>
 <dd><p>set the array of values x</p>
 </dd></dl>
 
 <dl class="py method">
 <dt id="LT_Fit.gen_fit.genfit.set_yval">
-<code class="sig-name descname">set_yval</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">y</span></em>, <em class="sig-param"><span class="n">y_err</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#LT_Fit.gen_fit.genfit.set_yval" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">set_yval</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">y</span></em>, <em class="sig-param"><span class="n">y_err</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#LT_Fit.gen_fit.genfit.set_yval" title="Permalink to this definition">¶</a></dt>
 <dd><p>set the array of values to be fitted</p>
 </dd></dl>
 
 <dl class="py method">
 <dt id="LT_Fit.gen_fit.genfit.show_parameters">
-<code class="sig-name descname">show_parameters</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em><span class="sig-paren">)</span><a class="headerlink" href="#LT_Fit.gen_fit.genfit.show_parameters" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">show_parameters</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#LT_Fit.gen_fit.genfit.show_parameters" title="Permalink to this definition">¶</a></dt>
 <dd><p>show the fitted parameters</p>
 </dd></dl>
 
@@ -162,6 +164,7 @@ decide to change which parameters are fixed and which are to be fitted.</p>
 </div>
 
 
+            <div class="clearer"></div>
           </div>
         </div>
       </div>
@@ -209,14 +212,15 @@ decide to change which parameters are fixed and which are to be fitted.</p>
         <li class="right" >
           <a href="lt_fit_linear_fit.html" title="linear_fit"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">LabTools3 2.8 documentation</a> &#187;</li>
-          <li class="nav-item nav-item-1"><a href="../LT_Fit.html" >The LT_Fit Package</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="../index.html">LabTools3 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../LT_Fit.html" >The LT_Fit Package</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">gen_fit</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2011, Werner Boeglin.
-      Last updated on Jul 18, 2020.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.0.3.
+      Last updated on Sep 05, 2020.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.1.2.
     </div>
   </body>
 </html>
