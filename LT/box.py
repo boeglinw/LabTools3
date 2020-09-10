@@ -33,9 +33,11 @@ Imported functions:
 
 """
 
-import pdb
 import numpy as np
 import matplotlib.pyplot as pl
+from matplotlib.colors import LogNorm
+from matplotlib import ticker
+
 import LT
 
 # include the version with parameters
@@ -1067,10 +1069,10 @@ class histo2d:
           
           >>> h2 = histo2d(histogram = his2) 
 
-       *  If ``bc`` is a 2D array with bin center values, and ``bcont``
-          contains bin content values then:
+       *  If ``xbc`` is an array with x-bin center values, ``ybc`` is an array with y-bin center values
+          and ``bcont`` contains bin content values then use:
 
-          >>> h2 = histo2d(bin_center = bc, bin_content = bcont)
+          >>> h2 = histo2d(x_bin_center = xbc, y_bin_center = ybc, bin_content = bcont)
              
        *  A filename for a stored histogram is given
 
@@ -1097,9 +1099,12 @@ class histo2d:
     xlabel         Set the x-label
     ylabel         Set the y-label
     zlabel         Set the z-label
+    colorbar       if True, plot a colorbar 
+    bad_color      Set the color for plot for bins below zmin (default: w)
+    logz           if True plot content on log scale
     ============   =====================================================
     
-    Additional keyword arguments are passed to the :func:`numpy.histogram` function
+    Additional keyword arguments are passed to the :func:`numpy.histogram2d` function
     
     """
     def __init__(self,\
@@ -1117,7 +1122,13 @@ class histo2d:
                  xlabel = 'x-bin', \
                  ylabel = 'y-bin', \
                  zlabel = 'content',\
+                 bad_color = 'w',\
+                 colorbar = True, \
+                 logz = False,\
                  **kwargs):
+        self.bad_color = bad_color # color for bad pixels
+        self.colorbar = colorbar
+        self.logz = logz
         # initialize fitting
         if (x_values is not None) and (y_values is not None):
             # values have been given for filling
@@ -1151,6 +1162,7 @@ class histo2d:
         self.__setup_bins(error = bin_error)
         self.nbins_x = self.x_bin_center.shape[0]
         self.nbins_y = self.y_bin_center.shape[0]
+
             
     def set_nans(self, value = 0., err_value = 1.):
         """
@@ -1264,7 +1276,7 @@ class histo2d:
 
 
         
-    def plot(self,  axes = None, ignore_zeros = False,  graph = 'patch', colormap = pl.cm.CMRmap, **kwargs):
+    def plot(self,  axes = None, graph = 'patch', clevel = 10, colormap = pl.cm.CMRmap, logz = False,  **kwargs):
         """
 
         Plot the 2d histogram content:
@@ -1272,22 +1284,53 @@ class histo2d:
         ============   =====================================================
         Keyword        Meaning
         ============   =====================================================
-        graph          type of plot: patch, contour, surface 
-        ignore_zeros   do not plot channels with  bin content 0 (default = False)
+        graph          type of plot: patch, contour, surface
+        clevel         number of contour levels (default 10)
+        colormap       colormap to be used (default CMRmap)
+        logz           if True use a logarthing scale for content
+        **kwargs       additional kwargs are possed to the plotting routines
         ============   =====================================================
 
         """
+        nz = self.bin_content>0.
+        self.logz = logz
+        self.zmin = self.bin_content[nz].min()
+        colormap.set_bad(color = self.bad_color)
+        # create a masked z-array, suppress 0 etc.
+        Zm = np.ma.masked_less(self.bin_content, self.zmin)           
         if graph == 'patch':
             if axes is None:    
                 axes = pl.gca()            
                 # color mesh
-                pl.pcolormesh(self.x_bins, self.y_bins, self.bin_content.T, cmap=colormap, **kwargs)
+                if not self.logz:
+                    pl.pcolormesh(self.x_bins, self.y_bins, Zm.T, cmap=colormap, **kwargs)
+                else:
+                    pl.pcolormesh(self.x_bins, self.y_bins, Zm.T, cmap=colormap, norm = LogNorm(), **kwargs)
+                    if self.colorbar:
+                        cbar = pl.colorbar()
         elif graph == 'contour':
             if axes is None:    
                 axes = pl.gca()            
                 # color mesh
                 YY,XX = np.meshgrid(self.y_bin_center, self.x_bin_center)
-                pl.contourf(XX,YY, self.bin_content, cmap=colormap, **kwargs)        # contour
+                if not self.logz:
+                    pl.contourf(XX,YY, Zm, cmap=colormap, **kwargs)        # contour
+                else:
+                    Zml = np.log10(Zm)
+                    # setup the ticks
+                    # z-limits
+                    zmin = np.floor(Zml.min())
+                    zmax = np.ceil(Zml.max())
+                    # tick values
+                    llev = np.log10((ticker.LogLocator(subs = [1.])).tick_values(10**zmin, 10**zmax))
+                    print("llev = ", llev)
+                    pl.contourf(XX,YY, Zml, levels = clevel)
+                    # setup the tick labels
+                    ctkls = [r"$10^{" +f"{int(v):d}" +r"}$" for v in llev]
+                    if self.colorbar:
+                        cbar = pl.colorbar()
+                        cbar.set_ticks(llev)
+                        cbar.set_ticklabels(ctkls)
         elif graph == 'surface':
             if axes is None:    
                 axes = pl.gca(projection='3d')  
@@ -1300,12 +1343,19 @@ class histo2d:
         axes.set_xlabel(self.xlabel)
         axes.set_ylabel(self.ylabel)
         axes.set_title(self.title)
-
+        if self.colorbar and not self.logz:
+            cbar = pl.colorbar()
 
     def save(self, filename = 'histo2d.data', ignore_zeros = True):
         """
 
         Save the histogram in :mod:`~LT.pdatafile` format
+        
+        Parameters
+        ----------
+        filename:   filename to be used
+        ignore_zeros: if True write only bins with non-zero content (default True)
+        
 
         """
         of = open(filename, 'w')
@@ -1364,7 +1414,7 @@ class histo2d:
     
     def rect_cut(self, x1, x2, y1, y2):
         """
-        Setup rectangle cut 
+        Setup a rectangle cut 
 
         Parameters
         ----------
@@ -1395,8 +1445,10 @@ class histo2d:
         Parameters
         ----------
         p : array of coordinate pairs determining the corners of the polygon
+        
+        example a triangle cut : 
+            p = np.array([[1.,2], [2,4], [0.5,3.]  ])
             
-
         Returns
         -------
         Masked array to be applied to the bin_content and bin_error
@@ -1431,19 +1483,106 @@ class histo2d:
     def find_bin(self, x, y):
         """
         
-        Find the bin that would contain the value x
+        Find the bin value pair for that would contain 
+        the value pir x, y 
 
         """
         ix = self.__find_bin(self.x_bins, x)
         iy = self.__find_bin(self.y_bins, y)
         return ix,iy
 
+    def project_x(self, range = None, bins = None):
+        """
+        
+        project a range of y-bins onto the x-axis
+
+        Parameters
+        ----------
+        range : the range in y included in the projection
+            
+        bins : an array of bins or a slice selecting the y-bins to be 
+               included in the projection 
+
+        Returns
+        -------
+        1d - histogram 
+        
+        """
+        if range is None and bins is None:
+            print("You must give y-range or y-bins")
+            return  None
+        if range is not None:
+            sel_y =  (range[0] <= self.y_bin_center) & (self.y_bin_center <= range[1])
+        else:
+            sel_y = bins
+        # get the slice pf bin_content
+        # get the slice pf bin_content
+        y1 = self.y_bin_center[sel_y][0]
+        y2 = self.y_bin_center[sel_y][-1]
+        cont = self.bin_content[:,sel_y]
+        d_cont = self.bin_error[:,sel_y]
+        # sum allong y
+        c = np.apply_along_axis(np.sum, 1, cont)
+        dc = np.sqrt(np.apply_along_axis(np.sum, 1, d_cont**2))
+        h = histo(bin_center = self.x_bin_center, bin_content = c, bin_error = dc)
+        h.title = f"{self.title} x-projection for y between ({y1:.2e},{y2:.2e})"
+        h.xlabel="x-axis"
+        h.ylabel="content"
+        return h
+
+    def project_y(self, range = None, bins = None):
+        """
+        
+        project a range of x-bins onto the y-axis
+
+        Parameters
+        ----------
+        range : the range in x included in the projection
+            
+        bins : an array of bins or a slice selecting the x-bins to be 
+               included in the projection 
+
+        Returns
+        -------
+        1d - histogram 
+        
+        """
+        if range is None and bins is None:
+            print("You must give x-range or x-bins")
+            return  None
+        if range is not None:
+            sel_x =  (range[0] <= self.x_bin_center) & (self.x_bin_center <= range[1])
+        else:
+            sel_x = bins
+        # get the slice pf bin_content
+        x1 = self.x_bin_center[sel_x][0]
+        x2 = self.x_bin_center[sel_x][-1]
+        cont = self.bin_content[sel_x,:]
+        d_cont = self.bin_error[sel_x,:]
+        # sum allong y
+        c = np.apply_along_axis(np.sum, 0, cont)
+        dc = np.sqrt(np.apply_along_axis(np.sum, 0, d_cont**2))
+        h = histo(bin_center = self.y_bin_center, bin_content = c, bin_error = dc)
+        h.title = f"{self.title} y-projection for x between ({x1:.2e},{x2:.2e})"
+        h.xlabel="y-axis"
+        h.ylabel="content"
+        return h
 
     def apply_calibration(self, cal_x, cal_y):
         """
         
         apply x and y-axis calibration, new axis values are cal(xaxis) cal(yaxis)
+
+        Parameters
+        ----------
+        cal_x : x-axis calibration function
+            
+        cal_y : y-axis calibration function
         
+        Returns
+        -------
+        None., calculates new bin vakues
+
         """
         # x-axis
         self.x_bin_center = cal_x(self.x_bin_center)
