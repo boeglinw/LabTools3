@@ -33,9 +33,11 @@ Imported functions:
 
 """
 
-import pdb
 import numpy as np
 import matplotlib.pyplot as pl
+from matplotlib.colors import LogNorm
+from matplotlib import ticker
+
 import LT
 
 # include the version with parameters
@@ -111,6 +113,70 @@ def select_data(xmin, a, xmax):
     """
     return np.where( in_window(xmin, xmax, a) )
 
+# Determine if a point is inside a given polygon or not
+# Polygon is a list of (x,y) pairs. This function
+# returns True or False.  The algorithm is called
+# the "Ray Casting Method".
+#
+# here the rays are cast horizontally to the right (toward positive x)
+
+def point_in_poly(x,y,poly):
+    """
+    x, y coordinates of a point to test if it lies inside a polygon
+         given by a list of (xv, yv) vertices
+    returns True if inside
+    """
+    n = len(poly)
+    inside = False
+
+    p1x,p1y = poly[0]
+    for i in range(n+1):
+        p2x,p2y = poly[i % n] # cycles to all possible values
+        
+        # is y larger than any of the two min. y-values ?
+        if y > min(p1y,p2y):
+            # if so is y smaller than any of the two max. y-values
+            if y <= max(p1y,p2y):
+                # there is a potential that the point is inside 
+                if x <= max(p1x,p2x):
+                    if p1y != p2y:
+                        # point not on a vertex calculate intersection with a horizontal line at y
+                        xints = (y-p1y)*(p2x-p1x)/(p2y-p1y)+p1x
+                    if p1x == p2x or x <= xints:
+                        inside = not inside
+        # print ' i, p1x, p1y, p2x, p2y, x, y ', i, p1x, p1y, p2x, p2y, x, y, inside         
+        p1x,p1y = p2x,p2y
+
+    return inside
+
+
+def array_point_in_poly(r,poly):
+    """
+    r arrays of  points; array with shape (N,s), where N is the number of points
+    poly  an array of vertices for the polygon with the shape (M,2), M number of polygon vertices
+    
+    return a list of logical values indicating if the point is inside or outside the poly.
+    """
+    inside = []
+    for rr in r:
+        inside.append( point_in_poly(rr[0], rr[1], poly) )
+    return np.array(inside)
+
+
+
+## Test
+
+
+# polygon = [(-5,5),(5,5),(5,-5),(-5,-5)]
+
+# point_x = -4
+# point_y = -3
+
+## Call the function with the points and the polygon
+# print point_in_poly(point_x,point_y,polygon)
+
+
+
 # histogram class exception
 class histoError(Exception):
     def __init__(self, comment, value):
@@ -119,7 +185,7 @@ class histoError(Exception):
     def __str__(self):
         return self.comment + repr(self.value)
 
-# histogram class
+# 1d -histogram class
 #
 # fitting of a gaussian on a quadratic back ground is built in
 # 
@@ -584,7 +650,7 @@ class histo:
 
         to use all parameters::
 
-           h.set_fit_list( fit = [ 'A', 'mean', 'sigma', 'b0', 'b1, 'b2'])
+           h.set_fit_list( fit = [ 'A', 'mean', 'sigma', 'b0', 'b1', 'b2'])
            
         """
         if fit==[]:
@@ -602,6 +668,19 @@ class histo:
                 continue
             self.fit_list.append(curr_par_name)
         # end of fitting list
+        
+    def show_fit_list(self):
+        """
+        Show the current fit list
+
+        Returns
+        -------
+        None.
+
+        """
+        print("\nCurrent fit list : ", [k.name for k in self.fit_list])
+        print("\nAvailable parameters: [ 'A', 'mean', 'sigma', 'b0', 'b1', 'b2']")
+    
 
     def fit(self, xmin = None, xmax = None, init = True, ignore_zeros = True):
         """
@@ -894,8 +973,14 @@ class histo:
 
 
     def __add__(self, v):
-        # add 2 histograms and take care of the errors
-        if np.array(self.bin_center == v.bin_center).min():
+        if np.isscalar(v):
+            res0 = self.bin_content + v
+            err = self.bin_error
+            res1 = np.copy(self.res[1])
+            res = ([res0, res1 ])
+            return histo(histogram = res, bin_error = err, window = (self.win_min, self.win_max))
+         # add 2 histograms and take care of the errors
+        elif np.array_equal(self.bin_center.shape, v.bin_center.shape):
             # this is the content
             res0 = self.res[0] + v.res[0]
             err = np.sqrt( self.bin_error**2 + v.bin_error**2)
@@ -905,9 +990,16 @@ class histo:
         else:
             print('bin centers do not match-> cannot add, sorry !')
             return None
+        
     def __sub__(self, v):
         # subtract 2 histograms and take care of the errors
-        if np.array(self.bin_center == v.bin_center).min():
+        if np.isscalar(v):
+            res0 = self.bin_content - v
+            err = self.bin_error
+            res1 = np.copy(self.res[1])
+            res = ([res0, res1 ])
+            return histo(histogram = res, bin_error = err, window = (self.win_min, self.win_max))
+        elif np.array_equal(self.bin_center.shape, v.bin_center.shape):
             res0 = self.res[0] - v.res[0]
             err = np.sqrt( self.bin_error**2 + v.bin_error**2)
             res1 = np.copy(v.res[1])
@@ -917,13 +1009,47 @@ class histo:
             print('bin centers do not match-> cannot subtract, sorry !')
             return None
 
-    def __mul__(self, c):
+    def __mul__(self, v):
         # scale a histogram multiply from left
-        res0 = c*self.res[0]
-        err = c*self.bin_error
-        res1 = np.copy(self.res[1])
-        res = ([res0, res1 ])
-        return histo(histogram = res, bin_error = err, window = (self.win_min, self.win_max))
+        if np.isscalar(v):
+            res0 = v*self.bin_content
+            err = v*self.bin_error
+            res1 = np.copy(self.res[1])
+            res = ([res0, res1 ])
+            return histo(histogram = res, bin_error = err, window = (self.win_min, self.win_max))
+        elif np.array_equal(self.bin_center.shape, v.bin_center.shape):
+            res0 = self.res[0] * v.res[0]
+            err = np.sqrt(self.bin_error**2 + v.bin_error**2)
+            res1 = np.copy(self.res[1])
+            res = ([res0, res1 ])
+            return histo(histogram = res, bin_error = err, window = (self.win_min, self.win_max))
+        else:
+            print('bin centers do not match-> cannot multiply, sorry !')
+            return None
+
+
+    def __truediv__(self, v):
+        # divide 2 histograms and take care of the errors
+        # check the shapes
+        if np.isscalar(v):
+            res0 = self.res[0]/v
+            err = self.bin_error/v
+            res1 = np.copy(self.res[1])
+            res = ([res0, res1])
+            return histo(histogram = res, bin_error = err, window = (self.win_min, self.win_max))
+        elif np.array_equal(self.bin_content.shape, v.bin_content.shape):
+            # this is the content
+            res0 = self.bin_content / v.bin_content
+            f1 = 1./v.bin_content
+            f2 = res0/v.bin_content
+            err = np.sqrt( (f1*self.bin_error)**2 + (f2*v.bin_error)**2)
+            res1 = np.copy(v.res[1])
+            res = ([res0, res1])
+            return histo(histogram = res, bin_error = err, window = (self.win_min, self.win_max))
+        else:
+            print('bin centers do not match-> cannot divide, sorry !')
+            return None
+
 
     def __rmul__(self, c):
         # scale a histogram multiply from right
@@ -933,7 +1059,799 @@ class histo:
         res = ([res0, res1 ])
         return histo(histogram = res, bin_error = err, window = (self.win_min, self.win_max))
 
+
+
+# end of 1d-histo class
+
+# 2d histogram class
+
+
+class histo2d:
+    """
+    
+    Define a 2d histogram based on the np.histogram2d class.
+
+    The various ways of defining one are:
+
+       *  If *xv* is a 1D ( :func:`numpy.array`) containing the x-value data to be histogrammed
+          and *yx* is a 1D array containing the y-value data :
+              
+          >>> h2 = histo2d( xv, yv )
+
+       *  If *his2* is the output of the :func:`numpy.histogram2d` function
+          
+          >>> h2 = histo2d(histogram = his2) 
+
+       *  If ``xbc`` is an array with x-bin center values, ``ybc`` is an array with y-bin center values
+          and ``bcont`` contains bin content values then use:
+
+          >>> h2 = histo2d(x_bin_center = xbc, y_bin_center = ybc, bin_content = bcont)
+             
+       *  A filename for a stored histogram is given
+
+          >>> h2 = histo2d(filename), where filename contains the pdatafile
+
+          Usually the result of a histo2d.save operation
+          
+    Important keywords:
+        
+    ============   =====================================================
+    Keyword        Meaning
+    ============   ===================================================== 
+    xvalues        Array of x-values to be histogrammed (1d-:func:`numpy.array`)
+    yvalues        Array of y-values to be histogrammed (1d-:func:`numpy.array`)
+    range          Lower and upper limits  of binning ( e.g. ``range = (10.,20.)`` )
+    bins           Number of bins, or [binsx, binsy]
+    histogram      Result of :func:`numpy.histogram2d` function
+    x_bin_center   1d-Array of x - bin-center values (:func:`numpy.array`)
+    y_bin_center   1d-Array of y - bin-center values (:func:`numpy.array`)
+    bin_content    2d-Array of bin-content values (:func:`numpy.array`)
+    bin_error      2d-Array of errors for each bin content (:func:`numpy.array`)
+    file           Load data from file
+    title          Set the title
+    xlabel         Set the x-label
+    ylabel         Set the y-label
+    zlabel         Set the z-label
+    colorbar       if True, plot a colorbar 
+    bad_color      Set the color for plot for bins below zmin (default: w)
+    logz           if True plot content on log scale
+    ============   =====================================================
+    
+    Additional keyword arguments are passed to the :func:`numpy.histogram2d` function
+    
+    """
+    def __init__(self,\
+                 x_values = None, \
+                 y_values = None, \
+                 range = None, \
+                 bins = None, \
+                 histogram = None, \
+                 bin_error = None, \
+                 bin_content = None, \
+                 x_bin_center = None, \
+                 y_bin_center = None, \
+                 file = None, \
+                 title = 'my histogram', \
+                 xlabel = 'x-bin', \
+                 ylabel = 'y-bin', \
+                 zlabel = 'content',\
+                 bad_color = 'w',\
+                 colorbar = True, \
+                 logz = False,\
+                 **kwargs):
+        self.bad_color = bad_color # color for bad pixels
+        self.colorbar = colorbar
+        self.logz = logz
+        # initialize fitting
+        if (x_values is not None) and (y_values is not None):
+            # values have been given for filling
+            if (range is None) and (bins is None):
+                self.fill(x_values, y_values, **kwargs)
+            elif (range is not None) and (bins is None):
+                self.fill(x_values, y_values, range = range, **kwargs)
+            elif (range is None) and (bins is not None):
+                self.fill(x_values, y_values, bins = bins, **kwargs)
+            else:
+                self.fill(x_values, y_values, bins = bins, range = range, **kwargs)
+        elif file is not None:
+            # create from file
+            self.load(file)
+            return
+        elif histogram is not None:
+            # the output of the numpy histogram function has been given
+            self.res = histogram
+        elif (x_bin_center is not None) and (y_bin_center is not None) and (bin_content is not None):
+            # the histogram content is given direectly
+            self.x_bin_center = np.copy(x_bin_center)
+            self.y_bin_center = np.copy(y_bin_center)
+            self.bin_content = np.copy(bin_content)
+            if(bin_error is not None):
+                self.bin_error = bin_error
+            self.__setup_histogram()
+        self.title = title
+        self.xlabel = xlabel
+        self.ylabel = ylabel
+        self.zlabel = zlabel
+        self.__setup_bins(error = bin_error)
+        self.nbins_x = self.x_bin_center.shape[0]
+        self.nbins_y = self.y_bin_center.shape[0]
+
+            
+    def set_nans(self, value = 0., err_value = 1.):
+        """
+        
+        replace nans by specified values
+
+        ============   =====================================================
+        Keyword        Meaning
+        ============   =====================================================
+        value          replaces the nan in bin_content (default 0)
+        err_value      replaces the corresponding bin_error (default 1)
+        ============   =====================================================
+
+
+        Returns
+        -------
+        None.
+
+        """
+        sel = np.isnan(self.bin_content)
+        self.bin_content[sel] = value
+        self.bin_error[sel] = err_value
+
+    def fill(self, x, y, add = False, **kwargs):
+        """
+        
+        Fill the histogram with the values stored in the :func:`numpy.array` y.
+
+        ============   =====================================================
+        Keyword        Meaning
+        ============   =====================================================
+        add            if True add the results to the existing content
+        ============   =====================================================
+
+        Additional keyword arguments are passed to the :func:`numpy.histogram` function
+
+        """
+        if not add:
+            # a new filling
+            try:
+                self.res = np.histogram2d(x, y, new = None, **kwargs)
+            except:
+                self.res = np.histogram2d(x, y, **kwargs)
+            self.__setup_bins(error = None)
+        else:
+            # the bins have already been defined continue
+            # to accumulate statistics
+            if self.res is None:
+                print("no binning information: try fill with add = False ")
+                return
+            res = np.histogram2d(x, y, bins = [self.x_bins,self.y_bins], **kwargs)
+            # add the new bin content to the old one
+            self.res = (self.res[0] + res[0], self.res[1], self.res[2])
+            # update the histogram information
+            self.__setup_bins(error = None)
+        # end of fill
+
+    def clear(self):
+        """
+        
+        Set the content and errors to 0.
+        
+        """
+        self.bin_content = np.zeros_like(self.bin_content)
+        self.bin_error = np.zeros_like(self.bin_content)
+        self.res = (np.zeros_like(self.res[0]), self.res[1], self.res[2])
+        self.x_bin_width = np.zeros_like(self.x_bin_width)
+        self.y_bin_width = np.zeros_like(self.y_bin_width)
+        self.x_bin_center = np.zeros_like(self.x_bin_center)
+        self.y_bin_center = np.zeros_like(self.y_bin_center)
+        self.x_bins = np.zeros_like(self.x_bins)
+        self.y_bins = np.zeros_like(self.y_bins)       
+        self.__prepare_histo_plot()
+
+    def sum(self, rect_cut = None, poly_cut = None, draw = False):
+        """
+        
+        Return the sum of all bins. If the limits are of a rectangle  are given, 
+        calculate the sum of all bins inside it or inside a polygon poly
+
+        Example::
+
+           >>> s0 = h.sum() # add all bins
+           >>> s1 = h.sum(rect = [x1,x2, y1, y2])
+           >>> s2 = h.sum(poly = ([x1, x2, ...], [y1, y2, ...])) # add the bins inside the polygon
+
+        ============   =====================================================
+        Keyword        Meaning
+        ============   =====================================================
+        xmin           lower limit of sum of bin content
+        xmax           upper limit of sum
+        ============   =====================================================
+
+        The errors are also calculated.
+        
+        """
+        if (rect_cut is None) and (poly_cut is None):
+            h_sum = self.bin_content.sum()
+            h_sum_err = np.sqrt( (self.bin_error**2).sum() )
+        elif (poly_cut is None):
+            h_sum = self.bin_content[rect_cut].sum()
+            h_sum_err = np.sqrt( (self.bin_error[rect_cut]**2).sum())
+            if draw:
+                self.draw_polygon(self.rect)
+        else:
+            h_sum = self.bin_content[poly_cut].sum()
+            h_sum_err = np.sqrt( (self.bin_error[poly_cut]**2).sum())
+            self.poly_cut = poly_cut
+            if draw:
+                self.draw_polygon(self.poly)
+        return (h_sum, h_sum_err)
+
+
+        
+    def plot(self,  axes = None, graph = 'patch', clevel = 10, colormap = pl.cm.CMRmap, logz = False,  **kwargs):
+        """
+
+        Plot the 2d histogram content:
+
+        ============   =====================================================
+        Keyword        Meaning
+        ============   =====================================================
+        graph          type of plot: patch, contour, surface
+        clevel         number of contour levels (default 10)
+        colormap       colormap to be used (default CMRmap)
+        logz           if True use a logarthing scale for content
+        kwargs         additional kwargs are possed to the plotting routines
+        ============   =====================================================
+
+        """
+        nz = self.bin_content>0.
+        self.logz = logz
+        self.zmin = self.bin_content[nz].min()
+        colormap.set_bad(color = self.bad_color)
+        # create a masked z-array, suppress 0 etc.
+        Zm = np.ma.masked_less(self.bin_content, self.zmin)           
+        if graph == 'patch':
+            if axes is None:    
+                axes = pl.gca()            
+                # color mesh
+                if not self.logz:
+                    pl.pcolormesh(self.x_bins, self.y_bins, Zm.T, cmap=colormap, **kwargs)
+                else:
+                    pl.pcolormesh(self.x_bins, self.y_bins, Zm.T, cmap=colormap, norm = LogNorm(), **kwargs)
+                    if self.colorbar:
+                        cbar = pl.colorbar()
+        elif graph == 'contour':
+            if axes is None:    
+                axes = pl.gca()            
+                # color mesh
+                YY,XX = np.meshgrid(self.y_bin_center, self.x_bin_center)
+                if not self.logz:
+                    pl.contourf(XX,YY, Zm, cmap=colormap, **kwargs)        # contour
+                else:
+                    Zml = np.log10(Zm)
+                    # setup the ticks
+                    # z-limits
+                    zmin = np.floor(Zml.min())
+                    zmax = np.ceil(Zml.max())
+                    # tick values
+                    llev = np.log10((ticker.LogLocator(subs = [1.])).tick_values(10**zmin, 10**zmax))
+                    print("llev = ", llev)
+                    pl.contourf(XX,YY, Zml, levels = clevel)
+                    # setup the tick labels
+                    ctkls = [r"$10^{" +f"{int(v):d}" +r"}$" for v in llev]
+                    if self.colorbar:
+                        cbar = pl.colorbar()
+                        cbar.set_ticks(llev)
+                        cbar.set_ticklabels(ctkls)
+        elif graph == 'surface':
+            if axes is None:    
+                axes = pl.gca(projection='3d')  
+                YY,XX = np.meshgrid(self.y_bin_center, self.x_bin_center)
+                axes.plot_surface(XX,YY, self.bin_content, cmap=colormap, **kwargs)
+                axes.set_zlabel(self.zlabel)
+        else:
+            print('Unknown graph type:', graph, ' possible values: patch, contour, surface ')
+            return
+        axes.set_xlabel(self.xlabel)
+        axes.set_ylabel(self.ylabel)
+        axes.set_title(self.title)
+        if self.colorbar and not self.logz:
+            cbar = pl.colorbar()
+
+    def save(self, filename = 'histo2d.data', ignore_zeros = True):
+        """
+
+        Save the histogram in :mod:`~LT.pdatafile` format
+
+        ============   =====================================================
+        Keyword        Meaning
+        ============   =====================================================
+        filename:      filename to be used
+        ignore_zeros   if True, write only bins with non-zero content (default True)
+        ============   =====================================================
+        
+
+        """
+        of = open(filename, 'w')
+        of.write(f'#\ title = {self.title}\n'   )
+        of.write(f'#\ xlabel = {self.xlabel}\n' )
+        of.write(f'#\ ylabel = {self.ylabel}\n' )
+        of.write(f'#\ zlabel = {self.zlabel}\n' )      
+        of.write(f'#\ nbins_x = {self.nbins_x}\n')
+        of.write(f'#\ nbins_y = {self.nbins_y}\n')
+        of.write(f'#\ x_edge_min = {self.x_bins[0]}\n')
+        of.write(f'#\ y_edge_min = {self.y_bins[0]}\n')
+        of.write(f'#\ x_bin_width  = {self.x_bin_width}\n')
+        of.write(f'#\ y_bin_width  = {self.y_bin_width}\n')
+        of.write('#! x_bin_center[f,0]/ y_bin_center[f,1]/ bin_content[f,2]/ bin_error[f,3]/ i_x[i,4]/ i_y[i,5]/  \n')
+        for i,xbc in enumerate(self.x_bin_center):
+            for j,ybc in enumerate(self.y_bin_center):
+                if ignore_zeros :
+                    if self.bin_content[i,j] != 0.:
+                        of.write (f" {xbc} {ybc} {self.bin_content[i,j]} {self.bin_error[i,j]}  {i} {j} \n ")
+                else:
+                    of.write (f" {xbc} {ybc} {self.bin_content[i,j]} {self.bin_error[i,j]}  {i} {j} \n ")
+        of.close()
+
+    def load(self, file):
+        data = get_file(file)
+        #x_bin_center = np.array(data.get_data('x_bin_center') )
+        #y_bin_center = np.array(data.get_data('y_bin_center') )
+        bin_content = np.array(data.get_data('bin_content') )
+        bin_error =  np.array(data.get_data('bin_error') )
+        x_edge_min = data.par.get_value('x_edge_min')
+        y_edge_min = data.par.get_value('y_edge_min')
+        ix = np.array(data.get_data('i_x') )
+        iy = np.array(data.get_data('i_y') )
+        # now the parameters
+        self.title = data.par.get_value('title', str)
+        self.xlabel = data.par.get_value('xlabel', str)
+        self.ylabel = data.par.get_value('ylabel', str)
+        self.zlabel = data.par.get_value('zlabel', str)
+        self.nbins_x = data.par.get_value('nbins_x', int)
+        self.nbins_y = data.par.get_value('nbins_y', int)
+        self.x_bin_width = data.par.get_value('x_bin_width')
+        self.y_bin_width = data.par.get_value('y_bin_width')
+        self.bin_content = np.zeros((self.nbins_x, self.nbins_y))
+        self.bin_error = np.zeros_like(self.bin_content)
+        for n, i_x in enumerate(ix):
+            # set the bins that are not zero
+            i_y = iy[n]
+            self.bin_content[i_x, i_y] = bin_content[n]
+            self.bin_error[i_x, i_y] = bin_error[n]
+        self.x_bins = np.array([x_edge_min + xx*self.x_bin_width for xx in np.arange(self.nbins_x + 1)])
+        self.y_bins = np.array([y_edge_min + yy*self.y_bin_width for yy in np.arange(self.nbins_y + 1)])
+        self.x_bin_center = self.x_bins[:-1] + self.x_bin_width/2.
+        self.y_bin_center = self.y_bins[:-1] + self.y_bin_width/2.
+        self.res = [self.bin_content, self.x_bins, self.y_bins ]
+            
+    
+    def rect_cut(self, x1, x2, y1, y2):
+        """
+        Setup a rectangle cut 
+
+        ============   =====================================================
+        Keyword        Meaning
+        ============   =====================================================
+        x1             lower x limit
+        x2             upper x limit
+        y1             lower y limit
+        y2             upper y limit
+        ============   =====================================================
+
+        Returns
+        -------
+        sel : masked array for the bin_content
+
+        """
+        self.rect = np.array([[x1, y1], [x2, y1], [x2, y2], [x1, y2]])
+        XX,YY = np.meshgrid(self.x_bin_center, self.y_bin_center)
+        selx = (x1 <= XX) & (XX <= x2)
+        sely = (y1 <= YY) & (YY <= y2)
+        sel = selx.T & sely.T
+        self.r_cut = sel        
+        return sel
+    
+    
+    def poly_cut(self, p):
+        """
+        
+        Setup a polygon cut :
+
+        ============   =====================================================
+        Keyword        Meaning
+        ============   =====================================================
+        p              array of coordinate pairs determining the corners of the polygon
+        ============   =====================================================
+        
+        example for a triangle cut : 
+            p = np.array( [[1,2], [2,4], [0.5,3]  ])
+            
+        Returns
+        -------
+        Masked array to be applied to the bin_content and bin_error
+
+        """
+        self.poly = p
+        XX,YY = np.meshgrid(self.x_bin_center, self.y_bin_center)
+        ra = np.array([XX.flatten(), YY.flatten()])
+        sel = array_point_in_poly(ra.T, p)
+        sel_r = sel.reshape(self.nbins_y,self.nbins_x).T
+        self.p_cut = sel_r
+        return sel_r
+
+    def draw_polygon(self, p, **kwargs):
+        """
+        draw a polygon used as cut
+
+        ============   =====================================================
+        Keyword        Meaning
+        ============   =====================================================
+        p               array of coordinate pairs determining the corners of the polygon
+        ============   =====================================================
+        
+        Returns
+        -------
+        None.
+
+        """
+        px = list(p[:,0]) + [p[0,0]]
+        py = list(p[:,1]) + [p[0,1]]
+        pl.plot(px, py, **kwargs)
+
+
+    def find_bin(self, x, y):
+        """
+        
+        Find the bin value pair for that would contain 
+        the value pair x, y 
+
+        """
+        ix = self.__find_bin(self.x_bins, x)
+        iy = self.__find_bin(self.y_bins, y)
+        return ix,iy
+
+    def project_x(self, range = None, bins = None):
+        """
+        
+        project a range of y-bins onto the x-axis
+
+        ============   =====================================================
+        Keyword        Meaning
+        ============   =====================================================
+        range          the range in y included in the projection            
+        bins           an array of bins or a slice selecting the y-bins to be 
+                       included in the projection 
+        ============   =====================================================
+        
+        Returns
+        -------
+        1d - histogram 
+        
+        """
+        if range is None and bins is None:
+            print("You must give y-range or y-bins")
+            return  None
+        if range is not None:
+            sel_y =  (range[0] <= self.y_bin_center) & (self.y_bin_center <= range[1])
+        else:
+            sel_y = bins
+        # get the slice pf bin_content
+        # get the slice pf bin_content
+        y1 = self.y_bin_center[sel_y][0]
+        y2 = self.y_bin_center[sel_y][-1]
+        cont = self.bin_content[:,sel_y]
+        d_cont = self.bin_error[:,sel_y]
+        # sum allong y
+        c = np.apply_along_axis(np.sum, 1, cont)
+        dc = np.sqrt(np.apply_along_axis(np.sum, 1, d_cont**2))
+        h = histo(bin_center = self.x_bin_center, bin_content = c, bin_error = dc)
+        h.title = f"{self.title} x-projection for y between ({y1:.2e},{y2:.2e})"
+        h.xlabel="x-axis"
+        h.ylabel="content"
+        return h
+
+    def project_y(self, range = None, bins = None):
+        """
+        
+        project a range of x-bins onto the y-axis
+
+        ============   =====================================================
+        Keyword        Meaning
+        ============   =====================================================
+        range          the range in x included in the projection            
+        bins           an array of bins or a slice selecting the x-bins to be 
+                       included in the projection 
+        ============   =====================================================
+
+        Returns
+        -------
+        1d - histogram 
+        
+        """
+        if range is None and bins is None:
+            print("You must give x-range or x-bins")
+            return  None
+        if range is not None:
+            sel_x =  (range[0] <= self.x_bin_center) & (self.x_bin_center <= range[1])
+        else:
+            sel_x = bins
+        # get the slice pf bin_content
+        x1 = self.x_bin_center[sel_x][0]
+        x2 = self.x_bin_center[sel_x][-1]
+        cont = self.bin_content[sel_x,:]
+        d_cont = self.bin_error[sel_x,:]
+        # sum allong y
+        c = np.apply_along_axis(np.sum, 0, cont)
+        dc = np.sqrt(np.apply_along_axis(np.sum, 0, d_cont**2))
+        h = histo(bin_center = self.y_bin_center, bin_content = c, bin_error = dc)
+        h.title = f"{self.title} y-projection for x between ({x1:.2e},{x2:.2e})"
+        h.xlabel="y-axis"
+        h.ylabel="content"
+        return h
+
+    def apply_calibration(self, cal_x, cal_y):
+        """
+        
+        apply x and y-axis calibration, new axis values are cal(xaxis) cal(yaxis)
+
+        ============   =====================================================
+        Keyword        Meaning
+        ============   =====================================================
+        cal_x          x-axis calibration function            
+        cal_y          y-axis calibration function
+        ============   =====================================================
+        
+        Returns
+        -------
+        None., calculates new bin vakues
+
+        """
+        # x-axis
+        self.x_bin_center = cal_x(self.x_bin_center)
+        self.x_bin_width = np.diff(self.x_bin_center)[0]
+        self.x_bins = cal_x(self.x_bins)
+        # y -axis
+        self.y_bin_center = cal_y(self.y_bin_center)
+        self.y_bin_width = np.diff(self.y_bin_center)[0]
+        self.y_bins = cal_y(self.y_bins)
+        # prepare histo plot if axes have changed
+        self.__prepare_histo_plot()
+                
+# private functions
+
+    def __setup_bins(self, error = None ):
+        self.x_bin_width = np.diff(self.res[1])[0]
+        self.y_bin_width = np.diff(self.res[2])[0]
+        self.x_bin_center = self.res[1][:-1] + self.x_bin_width/2.
+        self.y_bin_center = self.res[2][:-1] + self.y_bin_width/2.
+        self.bin_content = self.res[0]
+        self.x_bins = self.res[1]
+        self.y_bins = self.res[2]
+        if error is None:
+            self.bin_error = np.sqrt(self.bin_content)
+        else:
+            self.bin_error = error
+        self.__prepare_histo_plot()
+
+    def __setup_histogram(self):
+        # create the histogram arrays from bin_width, bin_center, bin_content and bin_error
+        self.x_bin_width = np.diff(self.x_bin_center)[0]
+        self.y_bin_width = np.diff(self.y_bin_center)[0]
+        res1 = np.concatenate( [self.x_bin_center - self.x_bin_width/2., self.x_bin_center[-1:] + self.x_bin_width/2.])
+        res2 = np.concatenate( [self.y_bin_center - self.y_bin_width/2., self.y_bin_center[-1:] + self.y_bin_width/2.])
+        res0 = self.bin_content
+        self.res = ([res0,res1,res2])
+
+    def __prepare_histo_plot(self):
+        # prepare data for plotting as steps
+        self.__setup_histogram()
+        
+
+    def __find_bin(self,bins, x):
+        # self.bins contains the bin edged
+        if (x < bins[0]):
+            print('searched value {0} < lowest bin = {1} '.format(x, bins[0]))  
+            return 0
+        elif (x > bins[-1:][0]):
+            print('searched value {0} > highest bin = {1} '.format(x, bins[-1:][0]))
+            return len(bins) - 1
+        elif (x == bins[0]):
+            return 0
+        else:
+            return (np.searchsorted(bins, x) - 1 )
+
+    def __add__(self, v):
+        # add 2 histograms and take care of the errors
+        # check the shapes
+        if np.isscalar(v):
+            res0 = self.bin_content+ v
+            err = self.bin_error
+            res1 = np.copy(self.res[1])
+            res2 = np.copy(self.res[2])
+            res = ([res0, res1, res2 ])
+            return histo2d(histogram = res, bin_error = err)
+        elif np.array_equal(self.bin_content.shape, v.bin_content.shape):
+            # this is the content
+            res0 = self.bin_content + v.bin_content
+            err = np.sqrt( self.bin_error**2 + v.bin_error**2)
+            res1 = np.copy(v.res[1])
+            res2 = np.copy(v.res[2])
+            res = ([res0, res1, res2 ])
+            return histo2d(histogram = res, bin_error = err)
+        else:
+            print('shapes do not match-> cannot add, sorry !')
+            return None
+
+    def __sub__(self, v):
+        # subtract 2 histograms and take care of the errors
+        # check the shapes
+        if np.isscalar(v):
+            res0 = self.bin_content - v
+            err = self.bin_error
+            res1 = np.copy(self.res[1])
+            res2 = np.copy(self.res[2])
+            res = ([res0, res1, res2 ])
+            return histo2d(histogram = res, bin_error = err)
+        elif np.array_equal(self.bin_content.shape, v.bin_content.shape):
+            # this is the content
+            res0 = self.bin_content - v.bin_content
+            err = np.sqrt( self.bin_error**2 + v.bin_error**2)
+            res1 = np.copy(v.res[1])
+            res2 = np.copy(v.res[2])
+            res = ([res0, res1, res2 ])
+            return histo2d(histogram = res, bin_error = err)
+        else:
+            print('shapes do not match-> cannot subtract, sorry !')
+            return None
+ 
+    def __mul__(self, v):
+        # histogram multiply from left
+        if np.isscalar(v):
+            res0 = v*self.res[0]
+            err = v*self.bin_error
+            res1 = np.copy(self.res[1])
+            res2 = np.copy(self.res[1])
+            res = ([res0, res1, res2 ])
+            return histo2d(histogram = res, bin_error = err)
+        elif np.array_equal(self.bin_content.shape, v.bin_content.shape):
+            # this is the content
+            res0 = self.bin_content * v.bin_content
+            f1 = v.bin_content
+            f2 = self.bin_content
+            err = np.sqrt( (f1*self.bin_error)**2 + (f2*v.bin_error)**2)
+            res1 = np.copy(v.res[1])
+            res2 = np.copy(v.res[2])
+            res = ([res0, res1, res2 ])
+            return histo2d(histogram = res, bin_error = err)
+        else:
+            print('shapes do not match-> cannot add, sorry !')
+            return None
+
+    def __truediv__(self, v):
+        # divide 2 histograms and take care of the errors
+        # check the shapes
+        if np.isscalar(v):
+            res0 = self.res[0]/v
+            err = self.bin_error/v
+            res1 = np.copy(self.res[1])
+            res2 = np.copy(self.res[1])
+            res = ([res0, res1, res2 ])
+            return histo2d(histogram = res, bin_error = err)
+        elif np.array_equal(self.bin_content.shape, v.bin_content.shape):
+            # this is the content
+            res0 = self.bin_content / v.bin_content
+            f1 = 1./v.bin_content
+            f2 = res0/v.bin_content
+            err = np.sqrt( (f1*self.bin_error)**2 + (f2*v.bin_error)**2)
+            res1 = np.copy(v.res[1])
+            res2 = np.copy(v.res[2])
+            res = ([res0, res1, res2 ])
+            return histo2d(histogram = res, bin_error = err)
+        else:
+            print('shapes do not match-> cannot add, sorry !')
+            return None
+        
+
+
+    def __radd__(self, v):
+        # add 2 histograms and take care of the errors
+        # check the shapes
+        if np.isscalar(v):
+            res0 = self.bin_content+ v
+            err = self.bin_error
+            res1 = np.copy(self.res[1])
+            res2 = np.copy(self.res[2])
+            res = ([res0, res1, res2 ])
+            return histo2d(histogram = res, bin_error = err)
+        elif np.array_equal(self.bin_content.shape, v.bin_content.shape):
+            # this is the content
+            res0 = self.bin_content + v.bin_content
+            err = np.sqrt( self.bin_error**2 + v.bin_error**2)
+            res1 = np.copy(v.res[1])
+            res2 = np.copy(v.res[2])
+            res = ([res0, res1, res2 ])
+            return histo2d(histogram = res, bin_error = err)
+        else:
+            print('shapes do not match-> cannot add, sorry !')
+            return None
+
+    def __rsub__(self, v):
+        # subtract 2 histograms and take care of the errors
+        # check the shapes
+        if np.isscalar(v):
+            res0 = self.bin_content - v
+            err = self.bin_error
+            res1 = np.copy(self.res[1])
+            res2 = np.copy(self.res[2])
+            res = ([res0, res1, res2 ])
+            return histo2d(histogram = res, bin_error = err)
+        elif np.array_equal(self.bin_content.shape, v.bin_content.shape):
+            # this is the content
+            res0 = self.bin_content - v.bin_content
+            err = np.sqrt( self.bin_error**2 + v.bin_error**2)
+            res1 = np.copy(v.res[1])
+            res2 = np.copy(v.res[2])
+            res = ([res0, res1, res2 ])
+            return histo2d(histogram = res, bin_error = err)
+        else:
+            print('shapes do not match-> cannot subtract, sorry !')
+            return None
+
+    def __rmul__(self, v):
+        # histogram multiply from left
+        if np.isscalar(v):
+            res0 = v*self.res[0]
+            err = v*self.bin_error
+            res1 = np.copy(self.res[1])
+            res2 = np.copy(self.res[1])
+            res = ([res0, res1, res2 ])
+            return histo2d(histogram = res, bin_error = err)
+        elif np.array_equal(self.bin_content.shape, v.bin_content.shape):
+            # this is the content
+            res0 = self.bin_content * v.bin_content
+            f1 = v.bin_content
+            f2 = self.bin_content
+            err = np.sqrt( (f1*self.bin_error)**2 + (f2*v.bin_error)**2)
+            res1 = np.copy(v.res[1])
+            res2 = np.copy(v.res[2])
+            res = ([res0, res1, res2 ])
+            return histo2d(histogram = res, bin_error = err)
+        else:
+            print('shapes do not match-> cannot add, sorry !')
+            return None
+
+    
+    def __rtruediv__(self, v):
+        # divide 2 histograms and take care of the errors
+        # check the shapes
+        if np.isscalar(v):
+            res0 = v/self.res[0]
+            err = v/self.res[0]**2*self.bin_error
+            res1 = np.copy(self.res[1])
+            res2 = np.copy(self.res[1])
+            res = ([res0, res1, res2 ])
+            return histo2d(histogram = res, bin_error = err)
+        elif np.array_equal(self.bin_content.shape, v.bin_content.shape):
+            # this is the content
+            res0 =  v.bin_content/self.bin_content
+            f1 = 1./self.bin_content
+            f2 = res0/self.bin_content
+            err = np.sqrt( (f1*v.bin_error)**2 + (f2*self.bin_error)**2)
+            res1 = np.copy(v.res[1])
+            res2 = np.copy(v.res[2])
+            res = ([res0, res1, res2 ])
+            return histo2d(histogram = res, bin_error = err)
+        else:
+            print('shapes do not match-> cannot add, sorry !')
+            return None
+        
 # end of histo class
+
+
+
 
 # get an MCA spectrum as histogram
 def get_spectrum(file, calibration = None):

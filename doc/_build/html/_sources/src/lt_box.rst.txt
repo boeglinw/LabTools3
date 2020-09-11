@@ -30,10 +30,16 @@ Box Content:
 .. autoclass:: histo
    :members:
 
+----------------------------
+      
+.. autoclass:: histo2d
+   :members:
+
+
 Histogram Operations
 --------------------
 
-The following operations are defined for Histograms
+The following operations are defined for Histograms (1-D and 2-D)
 (:class:`~LT.box.histo` ):
 
 .. sourcecode:: ipython

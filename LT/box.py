@@ -650,7 +650,7 @@ class histo:
 
         to use all parameters::
 
-           h.set_fit_list( fit = [ 'A', 'mean', 'sigma', 'b0', 'b1, 'b2'])
+           h.set_fit_list( fit = [ 'A', 'mean', 'sigma', 'b0', 'b1', 'b2'])
            
         """
         if fit==[]:
@@ -668,6 +668,19 @@ class histo:
                 continue
             self.fit_list.append(curr_par_name)
         # end of fitting list
+        
+    def show_fit_list(self):
+        """
+        Show the current fit list
+
+        Returns
+        -------
+        None.
+
+        """
+        print("\nCurrent fit list : ", [k.name for k in self.fit_list])
+        print("\nAvailable parameters: [ 'A', 'mean', 'sigma', 'b0', 'b1', 'b2']")
+    
 
     def fit(self, xmin = None, xmax = None, init = True, ignore_zeros = True):
         """
@@ -1169,12 +1182,13 @@ class histo2d:
         
         replace nans by specified values
 
-        Parameters
-        ----------
-        value : default = 0.
-            The value of the bin_content if a nan  occurred.
-        err_value : default = 1.
-            The value of the bin_error if a bin_content nan occurred.
+        ============   =====================================================
+        Keyword        Meaning
+        ============   =====================================================
+        value          replaces the nan in bin_content (default 0)
+        err_value      replaces the corresponding bin_error (default 1)
+        ============   =====================================================
+
 
         Returns
         -------
@@ -1288,7 +1302,7 @@ class histo2d:
         clevel         number of contour levels (default 10)
         colormap       colormap to be used (default CMRmap)
         logz           if True use a logarthing scale for content
-        **kwargs       additional kwargs are possed to the plotting routines
+        kwargs         additional kwargs are possed to the plotting routines
         ============   =====================================================
 
         """
@@ -1350,11 +1364,13 @@ class histo2d:
         """
 
         Save the histogram in :mod:`~LT.pdatafile` format
-        
-        Parameters
-        ----------
-        filename:   filename to be used
-        ignore_zeros: if True write only bins with non-zero content (default True)
+
+        ============   =====================================================
+        Keyword        Meaning
+        ============   =====================================================
+        filename:      filename to be used
+        ignore_zeros   if True, write only bins with non-zero content (default True)
+        ============   =====================================================
         
 
         """
@@ -1416,12 +1432,14 @@ class histo2d:
         """
         Setup a rectangle cut 
 
-        Parameters
-        ----------
-        x1 : lower x limit
-        x2 : upper x limit
-        y1 : lower y limit
-        y2 : upper y limit
+        ============   =====================================================
+        Keyword        Meaning
+        ============   =====================================================
+        x1             lower x limit
+        x2             upper x limit
+        y1             lower y limit
+        y2             upper y limit
+        ============   =====================================================
 
         Returns
         -------
@@ -1442,12 +1460,14 @@ class histo2d:
         
         Setup a polygon cut :
 
-        Parameters
-        ----------
-        p : array of coordinate pairs determining the corners of the polygon
+        ============   =====================================================
+        Keyword        Meaning
+        ============   =====================================================
+        p              array of coordinate pairs determining the corners of the polygon
+        ============   =====================================================
         
-        example a triangle cut : 
-            p = np.array([[1.,2], [2,4], [0.5,3.]  ])
+        example for a triangle cut : 
+            p = np.array( [[1,2], [2,4], [0.5,3]  ])
             
         Returns
         -------
@@ -1466,10 +1486,12 @@ class histo2d:
         """
         draw a polygon used as cut
 
-        Parameters
-        ----------
-        p : array of coordinate pairs determining the corners of the polygon
-
+        ============   =====================================================
+        Keyword        Meaning
+        ============   =====================================================
+        p               array of coordinate pairs determining the corners of the polygon
+        ============   =====================================================
+        
         Returns
         -------
         None.
@@ -1484,7 +1506,7 @@ class histo2d:
         """
         
         Find the bin value pair for that would contain 
-        the value pir x, y 
+        the value pair x, y 
 
         """
         ix = self.__find_bin(self.x_bins, x)
@@ -1496,13 +1518,14 @@ class histo2d:
         
         project a range of y-bins onto the x-axis
 
-        Parameters
-        ----------
-        range : the range in y included in the projection
-            
-        bins : an array of bins or a slice selecting the y-bins to be 
-               included in the projection 
-
+        ============   =====================================================
+        Keyword        Meaning
+        ============   =====================================================
+        range          the range in y included in the projection            
+        bins           an array of bins or a slice selecting the y-bins to be 
+                       included in the projection 
+        ============   =====================================================
+        
         Returns
         -------
         1d - histogram 
@@ -1535,12 +1558,13 @@ class histo2d:
         
         project a range of x-bins onto the y-axis
 
-        Parameters
-        ----------
-        range : the range in x included in the projection
-            
-        bins : an array of bins or a slice selecting the x-bins to be 
-               included in the projection 
+        ============   =====================================================
+        Keyword        Meaning
+        ============   =====================================================
+        range          the range in x included in the projection            
+        bins           an array of bins or a slice selecting the x-bins to be 
+                       included in the projection 
+        ============   =====================================================
 
         Returns
         -------
@@ -1573,11 +1597,12 @@ class histo2d:
         
         apply x and y-axis calibration, new axis values are cal(xaxis) cal(yaxis)
 
-        Parameters
-        ----------
-        cal_x : x-axis calibration function
-            
-        cal_y : y-axis calibration function
+        ============   =====================================================
+        Keyword        Meaning
+        ============   =====================================================
+        cal_x          x-axis calibration function            
+        cal_y          y-axis calibration function
+        ============   =====================================================
         
         Returns
         -------
