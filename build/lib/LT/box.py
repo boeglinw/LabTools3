@@ -1298,10 +1298,10 @@ class histo2d:
         ============   =====================================================
         Keyword        Meaning
         ============   =====================================================
-        graph          type of plot: patch, contour, surface
+        graph          type of plot: patch, contour, surface, lego
         clevel         number of contour levels (default 10)
         colormap       colormap to be used (default CMRmap)
-        logz           if True use a logarthing scale for content
+        logz           if True use a logarithmic scale for content (patch and contour only)
         kwargs         additional kwargs are possed to the plotting routines
         ============   =====================================================
 
@@ -1320,8 +1320,9 @@ class histo2d:
                     pl.pcolormesh(self.x_bins, self.y_bins, Zm.T, cmap=colormap, **kwargs)
                 else:
                     pl.pcolormesh(self.x_bins, self.y_bins, Zm.T, cmap=colormap, norm = LogNorm(), **kwargs)
-                    if self.colorbar:
-                        cbar = pl.colorbar()
+                if self.colorbar:
+                    cbar = pl.colorbar()
+                    cbar.minorticks_on()
         elif graph == 'contour':
             if axes is None:    
                 axes = pl.gca()            
@@ -1329,6 +1330,9 @@ class histo2d:
                 YY,XX = np.meshgrid(self.y_bin_center, self.x_bin_center)
                 if not self.logz:
                     pl.contourf(XX,YY, Zm, cmap=colormap, **kwargs)        # contour
+                    if self.colorbar:
+                        cbar = pl.colorbar()
+                        cbar.minorticks_on()
                 else:
                     Zml = np.log10(Zm)
                     # setup the ticks
@@ -1337,7 +1341,7 @@ class histo2d:
                     zmax = np.ceil(Zml.max())
                     # tick values
                     llev = np.log10((ticker.LogLocator(subs = [1.])).tick_values(10**zmin, 10**zmax))
-                    print("llev = ", llev)
+                    # print("llev = ", llev)
                     pl.contourf(XX,YY, Zml, levels = clevel)
                     # setup the tick labels
                     ctkls = [r"$10^{" +f"{int(v):d}" +r"}$" for v in llev]
@@ -1345,20 +1349,34 @@ class histo2d:
                         cbar = pl.colorbar()
                         cbar.set_ticks(llev)
                         cbar.set_ticklabels(ctkls)
-        elif graph == 'surface':
-            if axes is None:    
-                axes = pl.gca(projection='3d')  
-                YY,XX = np.meshgrid(self.y_bin_center, self.x_bin_center)
-                axes.plot_surface(XX,YY, self.bin_content, cmap=colormap, **kwargs)
-                axes.set_zlabel(self.zlabel)
+        elif graph == 'surface': 
+            if logz:
+                print('log scale not yet implemented!')
+            axes = pl.gca(projection='3d')  
+            YY,XX = np.meshgrid(self.y_bin_center, self.x_bin_center)
+            axes.plot_surface(XX,YY, self.bin_content, cmap=colormap, **kwargs)
+            axes.set_zlabel(self.zlabel)
+        elif graph == 'lego': 
+            if self.logz:
+                print('log scale not yet implemented!')
+            axes = pl.gca(projection='3d')  
+            YY,XX = np.meshgrid(self.y_bin_center, self.x_bin_center)
+            xposf = XX.flatten()
+            yposf = YY.flatten()
+            zposf = np.ones_like(xposf)*self.zmin
+            dx = self.x_bin_width
+            dy = self.y_bin_width
+            dz = self.bin_content.flatten()
+            # select color
+            rgba = [colormap((k-dz.min())/dz.max()) for k in dz]
+            axes.bar3d(xposf, yposf, zposf, dx, dy, dz, color = rgba, zsort = 'max')
+            axes.set_zlabel(self.zlabel)              
         else:
             print('Unknown graph type:', graph, ' possible values: patch, contour, surface ')
             return
         axes.set_xlabel(self.xlabel)
         axes.set_ylabel(self.ylabel)
         axes.set_title(self.title)
-        if self.colorbar and not self.logz:
-            cbar = pl.colorbar()
 
     def save(self, filename = 'histo2d.data', ignore_zeros = True):
         """
