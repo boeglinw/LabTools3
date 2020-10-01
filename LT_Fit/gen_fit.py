@@ -54,7 +54,7 @@ import scipy.stats as SS
 
 import copy as C
 from .parameters import *
-from numpy import *
+import numpy as np
 import pdb
 
 
@@ -73,6 +73,10 @@ class  genfit:
     y_err        (:func:`numpy.array`) array of errors
     nplot        number of points to be used for plotting the fit
     ftol         minimal change in chi square to determine if the fit has converged
+    kwargs       additional keywords are passes to scipy.optimize.least_squares, examples below
+    bounds       an array for upper and lower bounds for the parameter
+    loss         alternative loss function to handle outliers e.g. 'huber'
+    f_scale      outliers with a residual more the f_scale should be not affect the result
     ==========   ===================================================================
 
     Additional keyword arguments are passed on to :func:`scipy.optimize.leastsq`
@@ -87,11 +91,12 @@ class  genfit:
                  ftol = 0.001, \
                  print_results = True, \
                  **kwargs):
+        print('gen_fit kwargs = ', kwargs)
         self.print_results = print_results
         self.y = y
         if x is None:
             if y is not None:
-                self.x = arange(y.shape[0])
+                self.x = np.arange(y.shape[0])
             else:
                 self.x = x
         else:
@@ -140,15 +145,21 @@ class  genfit:
         for p in self.parameters:
             p.err = 0.
         p = [param() for param in self.parameters]
-        self.fit_result = optimize.leastsq( self.f, p,\
-                                            full_output = full_output, \
+#        old version
+#        self.fit_result = optimize.leastsq( self.f, p,\
+#                                            full_output = full_output, \
+#                                            ftol = ftol, \
+#                                            **kwargs)
+        self.fit_result = optimize.least_squares( self.f, p,\
                                             ftol = ftol, \
                                             **kwargs)
+        # estimate covariance matrix
+        J = self.fit_result.jac     
+        self.covar = np.linalg.inv(J.T.dot(J))
         # now calculate the fitted values
         fit_func = self.func(self.x)
-        self.covar = self.fit_result[1]
         # final total chi square
-        p_fin = self.fit_result[0]
+        p_fin = self.fit_result.x
         # number of degrees of freedom
         ps = p_fin.shape
         if len(ps) > 0:
@@ -156,7 +167,7 @@ class  genfit:
             self.n_dof = len(self.y) - len(p_fin)
         else:
             self.n_dof = len(self.y)
-        self.chi2 = sum( power( self.f( self.fit_result[0]) , 2) )
+        self.chi2 = np.sum( np.power( self.f( self.fit_result.x) , 2) )
         self.chi2_red = self.chi2/self.n_dof
         # calculate confidence level = prob to get a chi2 larger that the one obtained
         self.CL = 1. - SS.chi2.cdf(self.chi2, self.n_dof)
@@ -164,19 +175,19 @@ class  genfit:
         self.xpl = []
         self.ypl = []
         self.stat = {'fitted values':fit_func, \
-                     'parameters':self.fit_result[0], \
-                     'leastsq output':self.fit_result}
+                     'parameters':self.fit_result.x, \
+                     'leastsq output':dict(self.fit_result)}
         if (self.nplot > 0):
-            self.xpl = linspace(self.x.min(), self.x.max(), self.nplot+1)
+            self.xpl = np.linspace(self.x.min(), self.x.max(), self.nplot+1)
             self.ypl = self.func(self.xpl)
         # set the parameter errors
         try:
             if self.y_err is None:
                 # res-scale covariance matrix by chi2_red to get the correct values
                 self.covar *= self.chi2_red
-                self.common_error = sqrt(self.chi2_red)
+                self.common_error = np.sqrt(self.chi2_red)
             for i,p in enumerate(self.parameters):
-                p.err = sqrt( self.covar[i,i] )
+                p.err = np.sqrt( self.covar[i,i] )
         except:
             print("gen_fit : problem with fit, parameter errors,  check initial parameters !")
             print('covariance matrix : ', self.covar)

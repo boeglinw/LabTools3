@@ -7,4 +7,6 @@ Version 1.1.0 now includes 2D-histograms and some bug fixes.
 
 Version 1.1.1 includes 3D lego plot for histo2d. Note that at the moment surface and lego plots are only in linear scale possible.
 
+Version 1.1.2 non-linear fitting is now based on scipy.optimize.least_squares so parameter bounds can be used.
+
 

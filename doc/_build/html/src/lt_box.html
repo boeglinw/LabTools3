@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>box &#8212; LabTools3 1.1.0 documentation</title>
+    <title>box &#8212; LabTools3 1.1.3 documentation</title>
     <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     
@@ -35,7 +35,7 @@
         <li class="right" >
           <a href="../LT.html" title="The LT Package"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">LabTools3 1.1.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">LabTools3 1.1.3 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../LT.html" accesskey="U">The LT Package</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">box</a></li> 
       </ul>
@@ -265,7 +265,7 @@ contains bin content values then:</p>
 
 <dl class="py method">
 <dt id="LT.box.histo.fit">
-<code class="sig-name descname">fit</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">xmin</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">xmax</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">init</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">ignore_zeros</span><span class="o">=</span><span class="default_value">True</span></em><span class="sig-paren">)</span><a class="headerlink" href="#LT.box.histo.fit" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">fit</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">xmin</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">xmax</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">init</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">ignore_zeros</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#LT.box.histo.fit" title="Permalink to this definition">¶</a></dt>
 <dd><p>Fit a gaussian on a quadratic background. You can also just
 fit a background or just a gaussian. All this is controlled by which
 parameters you want to fit. Another important part of non-linear
@@ -311,8 +311,8 @@ follows:</p>
 <p>Keyword arguments are:</p>
 <table class="docutils align-default">
 <colgroup>
-<col style="width: 14%" />
-<col style="width: 86%" />
+<col style="width: 13%" />
+<col style="width: 88%" />
 </colgroup>
 <thead>
 <tr class="row-odd"><th class="head"><p>Keyword</p></th>
@@ -331,6 +331,9 @@ follows:</p>
 </tr>
 <tr class="row-odd"><td><p>ignore_zeros</p></td>
 <td><p>True/False (default = True) ignore channels with bin content zero</p></td>
+</tr>
+<tr class="row-even"><td><p>kwargs</p></td>
+<td><p>additional keywords are passed to gen_fit (use only if you know what you are doing!)</p></td>
 </tr>
 </tbody>
 </table>
@@ -354,6 +357,19 @@ useful if the histogram has been plotted.</p>
 <code class="sig-name descname">init_gauss</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">xmin</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">xmax</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#LT.box.histo.init_gauss" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculate the initial parameter guess for a gaussian. These parameters
 can them be used in the call to <a class="reference internal" href="#LT.box.histo.fit" title="LT.box.histo.fit"><code class="xref py py-class docutils literal notranslate"><span class="pre">fit</span></code></a></p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="LT.box.histo.init_parameters">
+<code class="sig-name descname">init_parameters</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#LT.box.histo.init_parameters" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reset fit parameters to their default values</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><dl class="simple">
+<dt>None.</dt><dd></dd>
+</dl>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
@@ -438,7 +454,7 @@ all the necessary data are present.</p>
 
 <dl class="py method">
 <dt id="LT.box.histo.rebin">
-<code class="sig-name descname">rebin</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">n</span></em>, <em class="sig-param"><span class="n">scale</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="headerlink" href="#LT.box.histo.rebin" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">rebin</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">n</span></em>, <em class="sig-param"><span class="n">scale</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">use_mean</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">replace</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="headerlink" href="#LT.box.histo.rebin" title="Permalink to this definition">¶</a></dt>
 <dd><p>rebin the histogram by a factor n:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="go">&gt;&gt;&gt;hc = h.rebin(2)</span>
 </pre></div>
@@ -457,6 +473,16 @@ all the necessary data are present.</p>
 <tr class="row-even"><td><p>scale</p></td>
 <td><dl class="simple">
 <dt>True: the original bin number is not a multiple of n</dt><dd><p>and the last bin content will be scaled</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr class="row-odd"><td><p>use_mean</p></td>
+<td><p>True: the new bin content is the mean of the bin_content</p></td>
+</tr>
+<tr class="row-even"><td><p>replace</p></td>
+<td><dl class="simple">
+<dt>True: replace the current histogram with the</dt><dd><p>rebinned version</p>
 </dd>
 </dl>
 </td>
@@ -851,6 +877,9 @@ the value pair x, y</p>
 <td><p>an array of bins or a slice selecting the y-bins to be
 included in the projection</p></td>
 </tr>
+<tr class="row-even"><td><p>both None</p></td>
+<td><p>Project all the y-bins</p></td>
+</tr>
 </tbody>
 </table>
 <dl class="field-list simple">
@@ -883,6 +912,9 @@ included in the projection</p></td>
 <tr class="row-odd"><td><p>bins</p></td>
 <td><p>an array of bins or a slice selecting the x-bins to be
 included in the projection</p></td>
+</tr>
+<tr class="row-even"><td><p>both None</p></td>
+<td><p>Project all the x-bins</p></td>
 </tr>
 </tbody>
 </table>
@@ -1100,14 +1132,14 @@ not copied.</p>
         <li class="right" >
           <a href="../LT.html" title="The LT Package"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">LabTools3 1.1.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">LabTools3 1.1.3 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../LT.html" >The LT Package</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">box</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2011, Werner Boeglin.
-      Last updated on Sep 13, 2020.
+      Last updated on Oct 01, 2020.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.1.2.
     </div>
   </body>

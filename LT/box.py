@@ -91,9 +91,19 @@ def get_data(D, var):
 
 # window cuts
 def in_between(xmin, xmax, val):
-    return ( (xmin <= val) and (val <= xmax) )
-
-in_window = np.vectorize(in_between)
+    """
+    
+    return a selection of the values in val
+    that satisfy:
+        
+    xmin <= val <= xmax
+    
+    Returns    
+    -------
+    numpy array of True and False
+    
+    """
+    return (xmin <= val) & (val <= xmax)
 
 # select data within a window
 def select_data(xmin, a, xmax):
@@ -111,7 +121,7 @@ def select_data(xmin, a, xmax):
     in general: B.select_data(xmin, a, xmax)
     
     """
-    return np.where( in_window(xmin, xmax, a) )
+    return np.where( in_between(xmin, xmax, a) )
 
 # Determine if a point is inside a given polygon or not
 # Polygon is a list of (x,y) pairs. This function
@@ -408,7 +418,7 @@ class histo:
         err = np.copy( self.bin_error )
         return histo(histogram = res, bin_error = err)
 
-    def rebin(self, n, scale = False):
+    def rebin(self, n, scale = False, use_mean = False, replace = False):
         """
         
         rebin the histogram by a factor n::
@@ -420,30 +430,47 @@ class histo:
         ============   =====================================================
         scale          True: the original bin number is not a multiple of n 
                              and the last bin content will be scaled
+        use_mean       True: the new bin content is the mean of the bin_content 
+                             
+        replace        True: replace the current histogram with the
+                             rebinned version
         ============   =====================================================
         
 
         """
-        divisible = (np.mod(self.bin_center.shape[0], n) != 0)
+        n_bins = self.bin_center.shape[0]
+        divisible = (np.mod(n_bins, n) != 0)
         # change bin content
-        bco_sl, mean_sl, sl, fact_sl =  self.__rebin_array(self.bin_content, n)
-        be2_sl, mean_sl, sl, fact_sl =  self.__rebin_array(self.bin_error**2, n)
-        sum_sl, bc_sl, sl, fact_sl =  self.__rebin_array(self.bin_center, n)
+        bco_sl, bco_mean_sl, sl, fact_sl =  self._rebin_array(self.bin_content, n)
+        be2_sl, mean_sl, sl, fact_sl =  self._rebin_array(self.bin_error**2, n)
+        sum_sl, bc_sl, sl, fact_sl =  self._rebin_array(self.bin_center, n)
         # adjust the bin center of last bin if necessary
         if not divisible:
             bc_sl[-1] = bc_sl[-2]+ np.diff(bc_sl)[0]
         if scale:
             bco_sl *= fact_sl
         # store new histogram parameters and update histogram
-        self.bin_content = np.copy(bco_sl)
-        self.bin_error = np.copy(np.sqrt(be2_sl))
-        self.bin_center = np.copy(bc_sl)
-        self.bin_width = np.diff(self.bin_center)[0]
-        self.__get_histogram()
-        self.bins = self.res[1]
-        # prepare for plotting
-        self.__prepare_histo_plot()
+        if not use_mean:
+            bin_content = bco_sl
+            bin_error = np.sqrt(be2_sl)
+        else:
+            bin_content = bco_mean_sl
+            s_i, n_p = self._sl_indices(sl, n_bins)  # n_p number of points per slice
+            b_e = np.sqrt(be2_sl)/np.array(n_p)
+            bin_error = b_e
+        bin_center = bc_sl
+        if replace:
+            self.bin_content = np.copy(bin_content)
+            self.bin_error = np.copy(bin_error)
+            self.bin_center = np.copy(bin_center)
+            self.__get_histogram()
+            # prepare for plotting
+            self.__prepare_histo_plot()
+        else:
+            # return a new histogram
+            return self.__new_histogram(bin_content, bin_center, bin_error)
         
+            
         
     def plot(self,filled = 'True', ymin = 0.,  axes = None, ignore_zeros = False,  **kwargs):
         """
@@ -682,7 +709,7 @@ class histo:
         print("\nAvailable parameters: [ 'A', 'mean', 'sigma', 'b0', 'b1', 'b2']")
     
 
-    def fit(self, xmin = None, xmax = None, init = True, ignore_zeros = True):
+    def fit(self, xmin = None, xmax = None, init = True, ignore_zeros = True, **kwargs):
         """
         
         Fit a gaussian on a quadratic background. You can also just
@@ -720,6 +747,7 @@ class histo:
         xmax           upper fit limit
         init           True/False (default = True) estimate initial fit parameters automatically
         ignore_zeros   True/False (default = True) ignore channels with bin content zero
+        kwargs         additional keywords are passed to gen_fit (use only if you know what you are doing!)
         ============   =====================================================
         
                  
@@ -785,7 +813,7 @@ class histo:
                                    y_err = bin_error, \
                                    full_output=1, \
                                    ftol = 0.001, \
-                                   print_results = False)
+                                   print_results = False, **kwargs)
         self.fit_dict = self.F.stat
         self.fit_dict['xpl'] = self.F.xpl
         self.fit_dict['ypl'] = self.F.ypl
@@ -794,6 +822,9 @@ class histo:
             print("Problem with fit: no result, check parameters !")
             return
         self.cov = self.F.covar
+        self.chi2_red = self.F.chi2_red
+        self.chi2 = self.F.chi2
+        self.CL = self.F.CL
         # print the result
         print('----------------------------------------------------------------------')
         print('Fit results:')
@@ -813,8 +844,24 @@ class histo:
         """
         xmin,xmax = pl.xlim()
         self.fit(xmin,xmax, init = init)
+     
+    def init_parameters(self):
+        """
         
+        Reset fit parameters to their default values
 
+        Returns
+        -------
+        None.
+
+        """
+        self.b0.set(0.)
+        self.b1.set(0.)
+        self.b2.set(0.)
+        self.mean.set(0.)
+        self.sigma.set(1.)
+        self.A.set(1.)
+        
     def init_gauss(self, xmin = None, xmax = None):
         """
         
@@ -945,6 +992,17 @@ class histo:
         res0 = self.bin_content
         self.res = ([res0,res1])
 
+    def __new_histogram(self, b_content, b_center, b_error):
+        # setup new np historam parameters using content, center abd error arrays
+        # same as get_histogram
+        # return a new histogram with these parameters
+        b_width = np.diff(b_center)[0]
+        res1 = np.concatenate( [b_center - b_width/2., b_center[-1:] + b_width/2.])
+        res0 = b_content
+        res = ([res0,res1])
+        return histo(histogram = res, bin_error = b_error, window = (self.win_min, self.win_max)) 
+        
+
     def __prepare_histo_plot(self):
         # prepare data for plotting as steps
         self.cont_min = self.res[0].min()
@@ -952,8 +1010,17 @@ class histo:
         self.xpl = np.array(list(zip( self.bin_center - iv, self.bin_center + iv))).ravel()
         self.ypl = np.array(list(zip( self.bin_content, self.bin_content))).ravel()
         
+    def _sl_indices(self, sla, Ni):
+        # sla arrayt of slices
+        # Ni length of array that the slices are applied to
+        # get indices for slices and number of elements   per slice
+        si = [sll.indices(Ni) for sll in sla]
+        np = [x[1] - x[0] for x in si]
+        # list of index tuples : start,stop, step
+        # number of corresonding elements
+        return si, np
         
-    def __rebin_array(self, x, n):
+    def _rebin_array(self, x, n):
         # rebin 1d  array, useful for histograms
         # start array for slices
         i_s = np.arange(0, x.shape[0]+n, n, dtype=int)
@@ -1542,6 +1609,7 @@ class histo2d:
         range          the range in y included in the projection            
         bins           an array of bins or a slice selecting the y-bins to be 
                        included in the projection 
+        both None      Project all the y-bins                        
         ============   =====================================================
         
         Returns
@@ -1550,9 +1618,8 @@ class histo2d:
         
         """
         if range is None and bins is None:
-            print("You must give y-range or y-bins")
-            return  None
-        if range is not None:
+            sel_y = slice(0,-1)
+        elif range is not None:
             sel_y =  (range[0] <= self.y_bin_center) & (self.y_bin_center <= range[1])
         else:
             sel_y = bins
@@ -1582,6 +1649,7 @@ class histo2d:
         range          the range in x included in the projection            
         bins           an array of bins or a slice selecting the x-bins to be 
                        included in the projection 
+        both None      Project all the x-bins         
         ============   =====================================================
 
         Returns
@@ -1590,9 +1658,8 @@ class histo2d:
         
         """
         if range is None and bins is None:
-            print("You must give x-range or x-bins")
-            return  None
-        if range is not None:
+            sel_x = slice(0,-1)
+        elif range is not None:
             sel_x =  (range[0] <= self.x_bin_center) & (self.x_bin_center <= range[1])
         else:
             sel_x = bins
