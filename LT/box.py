@@ -37,6 +37,7 @@ import numpy as np
 import matplotlib.pyplot as pl
 from matplotlib.colors import LogNorm
 from matplotlib import ticker
+import copy
 
 import LT
 
@@ -1376,7 +1377,8 @@ class histo2d:
         nz = self.bin_content>0.
         self.logz = logz
         self.zmin = self.bin_content[nz].min()
-        colormap.set_bad(color = self.bad_color)
+        colormap_l = copy.copy(colormap)
+        colormap_l.set_bad(color = self.bad_color)
         # create a masked z-array, suppress 0 etc.
         Zm = np.ma.masked_less(self.bin_content, self.zmin)           
         if graph == 'patch':
@@ -1384,9 +1386,9 @@ class histo2d:
                 axes = pl.gca()            
                 # color mesh
                 if not self.logz:
-                    pl.pcolormesh(self.x_bins, self.y_bins, Zm.T, cmap=colormap, **kwargs)
+                    pl.pcolormesh(self.x_bins, self.y_bins, Zm.T, cmap=colormap_l, **kwargs)
                 else:
-                    pl.pcolormesh(self.x_bins, self.y_bins, Zm.T, cmap=colormap, norm = LogNorm(), **kwargs)
+                    pl.pcolormesh(self.x_bins, self.y_bins, Zm.T, cmap=colormap_l, norm = LogNorm(), **kwargs)
                 if self.colorbar:
                     cbar = pl.colorbar()
                     cbar.minorticks_on()
@@ -1396,7 +1398,7 @@ class histo2d:
                 # color mesh
                 YY,XX = np.meshgrid(self.y_bin_center, self.x_bin_center)
                 if not self.logz:
-                    pl.contourf(XX,YY, Zm, cmap=colormap, **kwargs)        # contour
+                    pl.contourf(XX,YY, Zm, cmap=colormap_l, **kwargs)        # contour
                     if self.colorbar:
                         cbar = pl.colorbar()
                         cbar.minorticks_on()
@@ -1421,7 +1423,7 @@ class histo2d:
                 print('log scale not yet implemented!')
             axes = pl.gca(projection='3d')  
             YY,XX = np.meshgrid(self.y_bin_center, self.x_bin_center)
-            axes.plot_surface(XX,YY, self.bin_content, cmap=colormap, **kwargs)
+            axes.plot_surface(XX,YY, self.bin_content, cmap=colormap_l, **kwargs)
             axes.set_zlabel(self.zlabel)
         elif graph == 'lego': 
             if self.logz:
