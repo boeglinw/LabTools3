@@ -14,7 +14,7 @@ There are several methods available for installation:
 
 1. Download the installation script :download:`install_labtools.py<../install_labtools.py>`
 
-2. You can download the ``LabTools3`` package from :download:`LabTools3-1.1.3.zip<../../LabTools3/dist/LabTools3-1.1.3.zip>` 
+2. You can download the ``LabTools3`` package from :download:`LabTools3-1.1.3.2.zip<../../LabTools3/dist/LabTools3-1.1.3.2.zip>` 
    After downloading, extract the ``LabTools3`` zip file which most likely resides in your
    ``Downloads`` folder. In Windows it is important that you really extract the file (select extract all)
    and not just look at the contents of the zip file.
