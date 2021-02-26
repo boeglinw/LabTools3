@@ -15,10 +15,10 @@ Example::
 Imported functions:
 
    From LT.plotting:
-        * :meth:`~LT.plotting.plot_exp`: plot experimental data points with or without error bar  
+        * :meth:`~LT.plotting.plot_exp`: plot experimental data points with or without error bar
         * :meth:`~LT.plotting.plot_line`: plot a line through a set of data points
         * :meth:`~LT.plotting.plot_spline`: plot a spline curve through a set of data points
-        
+
         * dplot_exp: (:meth:`~LT.plotting.datafile_plot_exp`) is like plot_exp but accesses the datafile variables directly via their names
         * dplot_line: (:meth:`~LT.plotting.datafile_plot_theory`) like plot_line for datafile variables
         * dplot_spline: (:meth:`~LT.plotting.datafile_spline_plot_theory`) like plot_spline for datafiles variables
@@ -28,7 +28,7 @@ Imported functions:
         * :class:`~LT_Fit.linear_fit.polyfit`: fit a polynomial
         * :class:`~LT_Fit.linear_fit.gen_linfit`: general linear fit
         * :class:`~LT_Fit.gen_fit.genfit`: general, non-linear fit
-        
+
 -------------------------------------------
 
 """
@@ -68,11 +68,11 @@ from LT_Fit.gen_fit import genfit
 from . import MCA as mcsp
 
 def get_file(file, **kwargs):
-    """ 
+    """
     Assume that  B is  the name of LT.box.
-    
+
     Open and read the file::
-    
+
     >>> md = B.get_file( 'file.data' )
 
     """
@@ -80,47 +80,47 @@ def get_file(file, **kwargs):
 
 def get_data(D, var):
     """
-    
+
     Assume that  B is  the name of LT.box.
-    
+
     Get all the values of variable 'my_var' as a :func:`numpy.array`::
-    
+
     >>> mv = B.get_data(md, 'my_var')
-    
+
     """
     return np.array(D.get_data(var))
 
 # window cuts
 def in_between(xmin, xmax, val):
     """
-    
+
     return a selection of the values in val
     that satisfy:
-        
+
     xmin <= val <= xmax
-    
-    Returns    
+
+    Returns
     -------
     numpy array of True and False
-    
+
     """
     return (xmin <= val) & (val <= xmax)
 
 # select data within a window
 def select_data(xmin, a, xmax):
     """
-    
+
     Assume that  B is  the name of LT.box.
-    
+
     Find which values of an array A lie between 0.8 and 1.2
-    
+
     >>> iw = B.select_data( 0.8, A, 1.2)
 
     iw now is an array of indices, A[iw] is an array with values
     between 0.8 and 1.2
 
     in general: B.select_data(xmin, a, xmax)
-    
+
     """
     return np.where( in_between(xmin, xmax, a) )
 
@@ -143,19 +143,19 @@ def point_in_poly(x,y,poly):
     p1x,p1y = poly[0]
     for i in range(n+1):
         p2x,p2y = poly[i % n] # cycles to all possible values
-        
+
         # is y larger than any of the two min. y-values ?
         if y > min(p1y,p2y):
             # if so is y smaller than any of the two max. y-values
             if y <= max(p1y,p2y):
-                # there is a potential that the point is inside 
+                # there is a potential that the point is inside
                 if x <= max(p1x,p2x):
                     if p1y != p2y:
                         # point not on a vertex calculate intersection with a horizontal line at y
                         xints = (y-p1y)*(p2x-p1x)/(p2y-p1y)+p1x
                     if p1x == p2x or x <= xints:
                         inside = not inside
-        # print ' i, p1x, p1y, p2x, p2y, x, y ', i, p1x, p1y, p2x, p2y, x, y, inside         
+        # print ' i, p1x, p1y, p2x, p2y, x, y ', i, p1x, p1y, p2x, p2y, x, y, inside
         p1x,p1y = p2x,p2y
 
     return inside
@@ -165,7 +165,7 @@ def array_point_in_poly(r,poly):
     """
     r arrays of  points; array with shape (N,s), where N is the number of points
     poly  an array of vertices for the polygon with the shape (M,2), M number of polygon vertices
-    
+
     return a list of logical values indicating if the point is inside or outside the poly.
     """
     inside = []
@@ -199,38 +199,38 @@ class histoError(Exception):
 # 1d -histogram class
 #
 # fitting of a gaussian on a quadratic back ground is built in
-# 
+#
 class histo:
     """
-    
+
     Define a histogram based on the np.histogram class.
 
     The various ways of defining one are:
 
        *  If *a* is a 1D ( :func:`numpy.array`) containing the data to be histogrammed
-    
+
           >>> h = histo( a )
 
        *  If *his* is the output of the :func:`numpy.histogram` function
-          
-          >>> h = histo(histogram = his) 
+
+          >>> h = histo(histogram = his)
 
        *  If ``bc`` is a 1D array with bin center values, and ``bcont``
           contains bin content values then:
 
           >>> h = histo(bin_center = bc, bin_content = bcont)
-             
+
        *  A filename for a stored histogram is given
 
           >>> h = histo(filename), where filename contains the pdatafile
 
           Usually the result of a histo.save operation
-          
+
     Important keywords:
-        
+
     ============   =====================================================
     Keyword        Meaning
-    ============   ===================================================== 
+    ============   =====================================================
     values         Array of values to be histogrammed (:func:`numpy.array`)
     range          Lower and upper limits  of binning ( e.g. ``range = (10.,20.)`` )
     bins           Number of bins
@@ -244,9 +244,9 @@ class histo:
     xlabel         Set the x-label
     ylabel         Set the y-label
     ============   =====================================================
-    
+
     Additional keyword arguments are passed to the :func:`numpy.histogram` function
-    
+
     """
     def __init__(self,\
                  values = None, \
@@ -270,7 +270,7 @@ class histo:
         self.b2 = Parameter(0., 'b2')
         self.mean =  Parameter(1.,'mean')
         self.sigma =  Parameter(1., 'sigma')
-        self.A = Parameter(1., 'A') 
+        self.A = Parameter(1., 'A')
         # create a dictionary for vairable fitting
         self.fit_par = {
         "b0" : self.b0, \
@@ -314,14 +314,14 @@ class histo:
             self.clear_window()
         else:
             self.set_window( xmin = window[0], xmax = window[1])
-            
+
     def save_index(self, i):
         # make sure i is always within the allowed range
         return min(len(self.bin_content)-1, i)
 
     def fill(self, y, add = False, **kwargs):
         """
-        
+
         Fill the histogram with the values stored in the :func:`numpy.array` y.
 
         ============   =====================================================
@@ -358,9 +358,9 @@ class histo:
 
     def clear(self):
         """
-        
+
         Set the content and errors to 0.
-        
+
         """
         self.bin_content = np.zeros_like(self.bin_content)
         self.bin_error = np.zeros_like(self.bin_content)
@@ -369,7 +369,7 @@ class histo:
 
     def sum(self, xmin = None, xmax = None):
         """
-        
+
         Return the sum of all bins. If the limits are given, calculate the sum of all bins between the bins that contain
         the values xmin and xmax.
 
@@ -387,7 +387,7 @@ class histo:
         ============   =====================================================
 
         The errors are also calculated.
-        
+
         """
         if (xmin is None) and (xmax is None):
             sum = self.bin_content.sum()
@@ -408,7 +408,7 @@ class histo:
 
     def copy(self):
         """
-        
+
         Create a copy of the histogram::
 
            >>>hc = h.copy()
@@ -421,22 +421,22 @@ class histo:
 
     def rebin(self, n, scale = False, use_mean = False, replace = False):
         """
-        
+
         rebin the histogram by a factor n::
-        
+
            >>>hc = h.rebin(2)
-           
+
         ============   =====================================================
         Keyword        Meaning
         ============   =====================================================
-        scale          True: the original bin number is not a multiple of n 
+        scale          True: the original bin number is not a multiple of n
                              and the last bin content will be scaled
-        use_mean       True: the new bin content is the mean of the bin_content 
-                             
+        use_mean       True: the new bin content is the mean of the bin_content
+
         replace        True: replace the current histogram with the
                              rebinned version
         ============   =====================================================
-        
+
 
         """
         n_bins = self.bin_center.shape[0]
@@ -469,10 +469,14 @@ class histo:
             self.__prepare_histo_plot()
         else:
             # return a new histogram
-            return self.__new_histogram(bin_content, bin_center, bin_error)
+            hn =  self.__new_histogram(bin_content, bin_center, bin_error)
+            hn.xlabel = self.xlabel
+            hn.ylabel = self.ylabel
+            hn.title = self.title
+            return hn
         
-            
-        
+
+
     def plot(self,filled = 'True', ymin = 0.,  axes = None, ignore_zeros = False,  **kwargs):
         """
 
@@ -499,7 +503,7 @@ class histo:
             if ignore_zeros:
                 sel = yy != 0.
             else:
-                sel = np.ones_like(yy).astype('bool')            
+                sel = np.ones_like(yy).astype('bool')
             axes.fill_between( xx[sel], yy[sel], y2=ymin, **kwargs)
         else:
             xx = np.concatenate([self.xpl[:1], self.xpl, self.xpl[-1:]])
@@ -547,14 +551,14 @@ class histo:
         return
     def set_window_view(self):
         """
-        
+
         Like set_windows but uses the current display limits. This is only
         useful if the histogram has been plotted.
-        
+
         """
         xmin,xmax = pl.xlim()
         self.set_window(xmin,xmax)
-        
+
     def clear_window(self):
         """
 
@@ -570,13 +574,13 @@ class histo:
         """
 
         Plot histogram content and errors like experimental data.
-        
+
         ============   =====================================================
         Keyword        Meaning
         ============   =====================================================
         ignore_zeros   do not plot channels with  bin content 0 (default = False)
         ============   =====================================================
-        
+
 
         """
         xx = self.bin_center
@@ -585,8 +589,8 @@ class histo:
         if ignore_zeros:
             sel = yy != 0.
         else:
-            sel = np.ones_like(yy).astype('bool')            
-        
+            sel = np.ones_like(yy).astype('bool')
+
         plot_exp(xx[sel], yy[sel], dyy[sel],\
                  x_label = self.xlabel, \
                  y_label = self.ylabel, \
@@ -618,15 +622,15 @@ class histo:
 
     def load(self, file='histo.data'):
         """
-        
+
         read the histogram data from :mod:`~LT.pdatafile`
 
         If the file does not result from a save function make sure that
         all the necessary data are present.
-        
+
         """
         data = get_file(file)
-        # first the data 
+        # first the data
         self.bin_center = np.array(data.get_data('bin_center') )
         self.bin_content = np.array(data.get_data('bin_content') )
         self.bin_error =  np.array(data.get_data('bin_error') )
@@ -651,13 +655,13 @@ class histo:
 
     def find_bin(self, x):
         """
-        
+
         Find the bin that would contain the value x
 
         """
         # self.bins contains the bin edged
         if (x < self.bins[0]):
-            print('searched value {0} < lowest bin = {1} '.format(x, self.bins[0]))  
+            print('searched value {0} < lowest bin = {1} '.format(x, self.bins[0]))
             return 0
         elif (x > self.bins[-1:][0]):
             print('searched value {0} > highest bin = {1} '.format(x, self.bins[-1:][0]))
@@ -673,13 +677,13 @@ class histo:
         Define which parameters are to be fitted.
 
         The default list is ::
-        
+
            fit = [ 'A', 'mean', 'sigma']
 
         to use all parameters::
 
            h.set_fit_list( fit = [ 'A', 'mean', 'sigma', 'b0', 'b1', 'b2'])
-           
+
         """
         if fit==[]:
             # empty list show possibilities
@@ -696,7 +700,7 @@ class histo:
                 continue
             self.fit_list.append(curr_par_name)
         # end of fitting list
-        
+
     def show_fit_list(self):
         """
         Show the current fit list
@@ -708,11 +712,11 @@ class histo:
         """
         print("\nCurrent fit list : ", [k.name for k in self.fit_list])
         print("\nAvailable parameters: [ 'A', 'mean', 'sigma', 'b0', 'b1', 'b2']")
-    
+
 
     def fit(self, xmin = None, xmax = None, init = True, ignore_zeros = True, **kwargs):
         """
-        
+
         Fit a gaussian on a quadratic background. You can also just
         fit a background or just a gaussian. All this is controlled by which
         parameters you want to fit. Another important part of non-linear
@@ -721,8 +725,8 @@ class histo:
         numbers but objects with their own properties and functions (see
         :class:`~LT_Fit.parameters.Parameter` ).  The full fit function is as
         follows:
-    
-        :math:`$ f(x) = b_0 + b_1x + b_2x^2  + A exp(-(x - \mu)^2/\sigma^2)$` 
+
+        :math:`$ f(x) = b_0 + b_1x + b_2x^2  + A exp(-(x - \mu)^2/\sigma^2)$`
 
         The (:class:`LT.box.histo`) parameters are:
 
@@ -738,20 +742,20 @@ class histo:
         =================== ================================================
 
         Which parameters are fitted is defined in :meth:`~LT.box.histo.set_fit_list`
-        
+
         Keyword arguments are:
 
         ============   =====================================================
         Keyword        Meaning
-        ============   =====================================================          
-        xmin           lower fit limit        
+        ============   =====================================================
+        xmin           lower fit limit
         xmax           upper fit limit
         init           True/False (default = True) estimate initial fit parameters automatically
         ignore_zeros   True/False (default = True) ignore channels with bin content zero
         kwargs         additional keywords are passed to gen_fit (use only if you know what you are doing!)
         ============   =====================================================
-        
-                 
+
+
 
         """
         # is there a range given, or is a window set
@@ -774,7 +778,7 @@ class histo:
                 sel_w = (self.bin_center <= self.win_max) & sel
                 self.fit_indx, = np.where(sel_w)
             else:
-                self.fit_indx, = np.where(sel) 
+                self.fit_indx, = np.where(sel)
         elif (xmax is None):
             sel = (xmin <= self.bin_center)
             if self.window_set:
@@ -789,7 +793,7 @@ class histo:
                 # if so check the set window limits
                 sel_w = (self.win_min <= self.bin_center) & ( self.bin_center <= self.win_max) & sel
                 # use the tighter limits
-                self.fit_indx, = np.where(sel_w) 
+                self.fit_indx, = np.where(sel_w)
             else:
                 self.fit_indx, = np.where(sel)
         # set minimal error to 1
@@ -806,7 +810,7 @@ class histo:
             bin_content = self.bin_content[self.fit_indx]
             bin_center = self.bin_center[self.fit_indx]
             bin_error = self.bin_error[self.fit_indx]
-            
+
         # do the fit using the new version
         self.F = genfit( self.fit_func, self.fit_list, \
                                    x = bin_center, \
@@ -838,17 +842,17 @@ class histo:
 
     def fit_view(self, init = True):
         """
-        
+
         Fit histogram using the current display limits as fit range. This is only
         useful if the histogram has been plotted.
-        
+
         """
         xmin,xmax = pl.xlim()
         self.fit(xmin,xmax, init = init)
-     
+
     def init_parameters(self):
         """
-        
+
         Reset fit parameters to their default values
 
         Returns
@@ -862,10 +866,10 @@ class histo:
         self.mean.set(0.)
         self.sigma.set(1.)
         self.A.set(1.)
-        
+
     def init_gauss(self, xmin = None, xmax = None):
         """
-        
+
         Calculate the initial parameter guess for a gaussian. These parameters
         can them be used in the call to :class:`~LT.box.histo.fit`
 
@@ -888,7 +892,7 @@ class histo:
                 sel_w = (self.bin_center <= self.win_max) & sel
                 self.fit_indx, = np.where(sel_w)
             else:
-                self.fit_indx, = np.where(sel) 
+                self.fit_indx, = np.where(sel)
         elif (xmax is None):
             sel = (xmin <= self.bin_center)
             if self.window_set:
@@ -903,7 +907,7 @@ class histo:
                 # if so check the set window limits
                 sel_w = (self.win_min <= self.bin_center) & ( self.bin_center <= self.win_max) & sel
                 # use the tighter limits
-                self.fit_indx, = np.where(sel_w) 
+                self.fit_indx, = np.where(sel_w)
             else:
                 self.fit_indx, = np.where(sel)
         # set minimal error to 1
@@ -921,7 +925,7 @@ class histo:
         self.A.set(A)
         self.mean.set(mean)
         self.sigma.set(sigma)
-        
+
     def calc_fit_plot(self):
         # plot the fit
         imax = min(len(self.bins)-1, self.fit_indx[-1:][0] + 1)
@@ -952,10 +956,10 @@ class histo:
             if self.window_set:
                 axes.set_xlim( (self.win_min, self.win_max) )
 
-                
+
     def fit_func(self, x):
         """
-        
+
         The function fitted to the histogram data
 
         """
@@ -964,16 +968,16 @@ class histo:
         return fit_val
     def apply_calibration(self, cal):
         """
-        
+
         apply x-axis calibration, new axis values are cal(xaxis)
-        
+
         """
         self.bin_center = cal(self.bin_center)
         self.bin_width = np.diff(self.bin_center)[0]
         self.bins = cal(self.bins)
         # prepare histo plot if axes have changed
         self.__prepare_histo_plot()
-                
+
 # private functions
 
     def __setup_bins(self, error = None ):
@@ -1001,8 +1005,8 @@ class histo:
         res1 = np.concatenate( [b_center - b_width/2., b_center[-1:] + b_width/2.])
         res0 = b_content
         res = ([res0,res1])
-        return histo(histogram = res, bin_error = b_error, window = (self.win_min, self.win_max)) 
-        
+        return histo(histogram = res, bin_error = b_error, window = (self.win_min, self.win_max))
+
 
     def __prepare_histo_plot(self):
         # prepare data for plotting as steps
@@ -1010,7 +1014,7 @@ class histo:
         iv = self.bin_width / 2.
         self.xpl = np.array(list(zip( self.bin_center - iv, self.bin_center + iv))).ravel()
         self.ypl = np.array(list(zip( self.bin_content, self.bin_content))).ravel()
-        
+
     def _sl_indices(self, sla, Ni):
         # sla arrayt of slices
         # Ni length of array that the slices are applied to
@@ -1020,7 +1024,7 @@ class histo:
         # list of index tuples : start,stop, step
         # number of corresonding elements
         return si, np
-        
+
     def _rebin_array(self, x, n):
         # rebin 1d  array, useful for histograms
         # start array for slices
@@ -1058,7 +1062,7 @@ class histo:
         else:
             print('bin centers do not match-> cannot add, sorry !')
             return None
-        
+
     def __sub__(self, v):
         # subtract 2 histograms and take care of the errors
         if np.isscalar(v):
@@ -1136,36 +1140,36 @@ class histo:
 
 class histo2d:
     """
-    
+
     Define a 2d histogram based on the np.histogram2d class.
 
     The various ways of defining one are:
 
        *  If *xv* is a 1D ( :func:`numpy.array`) containing the x-value data to be histogrammed
           and *yx* is a 1D array containing the y-value data :
-              
+
           >>> h2 = histo2d( xv, yv )
 
        *  If *his2* is the output of the :func:`numpy.histogram2d` function
-          
-          >>> h2 = histo2d(histogram = his2) 
+
+          >>> h2 = histo2d(histogram = his2)
 
        *  If ``xbc`` is an array with x-bin center values, ``ybc`` is an array with y-bin center values
           and ``bcont`` contains bin content values then use:
 
           >>> h2 = histo2d(x_bin_center = xbc, y_bin_center = ybc, bin_content = bcont)
-             
+
        *  A filename for a stored histogram is given
 
           >>> h2 = histo2d(filename), where filename contains the pdatafile
 
           Usually the result of a histo2d.save operation
-          
+
     Important keywords:
-        
+
     ============   =====================================================
     Keyword        Meaning
-    ============   ===================================================== 
+    ============   =====================================================
     xvalues        Array of x-values to be histogrammed (1d-:func:`numpy.array`)
     yvalues        Array of y-values to be histogrammed (1d-:func:`numpy.array`)
     range          Lower and upper limits  of binning ( e.g. ``range = (10.,20.)`` )
@@ -1180,13 +1184,13 @@ class histo2d:
     xlabel         Set the x-label
     ylabel         Set the y-label
     zlabel         Set the z-label
-    colorbar       if True, plot a colorbar 
+    colorbar       if True, plot a colorbar
     bad_color      Set the color for plot for bins below zmin (default: w)
     logz           if True plot content on log scale
     ============   =====================================================
-    
+
     Additional keyword arguments are passed to the :func:`numpy.histogram2d` function
-    
+
     """
     def __init__(self,\
                  x_values = None, \
@@ -1244,10 +1248,10 @@ class histo2d:
         self.nbins_x = self.x_bin_center.shape[0]
         self.nbins_y = self.y_bin_center.shape[0]
 
-            
+
     def set_nans(self, value = 0., err_value = 1.):
         """
-        
+
         replace nans by specified values
 
         ============   =====================================================
@@ -1269,7 +1273,7 @@ class histo2d:
 
     def fill(self, x, y, add = False, **kwargs):
         """
-        
+
         Fill the histogram with the values stored in the :func:`numpy.array` y.
 
         ============   =====================================================
@@ -1303,9 +1307,9 @@ class histo2d:
 
     def clear(self):
         """
-        
+
         Set the content and errors to 0.
-        
+
         """
         self.bin_content = np.zeros_like(self.bin_content)
         self.bin_error = np.zeros_like(self.bin_content)
@@ -1315,13 +1319,13 @@ class histo2d:
         self.x_bin_center = np.zeros_like(self.x_bin_center)
         self.y_bin_center = np.zeros_like(self.y_bin_center)
         self.x_bins = np.zeros_like(self.x_bins)
-        self.y_bins = np.zeros_like(self.y_bins)       
+        self.y_bins = np.zeros_like(self.y_bins)
         self.__prepare_histo_plot()
 
     def sum(self, rect_cut = None, poly_cut = None, draw = False):
         """
-        
-        Return the sum of all bins. If the limits are of a rectangle  are given, 
+
+        Return the sum of all bins. If the limits are of a rectangle  are given,
         calculate the sum of all bins inside it or inside a polygon poly
 
         Example::
@@ -1338,7 +1342,7 @@ class histo2d:
         ============   =====================================================
 
         The errors are also calculated.
-        
+
         """
         if (rect_cut is None) and (poly_cut is None):
             h_sum = self.bin_content.sum()
@@ -1357,7 +1361,7 @@ class histo2d:
         return (h_sum, h_sum_err)
 
 
-        
+
     def plot(self,  axes = None, graph = 'patch', clevel = 10, colormap = pl.cm.CMRmap, logz = False,  **kwargs):
         """
 
@@ -1380,10 +1384,10 @@ class histo2d:
         colormap_l = copy.copy(colormap)
         colormap_l.set_bad(color = self.bad_color)
         # create a masked z-array, suppress 0 etc.
-        Zm = np.ma.masked_less(self.bin_content, self.zmin)           
+        Zm = np.ma.masked_less(self.bin_content, self.zmin)
         if graph == 'patch':
-            if axes is None:    
-                axes = pl.gca()            
+            if axes is None:
+                axes = pl.gca()
                 # color mesh
                 if not self.logz:
                     pl.pcolormesh(self.x_bins, self.y_bins, Zm.T, cmap=colormap_l, **kwargs)
@@ -1393,8 +1397,8 @@ class histo2d:
                     cbar = pl.colorbar()
                     cbar.minorticks_on()
         elif graph == 'contour':
-            if axes is None:    
-                axes = pl.gca()            
+            if axes is None:
+                axes = pl.gca()
                 # color mesh
                 YY,XX = np.meshgrid(self.y_bin_center, self.x_bin_center)
                 if not self.logz:
@@ -1418,17 +1422,17 @@ class histo2d:
                         cbar = pl.colorbar()
                         cbar.set_ticks(llev)
                         cbar.set_ticklabels(ctkls)
-        elif graph == 'surface': 
+        elif graph == 'surface':
             if logz:
                 print('log scale not yet implemented!')
-            axes = pl.gca(projection='3d')  
+            axes = pl.gca(projection='3d')
             YY,XX = np.meshgrid(self.y_bin_center, self.x_bin_center)
             axes.plot_surface(XX,YY, self.bin_content, cmap=colormap_l, **kwargs)
             axes.set_zlabel(self.zlabel)
-        elif graph == 'lego': 
+        elif graph == 'lego':
             if self.logz:
                 print('log scale not yet implemented!')
-            axes = pl.gca(projection='3d')  
+            axes = pl.gca(projection='3d')
             YY,XX = np.meshgrid(self.y_bin_center, self.x_bin_center)
             xposf = XX.flatten()
             yposf = YY.flatten()
@@ -1439,7 +1443,7 @@ class histo2d:
             # select color
             rgba = [colormap((k-dz.min())/dz.max()) for k in dz]
             axes.bar3d(xposf, yposf, zposf, dx, dy, dz, color = rgba, zsort = 'max')
-            axes.set_zlabel(self.zlabel)              
+            axes.set_zlabel(self.zlabel)
         else:
             print('Unknown graph type:', graph, ' possible values: patch, contour, surface ')
             return
@@ -1458,14 +1462,14 @@ class histo2d:
         filename:      filename to be used
         ignore_zeros   if True, write only bins with non-zero content (default True)
         ============   =====================================================
-        
+
 
         """
         of = open(filename, 'w')
         of.write(f'#\ title = {self.title}\n'   )
         of.write(f'#\ xlabel = {self.xlabel}\n' )
         of.write(f'#\ ylabel = {self.ylabel}\n' )
-        of.write(f'#\ zlabel = {self.zlabel}\n' )      
+        of.write(f'#\ zlabel = {self.zlabel}\n' )
         of.write(f'#\ nbins_x = {self.nbins_x}\n')
         of.write(f'#\ nbins_y = {self.nbins_y}\n')
         of.write(f'#\ x_edge_min = {self.x_bins[0]}\n')
@@ -1513,11 +1517,11 @@ class histo2d:
         self.x_bin_center = self.x_bins[:-1] + self.x_bin_width/2.
         self.y_bin_center = self.y_bins[:-1] + self.y_bin_width/2.
         self.res = [self.bin_content, self.x_bins, self.y_bins ]
-            
-    
+
+
     def rect_cut(self, x1, x2, y1, y2):
         """
-        Setup a rectangle cut 
+        Setup a rectangle cut
 
         ============   =====================================================
         Keyword        Meaning
@@ -1538,13 +1542,13 @@ class histo2d:
         selx = (x1 <= XX) & (XX <= x2)
         sely = (y1 <= YY) & (YY <= y2)
         sel = selx.T & sely.T
-        self.r_cut = sel        
+        self.r_cut = sel
         return sel
-    
-    
+
+
     def poly_cut(self, p):
         """
-        
+
         Setup a polygon cut :
 
         ============   =====================================================
@@ -1552,10 +1556,10 @@ class histo2d:
         ============   =====================================================
         p              array of coordinate pairs determining the corners of the polygon
         ============   =====================================================
-        
-        example for a triangle cut : 
+
+        example for a triangle cut :
             p = np.array( [[1,2], [2,4], [0.5,3]  ])
-            
+
         Returns
         -------
         Masked array to be applied to the bin_content and bin_error
@@ -1578,7 +1582,7 @@ class histo2d:
         ============   =====================================================
         p               array of coordinate pairs determining the corners of the polygon
         ============   =====================================================
-        
+
         Returns
         -------
         None.
@@ -1591,9 +1595,9 @@ class histo2d:
 
     def find_bin(self, x, y):
         """
-        
-        Find the bin value pair for that would contain 
-        the value pair x, y 
+
+        Find the bin value pair for that would contain
+        the value pair x, y
 
         """
         ix = self.__find_bin(self.x_bins, x)
@@ -1602,22 +1606,22 @@ class histo2d:
 
     def project_x(self, range = None, bins = None):
         """
-        
+
         project a range of y-bins onto the x-axis
 
         ============   =====================================================
         Keyword        Meaning
         ============   =====================================================
-        range          the range in y included in the projection            
-        bins           an array of bins or a slice selecting the y-bins to be 
-                       included in the projection 
-        both None      Project all the y-bins                        
+        range          the range in y included in the projection
+        bins           an array of bins or a slice selecting the y-bins to be
+                       included in the projection
+        both None      Project all the y-bins
         ============   =====================================================
-        
+
         Returns
         -------
-        1d - histogram 
-        
+        1d - histogram
+
         """
         if range is None and bins is None:
             sel_y = slice(0,-1)
@@ -1642,22 +1646,22 @@ class histo2d:
 
     def project_y(self, range = None, bins = None):
         """
-        
+
         project a range of x-bins onto the y-axis
 
         ============   =====================================================
         Keyword        Meaning
         ============   =====================================================
-        range          the range in x included in the projection            
-        bins           an array of bins or a slice selecting the x-bins to be 
-                       included in the projection 
-        both None      Project all the x-bins         
+        range          the range in x included in the projection
+        bins           an array of bins or a slice selecting the x-bins to be
+                       included in the projection
+        both None      Project all the x-bins
         ============   =====================================================
 
         Returns
         -------
-        1d - histogram 
-        
+        1d - histogram
+
         """
         if range is None and bins is None:
             sel_x = slice(0,-1)
@@ -1681,16 +1685,16 @@ class histo2d:
 
     def apply_calibration(self, cal_x, cal_y):
         """
-        
+
         apply x and y-axis calibration, new axis values are cal(xaxis) cal(yaxis)
 
         ============   =====================================================
         Keyword        Meaning
         ============   =====================================================
-        cal_x          x-axis calibration function            
+        cal_x          x-axis calibration function
         cal_y          y-axis calibration function
         ============   =====================================================
-        
+
         Returns
         -------
         None., calculates new bin vakues
@@ -1706,7 +1710,7 @@ class histo2d:
         self.y_bins = cal_y(self.y_bins)
         # prepare histo plot if axes have changed
         self.__prepare_histo_plot()
-                
+
 # private functions
 
     def __setup_bins(self, error = None ):
@@ -1735,12 +1739,12 @@ class histo2d:
     def __prepare_histo_plot(self):
         # prepare data for plotting as steps
         self.__setup_histogram()
-        
+
 
     def __find_bin(self,bins, x):
         # self.bins contains the bin edged
         if (x < bins[0]):
-            print('searched value {0} < lowest bin = {1} '.format(x, bins[0]))  
+            print('searched value {0} < lowest bin = {1} '.format(x, bins[0]))
             return 0
         elif (x > bins[-1:][0]):
             print('searched value {0} > highest bin = {1} '.format(x, bins[-1:][0]))
@@ -1793,7 +1797,7 @@ class histo2d:
         else:
             print('shapes do not match-> cannot subtract, sorry !')
             return None
- 
+
     def __mul__(self, v):
         # histogram multiply from left
         if np.isscalar(v):
@@ -1840,7 +1844,7 @@ class histo2d:
         else:
             print('shapes do not match-> cannot add, sorry !')
             return None
-        
+
 
 
     def __radd__(self, v):
@@ -1910,7 +1914,7 @@ class histo2d:
             print('shapes do not match-> cannot add, sorry !')
             return None
 
-    
+
     def __rtruediv__(self, v):
         # divide 2 histograms and take care of the errors
         # check the shapes
@@ -1934,7 +1938,7 @@ class histo2d:
         else:
             print('shapes do not match-> cannot add, sorry !')
             return None
-        
+
 # end of histo class
 
 
