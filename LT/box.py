@@ -1636,7 +1636,7 @@ class histo2d:
         dc = np.sqrt(np.apply_along_axis(np.sum, 1, d_cont**2))
         h = histo(bin_center = self.x_bin_center, bin_content = c, bin_error = dc)
         h.title = f"{self.title} x-projection for y between ({y1:.2e},{y2:.2e})"
-        h.xlabel="x-axis"
+        h.xlabel=self.xlabel
         h.ylabel="content"
         return h
 
@@ -1675,7 +1675,7 @@ class histo2d:
         dc = np.sqrt(np.apply_along_axis(np.sum, 0, d_cont**2))
         h = histo(bin_center = self.y_bin_center, bin_content = c, bin_error = dc)
         h.title = f"{self.title} y-projection for x between ({x1:.2e},{x2:.2e})"
-        h.xlabel="y-axis"
+        h.xlabel=self.ylabel
         h.ylabel="content"
         return h
 
