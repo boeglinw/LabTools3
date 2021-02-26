@@ -105,7 +105,7 @@ information about these functions check the <a class="reference internal" href="
 <dt id="LT.box.get_data">
 <code class="sig-prename descclassname">LT.box.</code><code class="sig-name descname">get_data</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">D</span></em>, <em class="sig-param"><span class="n">var</span></em><span class="sig-paren">)</span><a class="headerlink" href="#LT.box.get_data" title="Permalink to this definition">¶</a></dt>
 <dd><p>Assume that  B is  the name of LT.box.</p>
-<p>Get all the values of variable ‘my_var’ as a <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.array.html#numpy.array" title="(in NumPy v1.19)"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.array()</span></code></a>:</p>
+<p>Get all the values of variable ‘my_var’ as a <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.array.html#numpy.array" title="(in NumPy v1.20)"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.array()</span></code></a>:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">mv</span> <span class="o">=</span> <span class="n">B</span><span class="o">.</span><span class="n">get_data</span><span class="p">(</span><span class="n">md</span><span class="p">,</span> <span class="s1">&#39;my_var&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -131,12 +131,12 @@ information about these functions check the <a class="reference internal" href="
 <p>The various ways of defining one are:</p>
 <blockquote>
 <div><ul>
-<li><p>If <em>a</em> is a 1D ( <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.array.html#numpy.array" title="(in NumPy v1.19)"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.array()</span></code></a>) containing the data to be histogrammed</p>
+<li><p>If <em>a</em> is a 1D ( <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.array.html#numpy.array" title="(in NumPy v1.20)"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.array()</span></code></a>) containing the data to be histogrammed</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">h</span> <span class="o">=</span> <span class="n">histo</span><span class="p">(</span> <span class="n">a</span> <span class="p">)</span>
 </pre></div>
 </div>
 </li>
-<li><p>If <em>his</em> is the output of the <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.histogram.html#numpy.histogram" title="(in NumPy v1.19)"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.histogram()</span></code></a> function</p>
+<li><p>If <em>his</em> is the output of the <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.histogram.html#numpy.histogram" title="(in NumPy v1.20)"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.histogram()</span></code></a> function</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">h</span> <span class="o">=</span> <span class="n">histo</span><span class="p">(</span><span class="n">histogram</span> <span class="o">=</span> <span class="n">his</span><span class="p">)</span> 
 </pre></div>
 </div>
@@ -168,7 +168,7 @@ contains bin content values then:</p>
 </thead>
 <tbody>
 <tr class="row-even"><td><p>values</p></td>
-<td><p>Array of values to be histogrammed (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.array.html#numpy.array" title="(in NumPy v1.19)"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.array()</span></code></a>)</p></td>
+<td><p>Array of values to be histogrammed (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.array.html#numpy.array" title="(in NumPy v1.20)"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.array()</span></code></a>)</p></td>
 </tr>
 <tr class="row-odd"><td><p>range</p></td>
 <td><p>Lower and upper limits  of binning ( e.g. <code class="docutils literal notranslate"><span class="pre">range</span> <span class="pre">=</span> <span class="pre">(10.,20.)</span></code> )</p></td>
@@ -177,16 +177,16 @@ contains bin content values then:</p>
 <td><p>Number of bins</p></td>
 </tr>
 <tr class="row-odd"><td><p>histogram</p></td>
-<td><p>Result of <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.histogram.html#numpy.histogram" title="(in NumPy v1.19)"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.histogram()</span></code></a> function</p></td>
+<td><p>Result of <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.histogram.html#numpy.histogram" title="(in NumPy v1.20)"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.histogram()</span></code></a> function</p></td>
 </tr>
 <tr class="row-even"><td><p>bin_error</p></td>
-<td><p>Array of errors for each bin content (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.array.html#numpy.array" title="(in NumPy v1.19)"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.array()</span></code></a>)</p></td>
+<td><p>Array of errors for each bin content (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.array.html#numpy.array" title="(in NumPy v1.20)"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.array()</span></code></a>)</p></td>
 </tr>
 <tr class="row-odd"><td><p>bin_center</p></td>
-<td><p>Array of bin-center values (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.array.html#numpy.array" title="(in NumPy v1.19)"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.array()</span></code></a>)</p></td>
+<td><p>Array of bin-center values (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.array.html#numpy.array" title="(in NumPy v1.20)"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.array()</span></code></a>)</p></td>
 </tr>
 <tr class="row-even"><td><p>bin_content</p></td>
-<td><p>Array of bin-content values (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.array.html#numpy.array" title="(in NumPy v1.19)"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.array()</span></code></a>)</p></td>
+<td><p>Array of bin-content values (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.array.html#numpy.array" title="(in NumPy v1.20)"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.array()</span></code></a>)</p></td>
 </tr>
 <tr class="row-odd"><td><p>file</p></td>
 <td><p>Load data from file</p></td>
@@ -205,7 +205,7 @@ contains bin content values then:</p>
 </tr>
 </tbody>
 </table>
-<p>Additional keyword arguments are passed to the <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.histogram.html#numpy.histogram" title="(in NumPy v1.19)"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.histogram()</span></code></a> function</p>
+<p>Additional keyword arguments are passed to the <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.histogram.html#numpy.histogram" title="(in NumPy v1.20)"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.histogram()</span></code></a> function</p>
 <dl class="py method">
 <dt id="LT.box.histo.apply_calibration">
 <code class="sig-name descname">apply_calibration</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">cal</span></em><span class="sig-paren">)</span><a class="headerlink" href="#LT.box.histo.apply_calibration" title="Permalink to this definition">¶</a></dt>
@@ -237,7 +237,7 @@ contains bin content values then:</p>
 <dl class="py method">
 <dt id="LT.box.histo.fill">
 <code class="sig-name descname">fill</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">y</span></em>, <em class="sig-param"><span class="n">add</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#LT.box.histo.fill" title="Permalink to this definition">¶</a></dt>
-<dd><p>Fill the histogram with the values stored in the <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.array.html#numpy.array" title="(in NumPy v1.19)"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.array()</span></code></a> y.</p>
+<dd><p>Fill the histogram with the values stored in the <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.array.html#numpy.array" title="(in NumPy v1.20)"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.array()</span></code></a> y.</p>
 <table class="docutils align-default">
 <colgroup>
 <col style="width: 18%" />
@@ -254,7 +254,7 @@ contains bin content values then:</p>
 </tr>
 </tbody>
 </table>
-<p>Additional keyword arguments are passed to the <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.histogram.html#numpy.histogram" title="(in NumPy v1.19)"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.histogram()</span></code></a> function</p>
+<p>Additional keyword arguments are passed to the <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.histogram.html#numpy.histogram" title="(in NumPy v1.20)"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.histogram()</span></code></a> function</p>
 </dd></dl>
 
 <dl class="py method">
@@ -600,13 +600,13 @@ the values xmin and xmax.</p>
 <p>The various ways of defining one are:</p>
 <blockquote>
 <div><ul>
-<li><p>If <em>xv</em> is a 1D ( <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.array.html#numpy.array" title="(in NumPy v1.19)"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.array()</span></code></a>) containing the x-value data to be histogrammed
+<li><p>If <em>xv</em> is a 1D ( <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.array.html#numpy.array" title="(in NumPy v1.20)"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.array()</span></code></a>) containing the x-value data to be histogrammed
 and <em>yx</em> is a 1D array containing the y-value data :</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">h2</span> <span class="o">=</span> <span class="n">histo2d</span><span class="p">(</span> <span class="n">xv</span><span class="p">,</span> <span class="n">yv</span> <span class="p">)</span>
 </pre></div>
 </div>
 </li>
-<li><p>If <em>his2</em> is the output of the <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.histogram2d.html#numpy.histogram2d" title="(in NumPy v1.19)"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.histogram2d()</span></code></a> function</p>
+<li><p>If <em>his2</em> is the output of the <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.histogram2d.html#numpy.histogram2d" title="(in NumPy v1.20)"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.histogram2d()</span></code></a> function</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">h2</span> <span class="o">=</span> <span class="n">histo2d</span><span class="p">(</span><span class="n">histogram</span> <span class="o">=</span> <span class="n">his2</span><span class="p">)</span> 
 </pre></div>
 </div>
@@ -638,10 +638,10 @@ and <code class="docutils literal notranslate"><span class="pre">bcont</span></c
 </thead>
 <tbody>
 <tr class="row-even"><td><p>xvalues</p></td>
-<td><p>Array of x-values to be histogrammed (1d-<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.array.html#numpy.array" title="(in NumPy v1.19)"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.array()</span></code></a>)</p></td>
+<td><p>Array of x-values to be histogrammed (1d-<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.array.html#numpy.array" title="(in NumPy v1.20)"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.array()</span></code></a>)</p></td>
 </tr>
 <tr class="row-odd"><td><p>yvalues</p></td>
-<td><p>Array of y-values to be histogrammed (1d-<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.array.html#numpy.array" title="(in NumPy v1.19)"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.array()</span></code></a>)</p></td>
+<td><p>Array of y-values to be histogrammed (1d-<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.array.html#numpy.array" title="(in NumPy v1.20)"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.array()</span></code></a>)</p></td>
 </tr>
 <tr class="row-even"><td><p>range</p></td>
 <td><p>Lower and upper limits  of binning ( e.g. <code class="docutils literal notranslate"><span class="pre">range</span> <span class="pre">=</span> <span class="pre">(10.,20.)</span></code> )</p></td>
@@ -650,19 +650,19 @@ and <code class="docutils literal notranslate"><span class="pre">bcont</span></c
 <td><p>Number of bins, or [binsx, binsy]</p></td>
 </tr>
 <tr class="row-even"><td><p>histogram</p></td>
-<td><p>Result of <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.histogram2d.html#numpy.histogram2d" title="(in NumPy v1.19)"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.histogram2d()</span></code></a> function</p></td>
+<td><p>Result of <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.histogram2d.html#numpy.histogram2d" title="(in NumPy v1.20)"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.histogram2d()</span></code></a> function</p></td>
 </tr>
 <tr class="row-odd"><td><p>x_bin_center</p></td>
-<td><p>1d-Array of x - bin-center values (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.array.html#numpy.array" title="(in NumPy v1.19)"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.array()</span></code></a>)</p></td>
+<td><p>1d-Array of x - bin-center values (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.array.html#numpy.array" title="(in NumPy v1.20)"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.array()</span></code></a>)</p></td>
 </tr>
 <tr class="row-even"><td><p>y_bin_center</p></td>
-<td><p>1d-Array of y - bin-center values (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.array.html#numpy.array" title="(in NumPy v1.19)"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.array()</span></code></a>)</p></td>
+<td><p>1d-Array of y - bin-center values (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.array.html#numpy.array" title="(in NumPy v1.20)"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.array()</span></code></a>)</p></td>
 </tr>
 <tr class="row-odd"><td><p>bin_content</p></td>
-<td><p>2d-Array of bin-content values (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.array.html#numpy.array" title="(in NumPy v1.19)"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.array()</span></code></a>)</p></td>
+<td><p>2d-Array of bin-content values (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.array.html#numpy.array" title="(in NumPy v1.20)"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.array()</span></code></a>)</p></td>
 </tr>
 <tr class="row-even"><td><p>bin_error</p></td>
-<td><p>2d-Array of errors for each bin content (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.array.html#numpy.array" title="(in NumPy v1.19)"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.array()</span></code></a>)</p></td>
+<td><p>2d-Array of errors for each bin content (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.array.html#numpy.array" title="(in NumPy v1.20)"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.array()</span></code></a>)</p></td>
 </tr>
 <tr class="row-odd"><td><p>file</p></td>
 <td><p>Load data from file</p></td>
@@ -690,7 +690,7 @@ and <code class="docutils literal notranslate"><span class="pre">bcont</span></c
 </tr>
 </tbody>
 </table>
-<p>Additional keyword arguments are passed to the <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.histogram2d.html#numpy.histogram2d" title="(in NumPy v1.19)"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.histogram2d()</span></code></a> function</p>
+<p>Additional keyword arguments are passed to the <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.histogram2d.html#numpy.histogram2d" title="(in NumPy v1.20)"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.histogram2d()</span></code></a> function</p>
 <dl class="py method">
 <dt id="LT.box.histo2d.apply_calibration">
 <code class="sig-name descname">apply_calibration</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">cal_x</span></em>, <em class="sig-param"><span class="n">cal_y</span></em><span class="sig-paren">)</span><a class="headerlink" href="#LT.box.histo2d.apply_calibration" title="Permalink to this definition">¶</a></dt>
@@ -761,7 +761,7 @@ and <code class="docutils literal notranslate"><span class="pre">bcont</span></c
 <dl class="py method">
 <dt id="LT.box.histo2d.fill">
 <code class="sig-name descname">fill</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span></em>, <em class="sig-param"><span class="n">y</span></em>, <em class="sig-param"><span class="n">add</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#LT.box.histo2d.fill" title="Permalink to this definition">¶</a></dt>
-<dd><p>Fill the histogram with the values stored in the <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.array.html#numpy.array" title="(in NumPy v1.19)"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.array()</span></code></a> y.</p>
+<dd><p>Fill the histogram with the values stored in the <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.array.html#numpy.array" title="(in NumPy v1.20)"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.array()</span></code></a> y.</p>
 <table class="docutils align-default">
 <colgroup>
 <col style="width: 18%" />
@@ -778,7 +778,7 @@ and <code class="docutils literal notranslate"><span class="pre">bcont</span></c
 </tr>
 </tbody>
 </table>
-<p>Additional keyword arguments are passed to the <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.histogram.html#numpy.histogram" title="(in NumPy v1.19)"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.histogram()</span></code></a> function</p>
+<p>Additional keyword arguments are passed to the <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.histogram.html#numpy.histogram" title="(in NumPy v1.20)"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.histogram()</span></code></a> function</p>
 </dd></dl>
 
 <dl class="py method">
@@ -1139,7 +1139,7 @@ not copied.</p>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2011, Werner Boeglin.
-      Last updated on Oct 15, 2020.
+      Last updated on Feb 26, 2021.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.2.1.
     </div>
   </body>

@@ -5,7 +5,7 @@ These instructions assume that you have all necessary software `requirements`_ i
 
 
 
-**Important:** 
+**Important:**
 
 Install ``LabTools3`` only **after** you have installed Anaconda or any
 other python distribution you want to use.
@@ -14,7 +14,7 @@ There are several methods available for installation:
 
 1. Download the installation script :download:`install_labtools.py<../install_labtools.py>`
 
-2. You can download the ``LabTools3`` package from :download:`LabTools3-1.1.3.2.zip<../../LabTools3/dist/LabTools3-1.1.3.2.zip>` 
+2. You can download the ``LabTools3`` package from :download:`LabTools3-1.1.3.3.zip<../../LabTools3/dist/LabTools3-1.1.3.3.zip>` 
    After downloading, extract the ``LabTools3`` zip file which most likely resides in your
    ``Downloads`` folder. In Windows it is important that you really extract the file (select extract all)
    and not just look at the contents of the zip file.
@@ -44,7 +44,6 @@ This will install the software. Restart spyder and you are ready to use the ``La
 
 Now you should be ready to do the start the `tutorial`_\ .
 
-.. _tutorial: http://wanda.fiu.edu/LabTools3/doc/python_fundamtentals.html 
+.. _tutorial: http://wanda.fiu.edu/LabTools3/doc/python_fundamtentals.html
 
 .. _requirements: http://wanda.fiu.edu/LabTools3/doc/needs.html
-

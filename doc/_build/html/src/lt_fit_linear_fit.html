@@ -60,7 +60,7 @@
 <span class="gp">&gt;&gt;&gt; </span><span class="n">R</span><span class="o">.</span><span class="n">line</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>                              <span class="c1"># evaluate the fitted function at x </span>
 </pre></div>
 </div>
-<p>x and y are arrays (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.array.html#numpy.array" title="(in NumPy v1.19)"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.array()</span></code></a>)
+<p>x and y are arrays (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.array.html#numpy.array" title="(in NumPy v1.20)"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.array()</span></code></a>)
 R is an object containing the results of the fit with the following additional useful members:</p>
 <table class="docutils align-default">
 <colgroup>
@@ -92,7 +92,7 @@ R is an object containing the results of the fit with the following additional u
 <td><p>probability to find a chi square larger than the fit result (ideal 50%)</p></td>
 </tr>
 <tr class="row-even"><td><p>cov</p></td>
-<td><p>covariance matrix (2D <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.array.html#numpy.array" title="(in NumPy v1.19)"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.array()</span></code></a>)</p></td>
+<td><p>covariance matrix (2D <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.array.html#numpy.array" title="(in NumPy v1.20)"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.array()</span></code></a>)</p></td>
 </tr>
 <tr class="row-odd"><td><p>res</p></td>
 <td><p>dictionary with all fit information</p></td>
@@ -112,7 +112,7 @@ R is an object containing the results of the fit with the following additional u
 <span class="gp">&gt;&gt;&gt; </span><span class="n">plot</span><span class="p">(</span><span class="n">R</span><span class="o">.</span><span class="n">xpl</span><span class="p">,</span> <span class="n">R</span><span class="o">.</span><span class="n">ypl</span><span class="p">)</span>                       <span class="c1"># plot the fitted curve</span>
 </pre></div>
 </div>
-<p>x and y are arrays (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.array.html#numpy.array" title="(in NumPy v1.19)"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.array()</span></code></a>)
+<p>x and y are arrays (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.array.html#numpy.array" title="(in NumPy v1.20)"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.array()</span></code></a>)
 If you want to use predefined parameters to store the results:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">C0</span> <span class="o">=</span> <span class="n">P</span><span class="o">.</span><span class="n">Parameter</span><span class="p">(</span><span class="mf">0.</span><span class="p">,</span> <span class="s1">&#39;const&#39;</span><span class="p">);</span> <span class="n">C1</span> <span class="o">=</span> <span class="n">P</span><span class="o">.</span><span class="n">Parameter</span><span class="p">(</span><span class="mf">0.</span><span class="p">,</span> <span class="s1">&#39;lin&#39;</span><span class="p">);</span> <span class="n">C2</span> <span class="o">=</span> <span class="n">P</span><span class="o">.</span><span class="n">Parameter</span><span class="p">(</span><span class="mf">0.</span><span class="p">,</span><span class="s1">&#39;quad&#39;</span><span class="p">)</span> <span class="c1"># create Parameter objects</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">R</span> <span class="o">=</span> <span class="n">polyfit</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span> <span class="n">order</span><span class="p">,</span> <span class="n">parameters</span><span class="o">=</span><span class="p">[</span><span class="n">C0</span><span class="p">,</span><span class="n">C1</span><span class="p">,</span><span class="n">C2</span><span class="p">])</span>                                          <span class="c1"># perform the fit</span>
@@ -137,7 +137,7 @@ If you want to use predefined parameters to store the results:</p>
 <td><p>probability to find a chi square larger than the fit result (ideal 50%)</p></td>
 </tr>
 <tr class="row-even"><td><p>par</p></td>
-<td><p>parameters (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.array.html#numpy.array" title="(in NumPy v1.19)"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.array()</span></code></a>)</p></td>
+<td><p>parameters (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.array.html#numpy.array" title="(in NumPy v1.20)"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.array()</span></code></a>)</p></td>
 </tr>
 <tr class="row-odd"><td><p>parameters</p></td>
 <td><p>parameter (list of <code class="xref py py-class docutils literal notranslate"><span class="pre">Parameter</span></code> objects)</p></td>
@@ -146,7 +146,7 @@ If you want to use predefined parameters to store the results:</p>
 <td><p>parameter errors (variances)</p></td>
 </tr>
 <tr class="row-odd"><td><p>cov</p></td>
-<td><p>covarance matric (2D <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.array.html#numpy.array" title="(in NumPy v1.19)"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.array()</span></code></a>)</p></td>
+<td><p>covarance matric (2D <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.array.html#numpy.array" title="(in NumPy v1.20)"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.array()</span></code></a>)</p></td>
 </tr>
 <tr class="row-even"><td><p>res</p></td>
 <td><p>dictionary with all fit information</p></td>
@@ -210,7 +210,7 @@ If you want to use predefined parameters to store the results:</p>
 <td><p>parameter errors (variances)</p></td>
 </tr>
 <tr class="row-odd"><td><p>cov</p></td>
-<td><p>covariance matrix (2D <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.array.html#numpy.array" title="(in NumPy v1.19)"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.array()</span></code></a>)</p></td>
+<td><p>covariance matrix (2D <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.array.html#numpy.array" title="(in NumPy v1.20)"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.array()</span></code></a>)</p></td>
 </tr>
 <tr class="row-even"><td><p>res</p></td>
 <td><p>dictionary with all fit information</p></td>
@@ -281,7 +281,7 @@ If you want to use predefined parameters to store the results:</p>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2011, Werner Boeglin.
-      Last updated on Oct 15, 2020.
+      Last updated on Feb 26, 2021.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.2.1.
     </div>
   </body>
