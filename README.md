@@ -14,4 +14,7 @@ Version 1.1.3.1:  (same as 1.1.3) updated the *rebin* function for 1D histograms
 Version 1.1.3.2: minor bug fixes
 
 Version 1.1.3.3: histogram axis labels are preserved in rebinning and projection actions (for 2d histogram)
+
+Version 1.1.3.4: minor bug fixes
+
  

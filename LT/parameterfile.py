@@ -239,10 +239,18 @@ class pfile:
         possible data types are: float, int, parameterfile.Bool
         """
         if var_type == None:
-            try:
-                var = float(self.data[key])
+            # try int
+            try: 
+                var = int(self.data[key])
             except:
-                var = self.Bool(self.data[key])
+                var = None
+            if var is None:
+                # try float
+                try:
+                    var = float(self.data[key])
+                except:
+                    # if this does not work try Bool
+                    var = self.Bool(self.data[key])
             if var != None:
                 return var
             else:

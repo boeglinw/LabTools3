@@ -165,7 +165,7 @@ class dfile:
         self.skip = skip
         self.use_numpy = use_numpy
         if not self.use_numpy:
-            print('numpy cannot be used !')
+            print('numpy will not be used !')
         if fast and (not use_numpy):
             print ('fast mode not possible as numpy cannot be used!')
             fast = False
