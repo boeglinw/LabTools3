@@ -77,9 +77,9 @@ class linefit:
     simple line fit for a set of data. Example::
     
         >>> R = linefit(x,y, [yerr = errors])      # do the fit
-        >>> print(R.res['parameters'])              # print the parameters
-        >>> plot(R.xpl, R.ypl)                     # plot the fitted line
-        >>> R.line(x)                              # evaluate the fitted function at x 
+        >>> print(R.res['parameters'])             # print the parameters
+        >>> R.plot()                               # plot the fitted line
+        >>> R(x)                                   # evaluate the fitted function at x 
 
     x and y are arrays (:func:`numpy.array`)
     R is an object containing the results of the fit with the following additional useful members:
@@ -95,6 +95,7 @@ class linefit:
     CL            probability to find a chi square larger than the fit result (ideal 50%)
     cov           covariance matrix (2D :func:`numpy.array`)
     res           dictionary with all fit information
+    line(x)       evaluate the fitted function at x
     ============= ================================
     
     NOTE: to use the covariance matrix you should scale it with the reduced chi square
@@ -131,6 +132,22 @@ class linefit:
             self.plot()
             
     def plot(self, xv = None, **kwargs):
+        """
+        Plot the fitting function 
+
+        Parameters
+        ----------
+        xv : TYPE, optional
+            x-values for which the fitting function should be plotted. The default is None i.e. using the standard xpl and ypl values.
+
+        **kwargs : TYPE
+            keyword aguments passed to matplotlib plot function
+
+        Returns
+        -------
+        None.
+
+        """
         if (xv is None):
             pl.plot(self.xpl, self.ypl, **kwargs)
         else:
@@ -146,6 +163,20 @@ class linefit:
         return dot(self.par, self.__line_f__(x))
     
     def __call__(self, x):
+        """
+        Evaluate fitting function at x
+
+        Parameters
+        ----------
+        x : float
+            values of independent variable 
+
+        Returns
+        -------
+        self.func: float 
+            value of fitting function at x .
+
+        """
         return self.line(x)
 
 # end of class linefit
@@ -157,7 +188,7 @@ class polyfit:
     
         >>> R = polyfit(x,y, order, [yerr = errors]) # perform the fit 
         >>> print(R['parameters'])                    # R is a dictionary containing the results of the fit
-        >>> plot(R.xpl, R.ypl)                       # plot the fitted curve
+        >>> R.plot()                                  # plot the fitted curve
 
     x and y are arrays (:func:`numpy.array`)
     If you want to use predefined parameters to store the results::
@@ -165,7 +196,7 @@ class polyfit:
         >>> C0 = P.Parameter(0., 'const'); C1 = P.Parameter(0., 'lin'); C2 = P.Parameter(0.,'quad') # create Parameter objects
         >>> R = polyfit(x,y, order, parameters=[C0,C1,C2])                                          # perform the fit
         >>> R.show_parameters()                                                                     # will show the fit result
-
+        >>> R(x)                                                                                    # evaluate the fitted function at x
 
     ============= ================================
     Member        Meaning
@@ -250,6 +281,22 @@ class polyfit:
         # done
 
     def plot(self, xv = None, **kwargs):
+        """
+        Plot the fitting function 
+
+        Parameters
+        ----------
+        xv : TYPE, optional
+            x-values for which the fitting function should be plotted. The default is None i.e. using the standard xpl and ypl values.
+
+        **kwargs : TYPE
+            keyword aguments passed to matplotlib plot function
+
+        Returns
+        -------
+        None.
+
+        """
         if (xv is None):
             pl.plot(self.xpl, self.ypl, **kwargs)
         else:
@@ -277,6 +324,20 @@ class polyfit:
         return dot(self.par, self.__my_poly__(x))
     
     def __call__(self, x):
+        """
+        Evaluate fitting function at x
+
+        Parameters
+        ----------
+        x : float
+            values of independent variable 
+
+        Returns
+        -------
+        self.func: float 
+            value of fitting function at x .
+
+        """
         return self.poly(x)
 
 class gen_linfit:
@@ -299,9 +360,9 @@ class gen_linfit:
         >>> f2 = lambda x: sin(4.*x)
         >>> a0 = P.Parameter(0.,'ax'); a1 = P.Parameter(0.,'a2x'); a2 = P.Parameter(0.,'a4x') # define Parameter objects (optional)
         >>> R = gen_linfit([f0, f1, f2], x, y, parameters = [a0, a1, a2], yerr = sig_y)       # do the fit
-        >>> plot(R.xpl, R.ypl)                                                                # plot the fit
+        >>> R.plot()                                                                          # plot the fit
         >>> R.show_parameters()                                                               # print the parameters
-        
+        >>> R(x)                                                                              # evaluate the fitted function at x
     R is a gen_linfit object containing the fit results and the fitted function
 
     ============= ================================
@@ -397,9 +458,39 @@ class gen_linfit:
             print(p)
             
     def __call__(self, x):
+        """
+        Evaluate fitting function at x
+
+        Parameters
+        ----------
+        x : float
+            values of independent variable 
+
+        Returns
+        -------
+        self.func: float 
+            value of fitting function at x .
+
+        """
         return self.func(x)
     
     def plot(self, xv = None, **kwargs):
+        """
+        Plot the fitting function 
+
+        Parameters
+        ----------
+        xv : TYPE, optional
+            x-values for which the fitting function should be plotted. The default is None i.e. using the standard xpl and ypl values.
+
+        **kwargs : TYPE
+            keyword aguments passed to matplotlib plot function
+
+        Returns
+        -------
+        None.
+
+        """
         if (xv is None):
             pl.plot(self.xpl, self.ypl, **kwargs)
         else:

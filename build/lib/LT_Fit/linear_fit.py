@@ -7,6 +7,7 @@ Tools for linear least square fitting also called linear regression.
 
 from numpy import *
 import numpy as np
+import matplotlib.pyplot as pl
 
 # for chi2 probability
 import scipy.stats as SS
@@ -14,7 +15,6 @@ import scipy.stats as SS
 import pdb
 
 from .parameters import *
-from ..LT.plotting import *
 
 # setup the general fit function
 def linfit(function, y, x = None, y_err = None,  nplot = 100):
@@ -77,9 +77,9 @@ class linefit:
     simple line fit for a set of data. Example::
     
         >>> R = linefit(x,y, [yerr = errors])      # do the fit
-        >>> print(R.res['parameters'])              # print the parameters
-        >>> plot(R.xpl, R.ypl)                     # plot the fitted line
-        >>> R.line(x)                              # evaluate the fitted function at x 
+        >>> print(R.res['parameters'])             # print the parameters
+        >>> R.plot()                               # plot the fitted line
+        >>> R(x)                                   # evaluate the fitted function at x 
 
     x and y are arrays (:func:`numpy.array`)
     R is an object containing the results of the fit with the following additional useful members:
@@ -95,14 +95,15 @@ class linefit:
     CL            probability to find a chi square larger than the fit result (ideal 50%)
     cov           covariance matrix (2D :func:`numpy.array`)
     res           dictionary with all fit information
+    line(x)       evaluate the fitted function at x
     ============= ================================
     
     NOTE: to use the covariance matrix you should scale it with the reduced chi square
     
 
     """
-    def __init__(self, x, y, yerr=None, quiet = False, plot = True):
-        self.plot = plot
+    def __init__(self, x, y, yerr=None, quiet = False, plot_fit = True):
+        self.plot_fit = plot_fit
         self.res = linfit(self.__line_f__, y, x=x, nplot = 2, y_err = yerr)
         self.chi_red = self.res['red. chisquare']
         self.CL = self.res['conf. level']
@@ -122,13 +123,35 @@ class linefit:
         # for plotting
         self.xpl = self.res['xpl']
         self.ypl = self.res['ypl']
-        if self.plot:
-            plot_line(self.xpl, self.ypl)
         # print fit information
         if not quiet:
             print("chisq/dof = ", self.chi_red)
             print("offset  = ", self.offset, " +/- ", self.sigma_o)
             print("slope = ", self.slope, " +/- ", self.sigma_s)
+        if self.plot_fit:
+            self.plot()
+            
+    def plot(self, xv = None, **kwargs):
+        """
+        Plot the fitting function 
+
+        Parameters
+        ----------
+        xv : TYPE, optional
+            x-values for which the fitting function should be plotted. The default is None i.e. using the standard xpl and ypl values.
+
+        **kwargs : TYPE
+            keyword aguments passed to matplotlib plot function
+
+        Returns
+        -------
+        None.
+
+        """
+        if (xv is None):
+            pl.plot(self.xpl, self.ypl, **kwargs)
+        else:
+            pl.plot(xv, self.line(xv), **kwargs)
 
     def __getitem__(self,x):
         return self.res[x]
@@ -139,7 +162,21 @@ class linefit:
     def line(self,x):
         return dot(self.par, self.__line_f__(x))
     
-    def __coll__(self, x):
+    def __call__(self, x):
+        """
+        Evaluate fitting function at x
+
+        Parameters
+        ----------
+        x : float
+            values of independent variable 
+
+        Returns
+        -------
+        self.func: float 
+            value of fitting function at x .
+
+        """
         return self.line(x)
 
 # end of class linefit
@@ -151,7 +188,7 @@ class polyfit:
     
         >>> R = polyfit(x,y, order, [yerr = errors]) # perform the fit 
         >>> print(R['parameters'])                    # R is a dictionary containing the results of the fit
-        >>> plot(R.xpl, R.ypl)                       # plot the fitted curve
+        >>> R.plot()                                  # plot the fitted curve
 
     x and y are arrays (:func:`numpy.array`)
     If you want to use predefined parameters to store the results::
@@ -159,7 +196,7 @@ class polyfit:
         >>> C0 = P.Parameter(0., 'const'); C1 = P.Parameter(0., 'lin'); C2 = P.Parameter(0.,'quad') # create Parameter objects
         >>> R = polyfit(x,y, order, parameters=[C0,C1,C2])                                          # perform the fit
         >>> R.show_parameters()                                                                     # will show the fit result
-
+        >>> R(x)                                                                                    # evaluate the fitted function at x
 
     ============= ================================
     Member        Meaning
@@ -177,9 +214,10 @@ class polyfit:
     NOTE: to use the covariance matrix you should scale it with the reduced chi square
 
     """
-    def __init__(self,x, y, yerr=None, order = 2, np_scale = 5, parameters = None, quiet = False):
+    def __init__(self,x, y, yerr=None, order = 2, np_scale = 5, parameters = None, quiet = False, plot_fit = True):
         # plot 5 calculated points per exp. point
         self.npoints = len(x)*np_scale
+        self.plot_fit = plot_fit
         self.order = order
         # store the list of parameter objects
         if parameters is not None:
@@ -206,6 +244,8 @@ class polyfit:
             print("chisq/dof = ", self.chi_red)
             for i,v in enumerate(self.res['parameters']):
                 print('parameter [',i,'] = ',v, " +/- ", self.sig_par[i])
+        if self.plot_fit:
+            self.plot()
         # that's it
 
     def __getitem__(self,x):
@@ -240,6 +280,28 @@ class polyfit:
                 self.parameters[i].set(p, err = self.sig_par[i])
         # done
 
+    def plot(self, xv = None, **kwargs):
+        """
+        Plot the fitting function 
+
+        Parameters
+        ----------
+        xv : TYPE, optional
+            x-values for which the fitting function should be plotted. The default is None i.e. using the standard xpl and ypl values.
+
+        **kwargs : TYPE
+            keyword aguments passed to matplotlib plot function
+
+        Returns
+        -------
+        None.
+
+        """
+        if (xv is None):
+            pl.plot(self.xpl, self.ypl, **kwargs)
+        else:
+            pl.plot(xv, self.poly(xv), **kwargs)
+
     def show_parameters(self):
         """
 
@@ -260,6 +322,23 @@ class polyfit:
         
         # return the fitted function value for variable x
         return dot(self.par, self.__my_poly__(x))
+    
+    def __call__(self, x):
+        """
+        Evaluate fitting function at x
+
+        Parameters
+        ----------
+        x : float
+            values of independent variable 
+
+        Returns
+        -------
+        self.func: float 
+            value of fitting function at x .
+
+        """
+        return self.poly(x)
 
 class gen_linfit:
     """
@@ -281,9 +360,9 @@ class gen_linfit:
         >>> f2 = lambda x: sin(4.*x)
         >>> a0 = P.Parameter(0.,'ax'); a1 = P.Parameter(0.,'a2x'); a2 = P.Parameter(0.,'a4x') # define Parameter objects (optional)
         >>> R = gen_linfit([f0, f1, f2], x, y, parameters = [a0, a1, a2], yerr = sig_y)       # do the fit
-        >>> plot(R.xpl, R.ypl)                                                                # plot the fit
+        >>> R.plot()                                                                          # plot the fit
         >>> R.show_parameters()                                                               # print the parameters
-        
+        >>> R(x)                                                                              # evaluate the fitted function at x
     R is a gen_linfit object containing the fit results and the fitted function
 
     ============= ================================
@@ -302,13 +381,14 @@ class gen_linfit:
     NOTE: to use the covariance matrix you should scale it with the reduced chi square
 
     """
-    def __init__(self, functions, x, y,  parameters = None, yerr = None, np_scale = 5, quiet = False):
+    def __init__(self, functions, x, y,  parameters = None, yerr = None, np_scale = 5, quiet = False, plot_fit = True):
         # plot 5 calculated points per exp. point
         self.functions = []
         # vectorize function
         for f in functions:
             self.functions.append( vectorize(f) )
         self.npoints = len(x)*np_scale
+        self.plot_fit = plot_fit
         self.res = linfit(self.__fit_func__, y, x=x, nplot = self.npoints, y_err = yerr)
         # store fit results
         self.chi_red = self.res['red. chisquare']
@@ -334,6 +414,8 @@ class gen_linfit:
             print("chisq/dof = ", self.chi_red)
             for i,v in enumerate(self.res['parameters']):
                 print('parameter [',i,'] = ',v, " +/- ", self.sig_par[i])
+        if self.plot_fit:
+            self.plot()
         # that's it
 
     def __getitem__(self,x):
@@ -374,4 +456,43 @@ class gen_linfit:
         """
         for p in self.parameters:
             print(p)
+            
+    def __call__(self, x):
+        """
+        Evaluate fitting function at x
+
+        Parameters
+        ----------
+        x : float
+            values of independent variable 
+
+        Returns
+        -------
+        self.func: float 
+            value of fitting function at x .
+
+        """
+        return self.func(x)
+    
+    def plot(self, xv = None, **kwargs):
+        """
+        Plot the fitting function 
+
+        Parameters
+        ----------
+        xv : TYPE, optional
+            x-values for which the fitting function should be plotted. The default is None i.e. using the standard xpl and ypl values.
+
+        **kwargs : TYPE
+            keyword aguments passed to matplotlib plot function
+
+        Returns
+        -------
+        None.
+
+        """
+        if (xv is None):
+            pl.plot(self.xpl, self.ypl, **kwargs)
+        else:
+            pl.plot(xv, self.func(xv), **kwargs)
 # done

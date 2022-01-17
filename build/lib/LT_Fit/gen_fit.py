@@ -51,6 +51,7 @@ Finally plot the data and the fit::
 from scipy import optimize
 # for chi2 probability
 import scipy.stats as SS
+import matplotlib.pyplot as pl
 
 import copy as C
 from .parameters import *
@@ -90,8 +91,10 @@ class  genfit:
                  full_output = 1, \
                  ftol = 0.001, \
                  print_results = True, \
+                 plot_fit = True, \
                  **kwargs):
-        print('gen_fit kwargs = ', kwargs)
+        # print('gen_fit kwargs = ', kwargs)
+        self.plot_fit = plot_fit
         self.print_results = print_results
         self.y = y
         if x is None:
@@ -133,6 +136,28 @@ class  genfit:
         else:
             return (self.y - self.func(self.x))/self.y_err
     # end of the minimization function
+    
+    def plot(self, xv = None, **kwargs):
+        """
+        Plot the fitting function 
+
+        Parameters
+        ----------
+        xv : TYPE, optional
+            x-values for which the fitting function should be plotted. The default is None i.e. using the standard xpl and ypl values.
+
+        **kwargs : TYPE
+            keyword aguments passed to matplotlib plot function
+
+        Returns
+        -------
+        None.
+
+        """
+        if (xv is None):
+            pl.plot(self.xpl, self.ypl, **kwargs)
+        else:
+            pl.plot(xv, self.func(xv), **kwargs)    
 
     def fit(self, full_output = 1, ftol = 0.001,  **kwargs):
         # this is the minimzation routine
@@ -202,6 +227,8 @@ class  genfit:
             print('red. chisquare = ',self.chi2_red)
             print('parameters: ')
             self.show_parameters()
+        if self.plot_fit:
+            self.plot()
 
     def set_yval(self, y, y_err = None):
         """
@@ -248,6 +275,23 @@ class  genfit:
         for i,p in enumerate(self.parameters_sav):
             self.parameters[i].value = p.value
             self.parameters[i].err = p.err
+            
+    def __call__(self, x):
+        """
+        Evaluate fitting function at x
+
+        Parameters
+        ----------
+        x : float
+            values of independent variable 
+
+        Returns
+        -------
+        self.func: float 
+            value of fitting function at x .
+
+        """
+        return self.func(x)
 
         
 
