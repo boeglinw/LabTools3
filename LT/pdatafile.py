@@ -83,6 +83,7 @@ class pdfile(dfile):
                 # append except the #/ control character
                 self.parameter_data.append(l[2:])
                 self.parameter_head_index.append(i)
+                self.adata_comment_index.remove(i)  # remove parameter lines from the comment index list
         if self.parameter_data != []:
             self.par = pfile('',data = self.parameter_data)
             self.p = self.par # for compatibility with an older version

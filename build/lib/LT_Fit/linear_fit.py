@@ -14,6 +14,7 @@ import scipy.stats as SS
 import pdb
 
 from .parameters import *
+from ..LT.plotting import *
 
 # setup the general fit function
 def linfit(function, y, x = None, y_err = None,  nplot = 100):
@@ -100,7 +101,8 @@ class linefit:
     
 
     """
-    def __init__(self, x, y, yerr=None, quiet = False):
+    def __init__(self, x, y, yerr=None, quiet = False, plot = True):
+        self.plot = plot
         self.res = linfit(self.__line_f__, y, x=x, nplot = 2, y_err = yerr)
         self.chi_red = self.res['red. chisquare']
         self.CL = self.res['conf. level']
@@ -120,6 +122,8 @@ class linefit:
         # for plotting
         self.xpl = self.res['xpl']
         self.ypl = self.res['ypl']
+        if self.plot:
+            plot_line(self.xpl, self.ypl)
         # print fit information
         if not quiet:
             print("chisq/dof = ", self.chi_red)
@@ -134,6 +138,9 @@ class linefit:
 
     def line(self,x):
         return dot(self.par, self.__line_f__(x))
+    
+    def __coll__(self, x):
+        return self.line(x)
 
 # end of class linefit
 

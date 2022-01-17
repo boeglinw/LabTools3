@@ -248,6 +248,9 @@ class  genfit:
         for i,p in enumerate(self.parameters_sav):
             self.parameters[i].value = p.value
             self.parameters[i].err = p.err
+            
+    def __call__(self, x):
+        return self.func(x)
 
         
 

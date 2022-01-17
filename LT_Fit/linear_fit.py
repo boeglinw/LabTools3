@@ -7,6 +7,7 @@ Tools for linear least square fitting also called linear regression.
 
 from numpy import *
 import numpy as np
+import matplotlib.pyplot as pl
 
 # for chi2 probability
 import scipy.stats as SS
@@ -100,7 +101,8 @@ class linefit:
     
 
     """
-    def __init__(self, x, y, yerr=None, quiet = False):
+    def __init__(self, x, y, yerr=None, quiet = False, plot_fit = True):
+        self.plot_fit = plot_fit
         self.res = linfit(self.__line_f__, y, x=x, nplot = 2, y_err = yerr)
         self.chi_red = self.res['red. chisquare']
         self.CL = self.res['conf. level']
@@ -125,6 +127,14 @@ class linefit:
             print("chisq/dof = ", self.chi_red)
             print("offset  = ", self.offset, " +/- ", self.sigma_o)
             print("slope = ", self.slope, " +/- ", self.sigma_s)
+        if self.plot_fit:
+            self.plot()
+            
+    def plot(self, xv = None, **kwargs):
+        if (xv is None):
+            pl.plot(self.xpl, self.ypl, **kwargs)
+        else:
+            pl.plot(xv, self.line(xv), **kwargs)
 
     def __getitem__(self,x):
         return self.res[x]
@@ -134,6 +144,9 @@ class linefit:
 
     def line(self,x):
         return dot(self.par, self.__line_f__(x))
+    
+    def __call__(self, x):
+        return self.line(x)
 
 # end of class linefit
 
@@ -170,9 +183,10 @@ class polyfit:
     NOTE: to use the covariance matrix you should scale it with the reduced chi square
 
     """
-    def __init__(self,x, y, yerr=None, order = 2, np_scale = 5, parameters = None, quiet = False):
+    def __init__(self,x, y, yerr=None, order = 2, np_scale = 5, parameters = None, quiet = False, plot_fit = True):
         # plot 5 calculated points per exp. point
         self.npoints = len(x)*np_scale
+        self.plot_fit = plot_fit
         self.order = order
         # store the list of parameter objects
         if parameters is not None:
@@ -199,6 +213,8 @@ class polyfit:
             print("chisq/dof = ", self.chi_red)
             for i,v in enumerate(self.res['parameters']):
                 print('parameter [',i,'] = ',v, " +/- ", self.sig_par[i])
+        if self.plot_fit:
+            self.plot()
         # that's it
 
     def __getitem__(self,x):
@@ -233,6 +249,12 @@ class polyfit:
                 self.parameters[i].set(p, err = self.sig_par[i])
         # done
 
+    def plot(self, xv = None, **kwargs):
+        if (xv is None):
+            pl.plot(self.xpl, self.ypl, **kwargs)
+        else:
+            pl.plot(xv, self.poly(xv), **kwargs)
+
     def show_parameters(self):
         """
 
@@ -253,6 +275,9 @@ class polyfit:
         
         # return the fitted function value for variable x
         return dot(self.par, self.__my_poly__(x))
+    
+    def __call__(self, x):
+        return self.poly(x)
 
 class gen_linfit:
     """
@@ -295,13 +320,14 @@ class gen_linfit:
     NOTE: to use the covariance matrix you should scale it with the reduced chi square
 
     """
-    def __init__(self, functions, x, y,  parameters = None, yerr = None, np_scale = 5, quiet = False):
+    def __init__(self, functions, x, y,  parameters = None, yerr = None, np_scale = 5, quiet = False, plot_fit = True):
         # plot 5 calculated points per exp. point
         self.functions = []
         # vectorize function
         for f in functions:
             self.functions.append( vectorize(f) )
         self.npoints = len(x)*np_scale
+        self.plot_fit = plot_fit
         self.res = linfit(self.__fit_func__, y, x=x, nplot = self.npoints, y_err = yerr)
         # store fit results
         self.chi_red = self.res['red. chisquare']
@@ -327,6 +353,8 @@ class gen_linfit:
             print("chisq/dof = ", self.chi_red)
             for i,v in enumerate(self.res['parameters']):
                 print('parameter [',i,'] = ',v, " +/- ", self.sig_par[i])
+        if self.plot_fit:
+            self.plot()
         # that's it
 
     def __getitem__(self,x):
@@ -367,4 +395,13 @@ class gen_linfit:
         """
         for p in self.parameters:
             print(p)
+            
+    def __call__(self, x):
+        return self.func(x)
+    
+    def plot(self, xv = None, **kwargs):
+        if (xv is None):
+            pl.plot(self.xpl, self.ypl, **kwargs)
+        else:
+            pl.plot(xv, self.func(xv), **kwargs)
 # done

@@ -174,6 +174,8 @@ class dfile:
         self.header = None
         self.data = []
         self.adata = []
+        self.adata_index = []
+        self.adata_comment_index = []
         self.fdata=[]
         self.keys=[]
         self.new = False
@@ -205,6 +207,8 @@ class dfile:
         if self.debug :
             print("datafile --> create arrays !")
         self.make_array()  # read data
+        # remove the header line from the comment index list
+        self.adata_comment_index.remove(self.headindex)
         if self.debug :
             print("datafile --> arrays created !")
     def __getitem__(self,i):
@@ -226,7 +230,7 @@ class dfile:
                 del self.adata[i]
     def find_header(self):
         # find header information : look for a line starting with #!
-        for l in self.adata:
+        for i,l in enumerate(self.adata):
             if (self.H.match(l) != None):
                 self.headindex=self.adata.index(l)
                 self.headerline=l
@@ -273,7 +277,9 @@ class dfile:
                     print(self.adata)
                     return -1
                 return 0
-            #
+            elif(self.C.match(l) != None):
+                # found a comment line that is not a header line
+                self.adata_comment_index.append(i)
         print(self.filename,": no header information !")
         print('data dump : ')
         print(self.adata)
@@ -281,7 +287,7 @@ class dfile:
 
     def parse_line(self, l):
         if (self.C.match(l) != None) : # not a comment
-            return None
+            return 'C'
         ll=l.split()
         # handle file format problems
         if len(ll) > (len(self.keys)-1) :
@@ -353,9 +359,17 @@ class dfile:
             n_data = len(self.adata)
             for self.line_n, l in enumerate(self.adata):
                 f = self.parse_line(l)
-                if f == None:
+                # potential comment line was found
+                if f == 'C':      
+                    if self.line_n in self.adata_comment_index:  # has already been registered as comment line
+                        continue
+                    else:
+                        self.adata_comment_index.append(self.line_n)  # add index to list of comment lines
+                        continue
+                elif f == None:
                     continue
                 self.data.append(self.make_dict(self.keys,f) )
+                self.adata_index.append(self.line_n)
                 if self.debug:
                     print("processed data : ", self.line_n, " out of ", n_data)
             
@@ -793,6 +807,8 @@ class dfile:
             for d in self.data:
                 # set initial value to none
                 d[key] = None
+            for i in self.adata_index:
+                self.adata[i] += ' None'
         # add the new key at the end of the keys list but before indx
         self.keys.insert(len(self.keys)-1,key)
         # add the format information
@@ -803,6 +819,7 @@ class dfile:
             format = 'f'
         self.formats[key] =  format
         self.update_header()
+        # self.update_adata()
     # end
     def delete_key(self,key):
         """
@@ -827,12 +844,11 @@ class dfile:
         d.add_data('x:y:z','xval yval zval')
         
 
-        xval, yval, zval are the values as they would be netered in a data file line
+        xval, yval, zval are the values as they would be entered in a data file line
         
-        both arguments are strings !
-        
-        
-        IMPORTANT: add the values to all current lines of the data file !
+        both arguments are strings and describe a complete line i.e. values for all variables
+        defined in the header line.
+
         
         """
         
@@ -852,12 +868,9 @@ class dfile:
         line = ''
         for fl in fline: line += fl+' '
         self.adata.append(line.strip())
-        print(line)
-        """
+        print(f'appending line {line}')
         f = self.parse_line(line.strip())
         self.data.append(self.make_dict(self.keys,f) )
-        """
-        self.make_array()
 
     def add_header_comment(self, text):
         """
