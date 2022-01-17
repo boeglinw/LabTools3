@@ -86,6 +86,10 @@ def get_data(D, var):
     Get all the values of variable 'my_var' as a :func:`numpy.array`::
 
     >>> mv = B.get_data(md, 'my_var')
+    
+    This is an old method, better use:
+        
+    >>> mv = md['my_var']
 
     """
     return np.array(D.get_data(var))

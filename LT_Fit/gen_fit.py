@@ -39,7 +39,9 @@ Finally plot the data and the fit::
 
     >>> import LT.box as B
     >>> B.plot_exp(xval, y_exp, sigy)   # plot the data with errorbars
-    >>> B.plot_line(F.xpl, F.ypl)       # plot the fitted function as a line
+    >>> F.plot()                        # plot the fitted function as a line    
+    >>> B.plot_line(F.xpl, F.ypl)       # old version of plotting the fitted function as a line
+    >>> F(x)                            # evaluate the fitted function at x
     >>> show()                          # show the new plot
 
 
@@ -78,6 +80,7 @@ class  genfit:
     bounds       an array for upper and lower bounds for the parameter
     loss         alternative loss function to handle outliers e.g. 'huber'
     f_scale      outliers with a residual more the f_scale should be not affect the result
+    plot_fit     (default True) plot the fitted function automatically
     ==========   ===================================================================
 
     Additional keyword arguments are passed on to :func:`scipy.optimize.leastsq`

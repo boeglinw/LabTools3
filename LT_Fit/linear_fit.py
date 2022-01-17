@@ -98,7 +98,6 @@ class linefit:
     line(x)       evaluate the fitted function at x
     ============= ================================
     
-    NOTE: to use the covariance matrix you should scale it with the reduced chi square
     
 
     """
@@ -192,7 +191,8 @@ class polyfit:
 
     x and y are arrays (:func:`numpy.array`)
     If you want to use predefined parameters to store the results::
-
+        
+        >>> import LT_Fit.parameters as P                                                           # get the parameter module
         >>> C0 = P.Parameter(0., 'const'); C1 = P.Parameter(0., 'lin'); C2 = P.Parameter(0.,'quad') # create Parameter objects
         >>> R = polyfit(x,y, order, parameters=[C0,C1,C2])                                          # perform the fit
         >>> R.show_parameters()                                                                     # will show the fit result
@@ -211,7 +211,6 @@ class polyfit:
     poly(x)       evaluate the fitted function at x
     ============= ================================
 
-    NOTE: to use the covariance matrix you should scale it with the reduced chi square
 
     """
     def __init__(self,x, y, yerr=None, order = 2, np_scale = 5, parameters = None, quiet = False, plot_fit = True):
@@ -353,8 +352,9 @@ class gen_linfit:
 
     is a list of functions provided by the user.
 
-    An example of making a list of function and using it in a fit::
-
+    An example of making a list of function and using it in a fit ::
+        
+        >>> import LT_Fit.parameters as P                                                     # get the parameter module
         >>> f0 = lambda x: sin(x)                                                             # define lambda functions
         >>> f1 = lambda x: sin(2.*x)
         >>> f2 = lambda x: sin(4.*x)
@@ -363,6 +363,7 @@ class gen_linfit:
         >>> R.plot()                                                                          # plot the fit
         >>> R.show_parameters()                                                               # print the parameters
         >>> R(x)                                                                              # evaluate the fitted function at x
+
     R is a gen_linfit object containing the fit results and the fitted function
 
     ============= ================================
@@ -378,7 +379,6 @@ class gen_linfit:
     func(x)       evaluate the fitted function at x
     ============= ================================
 
-    NOTE: to use the covariance matrix you should scale it with the reduced chi square
 
     """
     def __init__(self, functions, x, y,  parameters = None, yerr = None, np_scale = 5, quiet = False, plot_fit = True):

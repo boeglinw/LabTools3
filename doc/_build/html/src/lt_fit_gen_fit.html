@@ -1,19 +1,20 @@
 
 <!DOCTYPE html>
 
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
     <title>gen_fit &#8212; LabTools3 1.1.3 documentation</title>
-    <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
-    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/classic.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
     
-    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
     <script src="../_static/doctools.js"></script>
-    <script src="../_static/language_data.js"></script>
     
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -46,7 +47,7 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="gen-fit">
+  <section id="gen-fit">
 <span id="id1"></span><h1>gen_fit<a class="headerlink" href="#gen-fit" title="Permalink to this headline">¶</a></h1>
 <span class="target" id="module-LT_Fit.gen_fit"></span><p>Tool for general non-linear fitting based on the Marquardt algorithm. To setup a fit you need to:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mf">1.</span> <span class="n">define</span> <span class="n">parameters</span> <span class="ow">and</span> <span class="n">assign</span> <span class="n">them</span> <span class="n">reasonable</span> <span class="n">initial</span> <span class="n">values</span>
@@ -90,14 +91,16 @@ decide to change which parameters are fixed and which are to be fitted.</p>
 <p>Finally plot the data and the fit:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">LT.box</span> <span class="k">as</span> <span class="nn">B</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">B</span><span class="o">.</span><span class="n">plot_exp</span><span class="p">(</span><span class="n">xval</span><span class="p">,</span> <span class="n">y_exp</span><span class="p">,</span> <span class="n">sigy</span><span class="p">)</span>   <span class="c1"># plot the data with errorbars</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">B</span><span class="o">.</span><span class="n">plot_line</span><span class="p">(</span><span class="n">F</span><span class="o">.</span><span class="n">xpl</span><span class="p">,</span> <span class="n">F</span><span class="o">.</span><span class="n">ypl</span><span class="p">)</span>       <span class="c1"># plot the fitted function as a line</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">F</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>                        <span class="c1"># plot the fitted function as a line    </span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">B</span><span class="o">.</span><span class="n">plot_line</span><span class="p">(</span><span class="n">F</span><span class="o">.</span><span class="n">xpl</span><span class="p">,</span> <span class="n">F</span><span class="o">.</span><span class="n">ypl</span><span class="p">)</span>       <span class="c1"># old version of plotting the fitted function as a line</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">F</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>                            <span class="c1"># evaluate the fitted function at x</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">show</span><span class="p">()</span>                          <span class="c1"># show the new plot</span>
 </pre></div>
 </div>
 <hr class="docutils" />
 <dl class="py class">
-<dt id="LT_Fit.gen_fit.genfit">
-<em class="property">class </em><code class="sig-prename descclassname">LT_Fit.gen_fit.</code><code class="sig-name descname">genfit</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">function</span></em>, <em class="sig-param"><span class="n">parameters</span></em>, <em class="sig-param"><span class="n">x</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">y</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">y_err</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">nplot</span><span class="o">=</span><span class="default_value">100</span></em>, <em class="sig-param"><span class="n">full_output</span><span class="o">=</span><span class="default_value">1</span></em>, <em class="sig-param"><span class="n">ftol</span><span class="o">=</span><span class="default_value">0.001</span></em>, <em class="sig-param"><span class="n">print_results</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#LT_Fit.gen_fit.genfit" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="LT_Fit.gen_fit.genfit">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">LT_Fit.gen_fit.</span></span><span class="sig-name descname"><span class="pre">genfit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">function</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameters</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_err</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nplot</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">full_output</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ftol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.001</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">print_results</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_fit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#LT_Fit.gen_fit.genfit" title="Permalink to this definition">¶</a></dt>
 <dd><p>general non-linear fit  based on the Marquardt algorithm</p>
 <p>Important keywords:</p>
 <table class="docutils align-default">
@@ -112,13 +115,13 @@ decide to change which parameters are fixed and which are to be fitted.</p>
 </thead>
 <tbody>
 <tr class="row-even"><td><p>y</p></td>
-<td><p>(<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.array.html#numpy.array" title="(in NumPy v1.20)"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.array()</span></code></a>) array of experimental values (mandatory)</p></td>
+<td><p>(<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.array.html#numpy.array" title="(in NumPy v1.22)"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.array()</span></code></a>) array of experimental values (mandatory)</p></td>
 </tr>
 <tr class="row-odd"><td><p>x</p></td>
-<td><p>(<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.array.html#numpy.array" title="(in NumPy v1.20)"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.array()</span></code></a>) array of independent variables</p></td>
+<td><p>(<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.array.html#numpy.array" title="(in NumPy v1.22)"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.array()</span></code></a>) array of independent variables</p></td>
 </tr>
 <tr class="row-even"><td><p>y_err</p></td>
-<td><p>(<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.array.html#numpy.array" title="(in NumPy v1.20)"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.array()</span></code></a>) array of errors</p></td>
+<td><p>(<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.array.html#numpy.array" title="(in NumPy v1.22)"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.array()</span></code></a>) array of errors</p></td>
 </tr>
 <tr class="row-odd"><td><p>nplot</p></td>
 <td><p>number of points to be used for plotting the fit</p></td>
@@ -138,42 +141,66 @@ decide to change which parameters are fixed and which are to be fitted.</p>
 <tr class="row-even"><td><p>f_scale</p></td>
 <td><p>outliers with a residual more the f_scale should be not affect the result</p></td>
 </tr>
+<tr class="row-odd"><td><p>plot_fit</p></td>
+<td><p>(default True) plot the fitted function automatically</p></td>
+</tr>
 </tbody>
 </table>
-<p>Additional keyword arguments are passed on to <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.leastsq.html#scipy.optimize.leastsq" title="(in SciPy v1.6.1)"><code class="xref py py-func docutils literal notranslate"><span class="pre">scipy.optimize.leastsq()</span></code></a></p>
+<p>Additional keyword arguments are passed on to <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/reference/generated/scipy.optimize.leastsq.html#scipy.optimize.leastsq" title="(in SciPy v1.7.1)"><code class="xref py py-func docutils literal notranslate"><span class="pre">scipy.optimize.leastsq()</span></code></a></p>
 <dl class="py method">
-<dt id="LT_Fit.gen_fit.genfit.get_parameters">
-<code class="sig-name descname">get_parameters</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#LT_Fit.gen_fit.genfit.get_parameters" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="LT_Fit.gen_fit.genfit.get_parameters">
+<span class="sig-name descname"><span class="pre">get_parameters</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#LT_Fit.gen_fit.genfit.get_parameters" title="Permalink to this definition">¶</a></dt>
 <dd><p>use the saved parameters</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="LT_Fit.gen_fit.genfit.save_parameters">
-<code class="sig-name descname">save_parameters</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#LT_Fit.gen_fit.genfit.save_parameters" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="LT_Fit.gen_fit.genfit.plot">
+<span class="sig-name descname"><span class="pre">plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">xv</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#LT_Fit.gen_fit.genfit.plot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot the fitting function</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>xv</strong><span class="classifier">TYPE, optional</span></dt><dd><p>x-values for which the fitting function should be plotted. The default is None i.e. using the standard xpl and ypl values.</p>
+</dd>
+<dt><strong>**kwargs</strong><span class="classifier">TYPE</span></dt><dd><p>keyword aguments passed to matplotlib plot function</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt>None.</dt><dd></dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="LT_Fit.gen_fit.genfit.save_parameters">
+<span class="sig-name descname"><span class="pre">save_parameters</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#LT_Fit.gen_fit.genfit.save_parameters" title="Permalink to this definition">¶</a></dt>
 <dd><p>make a deep copy of the current parameters to be saved</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="LT_Fit.gen_fit.genfit.set_xval">
-<code class="sig-name descname">set_xval</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span></em><span class="sig-paren">)</span><a class="headerlink" href="#LT_Fit.gen_fit.genfit.set_xval" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="LT_Fit.gen_fit.genfit.set_xval">
+<span class="sig-name descname"><span class="pre">set_xval</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#LT_Fit.gen_fit.genfit.set_xval" title="Permalink to this definition">¶</a></dt>
 <dd><p>set the array of values x</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="LT_Fit.gen_fit.genfit.set_yval">
-<code class="sig-name descname">set_yval</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">y</span></em>, <em class="sig-param"><span class="n">y_err</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#LT_Fit.gen_fit.genfit.set_yval" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="LT_Fit.gen_fit.genfit.set_yval">
+<span class="sig-name descname"><span class="pre">set_yval</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_err</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#LT_Fit.gen_fit.genfit.set_yval" title="Permalink to this definition">¶</a></dt>
 <dd><p>set the array of values to be fitted</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="LT_Fit.gen_fit.genfit.show_parameters">
-<code class="sig-name descname">show_parameters</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#LT_Fit.gen_fit.genfit.show_parameters" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="LT_Fit.gen_fit.genfit.show_parameters">
+<span class="sig-name descname"><span class="pre">show_parameters</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#LT_Fit.gen_fit.genfit.show_parameters" title="Permalink to this definition">¶</a></dt>
 <dd><p>show the fitted parameters</p>
 </dd></dl>
 
 </dd></dl>
 
-</div>
+</section>
 
 
             <div class="clearer"></div>
@@ -199,7 +226,7 @@ decide to change which parameters are fixed and which are to be fitted.</p>
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="../search.html" method="get">
-      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
       <input type="submit" value="Go" />
     </form>
     </div>
@@ -231,8 +258,8 @@ decide to change which parameters are fixed and which are to be fitted.</p>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2011, Werner Boeglin.
-      Last updated on Feb 26, 2021.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.2.1.
+      Last updated on Jan 17, 2022.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.2.0.
     </div>
   </body>
 </html>
