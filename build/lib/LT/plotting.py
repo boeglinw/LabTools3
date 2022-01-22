@@ -104,7 +104,7 @@ def plot_exp(x,\
     if (axes == None):
         axes = pl.gca()
     if logy:
-        axes.set_yscale("log", nonposy='clip')
+        axes.set_yscale("log", nonpositive='clip')
     if dy == []:
         # no error bars
         e=axes.plot(xx, yy,\
@@ -392,7 +392,7 @@ def datafile_plot_exp(set,\
     xx = np.array(set.get_data(x) )
     yy = np.array(set.get_data(y))*scale
     if logy:
-        axes.set_yscale("log", nonposy='clip')
+        axes.set_yscale("log", nonpositive='clip')
     if dy != None:
         dyy = np.array(set.get_data(dy))*scale
     dyyt = []

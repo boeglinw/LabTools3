@@ -19,6 +19,6 @@ Version 1.1.3.4: minor bug fixes
 
 Version 1.1.3.5: corrected problen with add_data
 
-Version 1.1.3.6: added features to fitting: *plot* attribute to plot the fit, the fit results is plotted by default (controlled with the *plot_fit* kwarg). The fit object are callable, returning the value of the fit function using the current values of the fit parameters. New attribute to datafile: *adata_comment_index*, a list of indices pointing to comment lines.
+Version 1.1.3.6: added features to fitting: *plot* attribute to plot the fit, the fit results is plotted by default (controlled with the *plot_fit* kwarg). The fit object are callable, returning the value of the fit function using the current values of the fit parameters. New attribute to datafile: *adata\_comment\_index*, a list of indices pointing to comment lines.
  
 Version 1.1.3.7: updated documentation
