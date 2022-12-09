@@ -17,8 +17,16 @@ Version 1.1.3.3: histogram axis labels are preserved in rebinning and projection
 
 Version 1.1.3.4: minor bug fixes
 
-Version 1.1.3.5: corrected problen with add_data
+Version 1.1.3.5: corrected problen with *add_data*
 
 Version 1.1.3.6: added features to fitting: *plot* attribute to plot the fit, the fit results is plotted by default (controlled with the *plot_fit* kwarg). The fit object are callable, returning the value of the fit function using the current values of the fit parameters. New attribute to datafile: *adata\_comment\_index*, a list of indices pointing to comment lines.
  
 Version 1.1.3.7: updated documentation
+
+Version 1.1.3.8: datafile can be initialized with a list of strings correponding to the regular syntax
+
+Version 1.1.3.9: Fixed a bug in *histo* where histogram window variable was not initialized when loading from file (required a *clear_window* call).
+
+Version 1.1.3.10: 2d histo now accepts axes as keywords. Make sure for 3d display the axes is a Axes3DSubplot.
+
+Version 1.1.3.11: new control on title and axes labels for plotting

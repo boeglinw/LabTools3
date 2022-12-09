@@ -64,7 +64,7 @@ class pdfile(dfile):
     >>> pp=pdfile('my_datafile')
     
     """
-    def __init__(self, filename, debug = False):
+    def __init__(self, filename, debug = False, **kwargs):
         # initializations that are specific for pdatafile
         self.par = None
         self.p = self.par
@@ -73,7 +73,7 @@ class pdfile(dfile):
         # extract the parameterfile part
         self.P=re.compile("^#\\\\") # pattern for line to be interpreted by parameterfile
         # call the dfile constructor of dthe parent class: datafile with the right parameters
-        dfile.__init__(self, filename, debug = debug)
+        dfile.__init__(self, filename, debug = debug, **kwargs)
         # now analyze the data to extract parameter information
         for i,l in enumerate(self.adata[:self.headindex]):
             if (self.P.match(l) == None):

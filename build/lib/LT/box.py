@@ -286,6 +286,7 @@ class histo:
         # setup fitting list
         self.set_fit_list()
         self.window_set = False
+        self.ignore_zeros = True
         if values is not None:
             # values have been given for filling
             if (range is None) and (bins is None):
@@ -314,6 +315,8 @@ class histo:
         self.ylabel = ylabel
         self.__setup_bins(error = bin_error)
         self.nbins = self.bin_center.shape[0]
+        self.fit_index_min = 0
+        self.fit_index_max = len(self.bin_content)-1
         if window is None:
             self.clear_window()
         else:
@@ -375,7 +378,7 @@ class histo:
         """
 
         Return the sum of all bins. If the limits are given, calculate the sum of all bins between the bins that contain
-        the values xmin and xmax.
+        the values xmin and xmax. If a window is set only the sum within the window is returned when no limits are specified.
 
         Example::
 
@@ -394,8 +397,13 @@ class histo:
 
         """
         if (xmin is None) and (xmax is None):
-            sum = self.bin_content.sum()
-            sum_err = np.sqrt( (self.bin_error**2).sum())
+            if self.window_set:
+                sel = self.window_sel
+                sum = self.bin_content[sel].sum()
+                sum_err = np.sqrt( (self.bin_error[sel]**2).sum())
+            else:                
+                sum = self.bin_content.sum()
+                sum_err = np.sqrt( (self.bin_error**2).sum())
         elif (xmin is None):
             sel = (self.bin_center <= xmax)
             sum = self.bin_content[sel].sum()
@@ -552,7 +560,8 @@ class histo:
             self.win_max = self.xpl.max()
         else:
             self.win_max = xmax
-        return
+        self.window_sel = (self.win_min <= self.bin_center) & (self.bin_center <= self.win_max)
+
     def set_window_view(self):
         """
 
@@ -569,12 +578,12 @@ class histo:
         Reset (Clear) the defined window
 
         """
-        # a call to __setup_bins MUST preced usage of this call
+        # a call to __setup_bins MUST precede usage of this call
         self.window_set = False
         self.win_min = self.xpl.min()
         self.win_max = self.xpl.max()
 
-    def plot_exp(self, ignore_zeros = False, **kwargs):
+    def plot_exp(self, ignore_zeros = False, axes = None, **kwargs):
         """
 
         Plot histogram content and errors like experimental data.
@@ -587,6 +596,8 @@ class histo:
 
 
         """
+        if axes is None:
+            axes = pl.gca()
         xx = self.bin_center
         yy = self.bin_content
         dyy = self.bin_error
@@ -601,6 +612,14 @@ class histo:
                  plot_title = self.title, \
                  **kwargs)
 
+        if self.window_set:
+            axes.set_xlim( (self.win_min, self.win_max) )
+            # prepare y scale
+            sel = (self.win_min <= self.xpl) & (self.xpl <= self.win_max)
+            ymin = self.ypl[sel].min()
+            ymax = self.ypl[sel].max()
+            axes.set_ylim( (ymin, ymax) )
+
     def save(self, filename = 'histo.data'):
         """
 
@@ -611,6 +630,9 @@ class histo:
         of.write('#\ title = %s\n'%(self.title))
         of.write('#\ xlabel = %s\n'%(self.xlabel))
         of.write('#\ ylabel = %s\n'%(self.ylabel))
+        # fir limits used when the last fit was made
+        of.write('#\ fit_index_min = %d\n'%(self.fit_index_min))
+        of.write('#\ fit_index_max = %d\n'%(self.fit_index_max))
         # now write the current fit parameters
         for key in self.fit_par:
             name = key + ' = %r'
@@ -642,6 +664,16 @@ class histo:
         self.title = data.par.get_value('title', str)
         self.xlabel = data.par.get_value('xlabel', str)
         self.ylabel = data.par.get_value('ylabel', str)
+        # now the fit limits (if they exist)
+        try:
+            fi_min = data.par.get_value('fit_index_min')
+            fi_max = data.par.get_value('fit_index_max')
+            self.fit_index_min = int(fi_min)
+            self.fit_index_max = int(fi_max)
+        except:
+            self.fit_index_min = 0
+            self.fit_index_max = len(self.bin_content) - 1
+        
         # now the fit parameters
         for key in self.fit_par:
             name = key
@@ -652,10 +684,12 @@ class histo:
         self.__get_histogram()
         self.bins = self.res[1]
         self.__prepare_histo_plot()
+        self.clear_window()
         # plot the fit
         x = np.linspace(self.bins[0], self.bins[-1:][0], 100)
         self.fit_dict['xpl'] = x
         self.fit_dict['ypl'] = self.fit_func(x)
+
 
     def find_bin(self, x):
         """
@@ -762,6 +796,7 @@ class histo:
 
 
         """
+        self.ignore_zeros = ignore_zeros
         # is there a range given, or is a window set
         sel_all = np.ones_like(self.bin_center, dtype = 'bool')
         if init:
@@ -803,6 +838,9 @@ class histo:
         # set minimal error to 1
         is_zero = np.where(self.bin_error == 0.)
         self.bin_error[is_zero] = 1.
+        # store the limits of fit_indx
+        self.fit_index_min = self.fit_indx.min()
+        self.fit_index_max = self.fit_indx.max()
         # do the fit
         if ignore_zeros:
             # ignore bins with content of 0
@@ -1366,7 +1404,9 @@ class histo2d:
 
 
 
-    def plot(self,  axes = None, graph = 'patch', clevel = 10, colormap = pl.cm.CMRmap, logz = False,  **kwargs):
+    def plot(self,  axes = None, graph = 'patch', clevel = 10, colormap = pl.cm.CMRmap, logz = False,
+             skip_x_label = False, skip_ylabel = False, skip_title = False, 
+             **kwargs):
         """
 
         Plot the 2d histogram content:
@@ -1378,6 +1418,9 @@ class histo2d:
         clevel         number of contour levels (default 10)
         colormap       colormap to be used (default CMRmap)
         logz           if True use a logarithmic scale for content (patch and contour only)
+        skip_x_label   if True do not plot x-label
+        skip_y_label   if True do not plot y-label
+        skip_title     if True do not plot title
         kwargs         additional kwargs are possed to the plotting routines
         ============   =====================================================
 
@@ -1392,51 +1435,53 @@ class histo2d:
         if graph == 'patch':
             if axes is None:
                 axes = pl.gca()
-                # color mesh
-                if not self.logz:
-                    pl.pcolormesh(self.x_bins, self.y_bins, Zm.T, cmap=colormap_l, **kwargs)
-                else:
-                    pl.pcolormesh(self.x_bins, self.y_bins, Zm.T, cmap=colormap_l, norm = LogNorm(), **kwargs)
-                if self.colorbar:
-                    cbar = pl.colorbar()
-                    cbar.minorticks_on()
+            # color mesh
+            if not self.logz:
+                pcm = axes.pcolormesh(self.x_bins, self.y_bins, Zm.T, cmap=colormap_l, **kwargs)
+            else:
+                pcm = axes.pcolormesh(self.x_bins, self.y_bins, Zm.T, cmap=colormap_l, norm = LogNorm(),  **kwargs)
+            if self.colorbar:
+                cbar = pl.colorbar(pcm,ax=axes)
+                cbar.minorticks_on()
         elif graph == 'contour':
             if axes is None:
                 axes = pl.gca()
                 # color mesh
-                YY,XX = np.meshgrid(self.y_bin_center, self.x_bin_center)
-                if not self.logz:
-                    pl.contourf(XX,YY, Zm, cmap=colormap_l, **kwargs)        # contour
-                    if self.colorbar:
-                        cbar = pl.colorbar()
-                        cbar.minorticks_on()
-                else:
-                    Zml = np.log10(Zm)
-                    # setup the ticks
-                    # z-limits
-                    zmin = np.floor(Zml.min())
-                    zmax = np.ceil(Zml.max())
-                    # tick values
-                    llev = np.log10((ticker.LogLocator(subs = [1.])).tick_values(10**zmin, 10**zmax))
-                    # print("llev = ", llev)
-                    pl.contourf(XX,YY, Zml, levels = clevel)
-                    # setup the tick labels
-                    ctkls = [r"$10^{" +f"{int(v):d}" +r"}$" for v in llev]
-                    if self.colorbar:
-                        cbar = pl.colorbar()
-                        cbar.set_ticks(llev)
-                        cbar.set_ticklabels(ctkls)
-        elif graph == 'surface':
+            YY,XX = np.meshgrid(self.y_bin_center, self.x_bin_center)
+            if not self.logz:
+                ctf = pl.contourf(XX,YY, Zm, cmap=colormap_l, **kwargs)        # contour
+                if self.colorbar:
+                    cbar = pl.colorbar(ctf,ax=axes)
+                    cbar.minorticks_on()
+            else:
+                Zml = np.log10(Zm)
+                # setup the ticks
+                # z-limits
+                zmin = np.floor(Zml.min())
+                zmax = np.ceil(Zml.max())
+                # tick values
+                llev = np.log10((ticker.LogLocator(subs = [1.])).tick_values(10**zmin, 10**zmax))
+                # print("llev = ", llev)
+                ctf = pl.contourf(XX,YY, Zml, levels = clevel)
+                # setup the tick labels
+                ctkls = [r"$10^{" +f"{int(v):d}" +r"}$" for v in llev]
+                if self.colorbar:
+                    cbar = pl.colorbar(ctf,ax=axes)
+                    cbar.set_ticks(llev)
+                    cbar.set_ticklabels(ctkls)
+        elif graph == 'surface':      
             if logz:
                 print('log scale not yet implemented!')
-            axes = pl.gca(projection='3d')
+            if axes is None:
+                axes = pl.gca(projection='3d')
             YY,XX = np.meshgrid(self.y_bin_center, self.x_bin_center)
             axes.plot_surface(XX,YY, self.bin_content, cmap=colormap_l, **kwargs)
             axes.set_zlabel(self.zlabel)
         elif graph == 'lego':
             if self.logz:
                 print('log scale not yet implemented!')
-            axes = pl.gca(projection='3d')
+            if axes is None:
+                axes = pl.gca(projection='3d')
             YY,XX = np.meshgrid(self.y_bin_center, self.x_bin_center)
             xposf = XX.flatten()
             yposf = YY.flatten()
@@ -1451,9 +1496,12 @@ class histo2d:
         else:
             print('Unknown graph type:', graph, ' possible values: patch, contour, surface ')
             return
-        axes.set_xlabel(self.xlabel)
-        axes.set_ylabel(self.ylabel)
-        axes.set_title(self.title)
+        if not skip_x_label:
+            axes.set_xlabel(self.xlabel)
+        if not skip_ylabel:
+            axes.set_ylabel(self.ylabel)
+        if not skip_title:
+            axes.set_title(self.title)
 
     def save(self, filename = 'histo2d.data', ignore_zeros = True):
         """

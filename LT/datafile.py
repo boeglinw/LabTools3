@@ -133,9 +133,12 @@ class dfile:
         use_numpy = True (if numpy is installed) : set automatically but can be overridden
                                                    some attributes of datafile are not availables when
                                                    numpy is not present
+                                                   
+        adata = my_lines (default = None) : use the data provided in a list of strings (my_lines) as data file content. 
+                                            The content of my_lines must follow the datafile syntax.
         
     """
-    def __init__(self, filename, debug = False, new=False, skip = True, use_numpy = numpy_ok, fast = False):
+    def __init__(self, filename, debug = False, new=False, skip = True, use_numpy = numpy_ok, fast = False, adata = None):
         self.H=re.compile("^#\!") # pattern for header
         self.C=re.compile("^#")   # pattern for comment
         # pattern for splitting header
@@ -190,9 +193,13 @@ class dfile:
         # pdb.set_trace()
         # open file
         self.filename = filename
-        i=open(filename,"r")      # open file
-        # remove leading and trailing spaces
-        self.adata=[ x.strip() for x in i.readlines()]   # read all data        
+        if adata is None:
+            i=open(filename,"r")      # open file            
+            # remove leading and trailing spaces
+            self.adata=[ x.strip() for x in i.readlines()]   # read all data  
+            i.close()
+        else:
+            self.adata = [ x.strip() for x in adata]
         if self.debug :
             print("datafile --> data read !")
         if self.debug :
@@ -200,7 +207,6 @@ class dfile:
         self.remove_blanks()
         if self.debug :
             print("datafile --> blank lines removed read !")
-        i.close()
         if (self.find_header() != 0): # find the header
             print("cannot interpret data, header probably missing or wrong")
             return
