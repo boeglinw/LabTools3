@@ -19,3 +19,5 @@
 *.so
 *.so.dSYM
 .DS_Store
+*.whl
+*.gz
