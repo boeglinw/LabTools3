@@ -30,6 +30,7 @@ def linfit(function, y, x = None, y_err = None,  nplot = 100):
     if x is None: x = arange(y.shape[0])
     #
     # pdb.set_trace()
+
     A = function(x).transpose()
     if y_err is None:
         weight = ones_like(y)
@@ -39,14 +40,21 @@ def linfit(function, y, x = None, y_err = None,  nplot = 100):
     # store the parameter values in a list to be passed to the fitting function 
     M = dot(Aw.transpose(),A)
     # invert the matrix
-    Mi = linalg.inv(M)
+    if np.isscalar(M):
+        # check if only one parameter
+        Mi = np.expand_dims(np.array([1./M]), 0)
+    else:
+        Mi = linalg.inv(M)
     b=dot(Aw.transpose(),y)
     par = dot(Mi,b)
     # for the calculation of errors
     # sigma = sqrt( diag(Mi) )
     # final total chi square
     # number of degrees of freedom
-    yfit = dot(par,function(x))
+    fux = function(x)
+    if fux.ndim == 1:
+        fux = np.expand_dims(fux, 0)
+    yfit = dot(par,fux)
     n_dof = len(y) - len(par)
     diff = yfit - y
     chi2 = sum( power(diff, 2 )*weight )
@@ -56,7 +64,12 @@ def linfit(function, y, x = None, y_err = None,  nplot = 100):
     # create an array with calculated values for plotting
     if (nplot > 0):
         xpl = linspace(x.min(), x.max(), nplot+1)
-        ypl = dot(par,function(xpl))
+        fux = function(xpl)
+        if fux.ndim ==1 :
+            fux = np.expand_dims(fux, 0)
+            ypl = np.squeeze(dot(par,fux))
+        else:
+            ypl = dot(par,fux)
     stat = {'chisquare': chi2, \
                 'red. chisquare':chi2_red, \
                 'conf. level':CL, \

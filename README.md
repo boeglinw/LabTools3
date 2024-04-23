@@ -30,3 +30,7 @@ Version 1.1.3.9: Fixed a bug in *histo* where histogram window variable was not 
 Version 1.1.3.10: 2d histo now accepts axes as keywords. Make sure for 3d display the axes is a Axes3DSubplot.
 
 Version 1.1.3.11: new control on title and axes labels for plotting
+
+Version 1.1.3.12: bug fixes, peak and background functions are available for histogram fits.
+
+Version 1.1.3.13: fitting of only one parameters enabled for linear fits

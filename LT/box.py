@@ -399,24 +399,24 @@ class histo:
         if (xmin is None) and (xmax is None):
             if self.window_set:
                 sel = self.window_sel
-                sum = self.bin_content[sel].sum()
+                sum_v = self.bin_content[sel].sum()
                 sum_err = np.sqrt( (self.bin_error[sel]**2).sum())
             else:                
-                sum = self.bin_content.sum()
+                sum_v = self.bin_content.sum()
                 sum_err = np.sqrt( (self.bin_error**2).sum())
         elif (xmin is None):
             sel = (self.bin_center <= xmax)
-            sum = self.bin_content[sel].sum()
+            sum_v = self.bin_content[sel].sum()
             sum_err = np.sqrt( (self.bin_error[sel]**2).sum())
         elif (xmax is None):
             sel = (xmin <= self.bin_center)
-            sum = (self.bin_content[sel]).sum()
+            sum_v = (self.bin_content[sel]).sum()
             sum_err = np.sqrt( (self.bin_error[sel]**2).sum())
         else:
             sel = (xmin <= self.bin_center) & (self.bin_center <= xmax)
-            sum = (self.bin_content[sel]).sum()
+            sum_v = (self.bin_content[sel]).sum()
             sum_err = np.sqrt( (self.bin_error[sel]**2).sum())
-        return (sum, sum_err)
+        return (sum_v, sum_err)
 
     def copy(self):
         """
@@ -800,7 +800,7 @@ class histo:
         # is there a range given, or is a window set
         sel_all = np.ones_like(self.bin_center, dtype = 'bool')
         if init:
-            self.init_gauss(xmin, xmax)
+            self.init_gauss(xmin, xmax, ignore_zeros)
         if (xmin is None) and (xmax is None):
             # check if a window is set
             if self.window_set:
@@ -835,9 +835,10 @@ class histo:
                 self.fit_indx, = np.where(sel_w)
             else:
                 self.fit_indx, = np.where(sel)
-        # set minimal error to 1
-        is_zero = np.where(self.bin_error == 0.)
-        self.bin_error[is_zero] = 1.
+        if not ignore_zeros:
+            # set minimal error to 1
+            is_zero = np.where(self.bin_error == 0.)
+            self.bin_error[is_zero] = 1.
         # store the limits of fit_indx
         self.fit_index_min = self.fit_indx.min()
         self.fit_index_max = self.fit_indx.max()
@@ -909,7 +910,7 @@ class histo:
         self.sigma.set(1.)
         self.A.set(1.)
 
-    def init_gauss(self, xmin = None, xmax = None):
+    def init_gauss(self, xmin = None, xmax = None, ignore_zeros = True):
         """
 
         Calculate the initial parameter guess for a gaussian. These parameters
@@ -952,9 +953,10 @@ class histo:
                 self.fit_indx, = np.where(sel_w)
             else:
                 self.fit_indx, = np.where(sel)
-        # set minimal error to 1
-        is_zero = np.where(self.bin_error == 0.)
-        self.bin_error[is_zero] = 1.
+        if not ignore_zeros:
+            # set minimal error to 1
+            s_zero = np.where(self.bin_error == 0.)
+            self.bin_error[is_zero] = 1.
         # do the fit
         bin_content = self.bin_content[self.fit_indx]
         bin_center = self.bin_center[self.fit_indx]
@@ -1008,6 +1010,44 @@ class histo:
         fit_val = (self.b2()*x + self.b1())*x + self.b0() + \
             self.A()*np.exp(-0.5*((x-self.mean())/self.sigma() )**2)
         return fit_val
+    
+    def gauss(self, x):
+        """
+        
+        Return the value of the gauss function using the fitted parameters at x
+        
+
+        Parameters
+        ----------
+        x : float
+
+        Returns
+        -------
+        gauss(x) : float
+            fitted gaussian at x.
+
+        """
+        g_val = self.A()*np.exp(-0.5*((x-self.mean())/self.sigma() )**2)
+        return g_val
+    
+    def bkg(self, x):
+        """
+        
+        Return the value of the fitted background at x
+
+        Parameters
+        ----------
+        x : float
+
+        Returns
+        -------
+        b_val(x) : float
+            fitted backgound at x.
+
+        """
+        b_val = (self.b2()*x + self.b1())*x + self.b0()
+        return b_val
+        
     def apply_calibration(self, cal):
         """
 

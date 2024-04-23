@@ -48,6 +48,7 @@ def plot_exp(x,\
                  # set general line width
                  linewidth=2,\
                  logy = False,\
+                 logx = False, \
                  min_val = None,\
                  scale = 1.,\
                  # labelling
@@ -82,6 +83,7 @@ def plot_exp(x,\
     marker         marker type (see :func:`~matplotlib.pyplot.plot`)
     linestyle      line style (see :func:`~matplotlib.pyplot.plot`)
     logy           use log y-scale (True/False)
+    logx           use log x-scale (True/False)
     label          label for data (used in :func:`~matplotlib.pyplot.legend` )  
     min_val        min. values to be plotted
     scale          scale ally-values (including errrors ) by this factor
@@ -105,7 +107,9 @@ def plot_exp(x,\
         axes = pl.gca()
     if logy:
         axes.set_yscale("log", nonpositive='clip')
-    if dy == []:
+    if logx:
+        axes.set_xscale("log", nonpositive='clip')
+    if len(dy) == 0:
         # no error bars
         e=axes.plot(xx, yy,\
                    linestyle=linestyle,\
@@ -121,7 +125,7 @@ def plot_exp(x,\
             axes.set_title(plot_title)
         return e
     # plot second (total) error bar behind first (statistical) one
-    if dyt != []:
+    if len(dyt) != 0:
         # in case ther are several different errors
         et=axes.errorbar(xx, \
                         yy, \
@@ -175,6 +179,7 @@ def plot_line(x,\
              y, \
              label='_nolegend_',\
              logy = False, \
+             logx = False, \
              convx = 1., \
              convy = 1., \
               axes = None, \
@@ -195,6 +200,7 @@ def plot_line(x,\
     ============   ===================================================== 
     label          label for curve (used in :func:`~matplotlib.pyplot.legend` ) 
     logy           use log y-scale (True/False) 
+    logx           use log x-scale (True/False) 
     convx          scale all x-values by this factor 
     convy          scale all y-values by this factor 
     ============   =====================================================
@@ -206,10 +212,11 @@ def plot_line(x,\
         axes = pl.gca()
     xx = np.array(x) * convx
     yy = np.array(y) * convy
+    s=axes.plot(xx, yy, marker='None',label=label,**kwargs)
     if logy:
-        s=axes.semilogy(xx, yy, marker='None',label=label,**kwargs)
-    else:
-        s=axes.plot(xx, yy, marker='None',label=label,**kwargs)
+        axes.set_yscale("log", nonpositive='clip')
+    if logx:
+        axes.set_xscale("log", nonpositive='clip')
     return s
 
 #---------------------------------------------------------------------- 
@@ -225,6 +232,7 @@ def plot_spline(x, \
                 convx = 1., \
                 convy = 1., \
                 logy = False,\
+                logx = False, \
                 axes = None, \
                 **kwargs):
     """
@@ -243,6 +251,7 @@ def plot_spline(x, \
     ============   ===================================================== 
     label          label for curve (used in :func:`~matplotlib.pyplot.legend` ) 
     logy           use log y-scale (True/False)
+    logx           use log x-scale (True/False)
     nstep          factor by which the number of interpolated data points is increased 
     convx          scale all x-values by this factor 
     convy          scale all y-values by this factor 
@@ -266,15 +275,15 @@ def plot_spline(x, \
     # now get interpolation coefficients
     yvar_cj = splrep(xvar,yvar)
     new_yvar = splev(new_xvar, yvar_cj)
+    s=axes.plot(new_xvar, new_yvar, marker=marker,\
+               label=label,\
+               **kwargs)
     if logy:
-        s=axes.semilogy(new_xvar, new_yvar, marker=marker,\
-                   label=label,\
-                   **kwargs)
-    else:
-        s=axes.plot(new_xvar, new_yvar, marker=marker,\
-                   label=label,\
-                   **kwargs)
+        axes.set_yscale("log", nonpositive='clip')
+    if logx:
+        axes.set_xscale("log", nonpositive='clip')
     return s
+
 #---------------------------------------------------------------------- 
 #---------------------------------------------------------------------- 
 # plot spline lines only, this has to be used carefully
@@ -287,6 +296,7 @@ def log_plot_spline(x, \
                     nstep = 5,\
                     conv = 1., \
                     axes = None, \
+                    logx = False, \
                     **kwargs):
     if (axes == None):
         axes = pl.gca()
@@ -306,6 +316,8 @@ def log_plot_spline(x, \
     s=axes.semilogy(new_xvar, new_yvar, marker=marker,\
                label=label,\
                **kwargs)
+    if logx:
+        axes.set_xscale("log", nonpositive='clip')
     return s
 #---------------------------------------------------------------------- 
 # plot data read using data file
@@ -332,6 +344,7 @@ def datafile_plot_exp(set,\
                  linewidth=2,\
                  # set for semilog plot
                  logy = False,\
+                 logx = False, \
                  # minimum value for semilog plot
                  min_val = None,\
                  scale = 1.,\
@@ -369,7 +382,8 @@ def datafile_plot_exp(set,\
     marker         marker type (see :func:`~matplotlib.pyplot.plot`)
     linestyle      line style (see :func:`~matplotlib.pyplot.plot`)
     label          label for data (used in :func:`~matplotlib.pyplot.legend` )  
-    logy           use log y-scale (True/False) 
+    logy           use log y-scale (True/False)
+    logx           use log x-scale (True/False)
     min_val        min. values to be plotted
     scale          scale all y-values (including errrors ) by this factor 
     x_label        label for x-axis
@@ -393,6 +407,8 @@ def datafile_plot_exp(set,\
     yy = np.array(set.get_data(y))*scale
     if logy:
         axes.set_yscale("log", nonpositive='clip')
+    if logx:
+        axes.set_xscale("log", nonpositive='clip')
     if dy != None:
         dyy = np.array(set.get_data(dy))*scale
     dyyt = []
@@ -407,7 +423,7 @@ def datafile_plot_exp(set,\
                         label=label, \
                         **kwargs)
     # plot second (total) error bar behind first (statistical) one
-    elif dyyt != []:
+    elif len(dyyt) != 0:
         # in case ther are several different errors
         et=axes.errorbar(xx, \
                         yy, \
@@ -474,6 +490,7 @@ def datafile_plot_theory(set,\
                          convx = 1.,\
                          convy = 1.,\
                          logy = False,\
+                         logx = False, \
                          axes = None, \
                          **kwargs):
     """
@@ -487,18 +504,16 @@ def datafile_plot_theory(set,\
     xvar = np.array(set.get_data(x) )*convx
     yvar = np.array(set.get_data(y))*convy
 
+    s=axes.plot(xvar, yvar, marker=marker,color=color, \
+               label=label,\
+               **kwargs)
+
     if logy:
-        for i in range(len(xvar)):
-            if yvar[i] <= 0. :
-                yvar[i] =  min_val
-        s=axes.semilogy(xvar, yvar, marker=marker,color=color, \
-                   label=label,\
-                   **kwargs)
-    else:
-        s=axes.plot(xvar, yvar, marker=marker,color=color, \
-                   label=label,\
-                   **kwargs)
+        axes.set_yscale("log", nonpositive='clip')
+    if logx:
+        axes.set_xscale("log", nonpositive='clip')
     return s
+
 
 #---------------------------------------------------------------------- 
 #plot spline lines only, this has to be used carefully
@@ -513,6 +528,7 @@ def datafile_spline_plot_theory(set,\
                                 convx = 1.,\
                                 convy = 1.,\
                                 logy = False,\
+                                logx = False, \
                                 axes = None, \
                                 **kwargs):
     """
@@ -528,23 +544,18 @@ def datafile_spline_plot_theory(set,\
     # number of interpolation steps
     new_xvar = np.linspace(xvar[0], xvar[-1:], int(nstep*len(xvar)) ) # create a new range with more points
     # handle 0 and neg values for log scale
-    if logy:
-        for i in range(len(xvar)):
-            if yvar[i] <= 0. :
-                yvar[i] = min_val
     # now get interpolation coefficients
     yvar_cj = splrep(xvar,yvar)
     new_yvar = splev(new_xvar, yvar_cj)
+    s=axes.plot(new_xvar, new_yvar, marker=marker,\
+               color=color,\
+               label=label,\
+               **kwargs)
     if logy:
-        s=axes.semilogy(new_xvar, new_yvar, marker=marker,\
-                      color=color,\
-                      label=label,\
-                      **kwargs)
-    else:
-        s=axes.plot(new_xvar, new_yvar, marker=marker,\
-                   color=color,\
-                   label=label,\
-                   **kwargs)
+        axes.set_yscale("log", nonpositive='clip')
+    if logx:
+        axes.set_xscale("log", nonpositive='clip')
+
     return s
 
 #----------------------------------------------------------------------
