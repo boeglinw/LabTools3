@@ -12,19 +12,15 @@ other python distribution you want to use.
 
 There are several methods available for installation:
 
-1. Download the installation script :download:`install_labtools.py<../install_labtools.py>`
+1. (Recommended) Download the installation script :download:`install_labtools.py<../install_labtools.py>`
 
-2. You can download the ``LabTools3`` package from :download:`LabTools3-1.1.3.9.zip<../../LabTools3/dist/LabTools3-1.1.3.9.zip>` 
-   After downloading, extract the ``LabTools3`` zip file which most likely resides in your
-   ``Downloads`` folder. In Windows it is important that you really extract the file (select extract all)
-   and not just look at the contents of the zip file.
-
+2. From the command line run the command: ``pip install LabTools3`` (Make sure you have administrator priviledges on Windows, on MacOS or  Linux you might need to use the ``sudo`` command.)
 
 
 Installation using Anaconda
 ---------------------------
 
-Start **Spyder** and, using the file explorer, go to the directory (or folder) where you extracted the LabTools file.
+Start **Spyder** and, using the file explorer, go to the directory (or folder) where you stored the ``install_labtools.py`` file.
 
 .. _st_fig1:
 
@@ -32,14 +28,12 @@ Start **Spyder** and, using the file explorer, go to the directory (or folder) w
    :align: center
    :scale: 45%
 
-   Figure 1: Select directory where you extracted the LabTools
+   Figure 1: Select directory where you stored the ``install_labtools.py`` file.
 
 
-If you selected moethod 1 above, select the directory where the *install_labtools.py* script is
-located and execute it by doing *%run install_labtools*
+In this directory execute the command ``%run install_labtools`` in the command window. If this does not work make
+sure that you are in the correct directory (folder), look for ``install_labtools.py`` in the *Files* window.
 
-If you selected downloading the zip file go to the directory where the extracted LabTools are located as shown in :ref:`Fig. 1<st_fig1>` enter the command
-*%run setup.py install* (red ellipse in the figure).
 This will install the software. Restart spyder and you are ready to use the ``LabTools3``.
 
 Now you should be ready to do the start the `tutorial`_\ .

@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>The LT Package &#8212; LabTools3 1.1.3.9 documentation</title>
+    <title>The LT Package &#8212; LabTools3 1.1.3.13 documentation</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="_static/classic.css" />
     <link rel="stylesheet" type="text/css" href="_static/plot_directive.css" />
@@ -16,6 +16,7 @@
     <script src="_static/underscore.js"></script>
     <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="_static/doctools.js"></script>
+    <script src="_static/sphinx_highlight.js"></script>
     
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -37,7 +38,7 @@
         <li class="right" >
           <a href="index.html" title="The Main Packages"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">LabTools3 1.1.3.9 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">LabTools3 1.1.3.13 documentation</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">The LT Package</a></li> 
       </ul>
     </div>  
@@ -56,14 +57,42 @@ and <a class="reference external" href="http://matplotlib.sourceforge.net">matpl
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="src/lt_box.html">box</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="src/lt_box.html#LT.box.get_file"><code class="docutils literal notranslate"><span class="pre">get_file()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="src/lt_box.html#LT.box.get_data"><code class="docutils literal notranslate"><span class="pre">get_data()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="src/lt_box.html#LT.box.get_spectrum"><code class="docutils literal notranslate"><span class="pre">get_spectrum()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="src/lt_box.html#LT.box.histo"><code class="docutils literal notranslate"><span class="pre">histo</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="src/lt_box.html#LT.box.histo2d"><code class="docutils literal notranslate"><span class="pre">histo2d</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="src/lt_box.html#histogram-operations">Histogram Operations</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="src/lt_datafile.html">datafile</a></li>
-<li class="toctree-l1"><a class="reference internal" href="src/lt_parameterfile.html">parameterfile</a></li>
-<li class="toctree-l1"><a class="reference internal" href="src/lt_pdatafile.html">pdatafile</a></li>
-<li class="toctree-l1"><a class="reference internal" href="src/lt_plotting.html">plotting</a></li>
-<li class="toctree-l1"><a class="reference internal" href="src/lt_mca.html">MCA</a></li>
+<li class="toctree-l1"><a class="reference internal" href="src/lt_datafile.html">datafile</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="src/lt_datafile.html#LT.datafile.dfile"><code class="docutils literal notranslate"><span class="pre">dfile</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="src/lt_parameterfile.html">parameterfile</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="src/lt_parameterfile.html#LT.parameterfile.pfile"><code class="docutils literal notranslate"><span class="pre">pfile</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="src/lt_pdatafile.html">pdatafile</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="src/lt_pdatafile.html#LT.pdatafile.pdfile"><code class="docutils literal notranslate"><span class="pre">pdfile</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="src/lt_plotting.html">plotting</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="src/lt_plotting.html#LT.plotting.plot_exp"><code class="docutils literal notranslate"><span class="pre">plot_exp()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="src/lt_plotting.html#LT.plotting.plot_line"><code class="docutils literal notranslate"><span class="pre">plot_line()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="src/lt_plotting.html#LT.plotting.plot_spline"><code class="docutils literal notranslate"><span class="pre">plot_spline()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="src/lt_plotting.html#LT.plotting.datafile_plot_exp"><code class="docutils literal notranslate"><span class="pre">datafile_plot_exp()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="src/lt_plotting.html#LT.plotting.datafile_plot_theory"><code class="docutils literal notranslate"><span class="pre">datafile_plot_theory()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="src/lt_plotting.html#LT.plotting.datafile_spline_plot_theory"><code class="docutils literal notranslate"><span class="pre">datafile_spline_plot_theory()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="src/lt_plotting.html#LT.plotting.dplot_exp"><code class="docutils literal notranslate"><span class="pre">dplot_exp()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="src/lt_plotting.html#LT.plotting.dplot_line"><code class="docutils literal notranslate"><span class="pre">dplot_line()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="src/lt_plotting.html#LT.plotting.dplot_spline"><code class="docutils literal notranslate"><span class="pre">dplot_spline()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="src/lt_mca.html">MCA</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="src/lt_mca.html#LT.MCA.MCA"><code class="docutils literal notranslate"><span class="pre">MCA</span></code></a></li>
+</ul>
+</li>
 </ul>
 </div>
 </section>
@@ -121,14 +150,14 @@ and <a class="reference external" href="http://matplotlib.sourceforge.net">matpl
         <li class="right" >
           <a href="index.html" title="The Main Packages"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">LabTools3 1.1.3.9 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">LabTools3 1.1.3.13 documentation</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">The LT Package</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2011, Werner Boeglin.
-      Last updated on Aug 16, 2022.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.1.1.
+      Last updated on Aug 20, 2024.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.2.3.
     </div>
   </body>
 </html>

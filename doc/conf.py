@@ -54,8 +54,8 @@ source_suffix = '.rst'
 
 # intersphinx: locations for documentation links
 intersphinx_mapping = {
-    'matplotlib': ('http://matplotlib.sourceforge.net/', None),
-    'python': ('http://docs.python.org/release/3.8.0', None),
+    # 'matplotlib': ('http://matplotlib.sourceforge.net/', None),
+    'python': ('http://docs.python.org/release/3.10.0', None),
     'scipy': ('http://docs.scipy.org/doc/scipy/reference', None),
     'numpy':('http://docs.scipy.org/doc/numpy',None)
     }
@@ -75,7 +75,7 @@ copyright = u'2011, Werner Boeglin'
 # built documents.
 #
 # The short X.Y version.
-version = '1.3.9'
+version = '1.3.13'
 # The full version, including alpha/beta/rc tags.
 release = '1.'+version
 

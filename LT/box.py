@@ -247,6 +247,8 @@ class histo:
     title          Set the title
     xlabel         Set the x-label
     ylabel         Set the y-label
+    calc_w2        If True calccultae the sum of the square of the weights for each bin to calculate the final bin error
+    weights        Array of weight to increment the histogram with
     ============   =====================================================
 
     Additional keyword arguments are passed to the :func:`numpy.histogram` function
@@ -265,8 +267,11 @@ class histo:
                  title = 'my histogram', \
                  xlabel = 'x-bin', \
                  ylabel = 'content', \
+                 calc_w2 = False, \
                  **kwargs):
         self.res = None
+        self.has_weights = 'weights' in kwargs
+        self.calc_w2 = calc_w2
         self.fit_dict = {}
         # initialize fitting
         self.b0 = Parameter(0., 'b0')
@@ -342,10 +347,13 @@ class histo:
         """
         if not add:
             # a new filling
-            try:
-                self.res = np.histogram(y, new = None, **kwargs)
-            except:
-                self.res = np.histogram(y, **kwargs)
+            self.res = np.histogram(y,  **kwargs)
+            if self.calc_w2 and self.has_weights:
+                w_loc = kwargs['weights']**2
+                # histogram with weights squared
+                kwargs1 = copy.copy(kwargs)
+                kwargs1['weights'] = w_loc
+                self.w2 = np.histogram(y, **kwargs1)[0] # save only the bin content
             self.__setup_bins(error = None)
         else:
             # the bins have already been defined continue
@@ -353,12 +361,18 @@ class histo:
             if self.res is None:
                 print("no binning information: try fill with add = False ")
                 return
-            try:
-                res = np.histogram(y, new = True, bins = self.res[1], **kwargs)
-            except:
-                res = np.histogram(y, bins = self.res[1], **kwargs)
+
+            res = np.histogram(y, bins = self.res[1], **kwargs)
+            if self.calc_w2 and self.has_weights:
+                w2 = kwargs['weights']**2
+                # histogram with weights squared
+                kwargs1 = copy.copy(kwargs)
+                kwargs1['weights'] = w2
+                w2 = np.histogram(y, **kwargs1)[0] # save only the bin content
             # add the new bin content to the old one
             self.res = (self.res[0] + res[0], self.res[1])
+            if self.calc_w2 and self.has_weights:
+                self.w2 += w2
             # update the histogram information
             self.__setup_bins(error = None)
         # end of fill
@@ -1068,7 +1082,10 @@ class histo:
         self.bin_content = self.res[0]
         self.bins = self.res[1]
         if error is None:
-            self.bin_error = np.sqrt(self.bin_content)
+            if not self.has_weights:  # no weights specified
+                self.bin_error = np.sqrt(self.bin_content)
+            elif self.calc_w2:   # weights given and sum(weights**2) calculated for each bin
+                self.bin_error = np.sqrt(self.w2)
         else:
             self.bin_error = error
         self.__prepare_histo_plot()
@@ -1266,6 +1283,8 @@ class histo2d:
     xlabel         Set the x-label
     ylabel         Set the y-label
     zlabel         Set the z-label
+    calc_w2        If True calccultae the sum of the square of the weights for each bin to calculate the final bin error
+    weights        Array of weight to increment the histogram with
     colorbar       if True, plot a colorbar
     bad_color      Set the color for plot for bins below zmin (default: w)
     logz           if True plot content on log scale
@@ -1292,10 +1311,13 @@ class histo2d:
                  bad_color = 'w',\
                  colorbar = True, \
                  logz = False,\
+                 calc_w2 = False,\
                  **kwargs):
+        self.has_weights = 'weights' in kwargs
         self.bad_color = bad_color # color for bad pixels
         self.colorbar = colorbar
         self.logz = logz
+        self.calc_w2 = calc_w2
         # initialize fitting
         if (x_values is not None) and (y_values is not None):
             # values have been given for filling
@@ -1369,10 +1391,13 @@ class histo2d:
         """
         if not add:
             # a new filling
-            try:
-                self.res = np.histogram2d(x, y, new = None, **kwargs)
-            except:
-                self.res = np.histogram2d(x, y, **kwargs)
+            self.res = np.histogram2d(x, y, **kwargs)
+            if self.calc_w2 and self.has_weights:
+                w_loc = kwargs['weights']**2
+                # histogram with weights squared
+                kwargs1 = copy.copy(kwargs)
+                kwargs1['weights'] = w_loc
+                self.w2 = np.histogram2d(x,y, **kwargs1)[0] # save only the bin content
             self.__setup_bins(error = None)
         else:
             # the bins have already been defined continue
@@ -1381,8 +1406,15 @@ class histo2d:
                 print("no binning information: try fill with add = False ")
                 return
             res = np.histogram2d(x, y, bins = [self.x_bins,self.y_bins], **kwargs)
+            if self.calc_w2 and self.has_weights:
+                w_loc = kwargs['weights']**2
+                # histogram with weights squared
+                kwargs1 = copy.copy(kwargs)
+                kwargs1['weights'] = w_loc
+                w2 = np.histogram2d(x,y, bins = [self.x_bins,self.y_bins], **kwargs1)[0] # save only the bin content            
             # add the new bin content to the old one
             self.res = (self.res[0] + res[0], self.res[1], self.res[2])
+            self.w2 += w2
             # update the histogram information
             self.__setup_bins(error = None)
         # end of fill
@@ -1814,7 +1846,12 @@ class histo2d:
         self.x_bins = self.res[1]
         self.y_bins = self.res[2]
         if error is None:
-            self.bin_error = np.sqrt(self.bin_content)
+            if not self.has_weights:  # no weights specified
+                self.bin_error = np.sqrt(self.bin_content)
+            elif self.calc_w2:   # weights given and sum(weights**2) calculated for each bin
+                self.bin_error = np.sqrt(self.w2)
+            else:
+                self.bin_error = np.sqrt(self.bin_content)
         else:
             self.bin_error = error
         self.__prepare_histo_plot()

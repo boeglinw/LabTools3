@@ -34,3 +34,7 @@ Version 1.1.3.11: new control on title and axes labels for plotting
 Version 1.1.3.12: bug fixes, peak and background functions are available for histogram fits.
 
 Version 1.1.3.13: fitting of only one parameters enabled for linear fits
+
+Version 1.1.3.14: error calcualtion for filling histograms with weights include sum of weight**2 
+
+Version 1.1.3.15: contination lines enables in parameter file by endine line with "\" or ","" 

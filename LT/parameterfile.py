@@ -39,6 +39,9 @@ Possible data types (dtype) are:
 If ``var_type`` keyword agrument is not used, the function tries to convert to float or bool. If both fails it
 returns the string value.
 
+An input line can be continued (will be concatenated) by adding a backslash as the last character or
+a comma. The comma will be included in the data while the backslash is removed.
+
 Variable names are also called keys.
 """
 
@@ -58,7 +61,7 @@ class pfile:
     >>> pf=pfile('my_datafile')
     
     """
-    def __init__(self, filename, data = None):
+    def __init__(self, filename = 'no_file_provided', data = None):
         """
         open a parameter file, scan for name=value pairs
         and return a dictionary with name value pairs
@@ -119,10 +122,13 @@ class pfile:
                 # check for continuation
                 if do_add :
                     # add new line to end of last one and reset do_add flag
-                    l_l = l_old[:-1] + l_l
+                    if l_old[-1] == ',' :  # preserve the comma as continuation character
+                        l_l = l_old[:] + l_l
+                    else:
+                        l_l = l_old[:-1] + l_l
                     do_add = False
-                # check for continuation character at the end of the line
-                do_cont = (l_l[-1] == '\\')
+                # check for continuation character at the end of the line (backslash or comma)
+                do_cont = (l_l[-1] == '\\' or l_l[-1] == ',')
                 if do_cont:
                    # found a continuation flag it and save the current line
                    do_add = True

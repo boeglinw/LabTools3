@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>box &#8212; LabTools3 1.1.3.9 documentation</title>
+    <title>box &#8212; LabTools3 1.1.3.13 documentation</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../_static/classic.css" />
     <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
@@ -16,6 +16,7 @@
     <script src="../_static/underscore.js"></script>
     <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
     
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -37,7 +38,7 @@
         <li class="right" >
           <a href="../LT.html" title="The LT Package"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">LabTools3 1.1.3.9 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">LabTools3 1.1.3.13 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../LT.html" accesskey="U">The LT Package</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">box</a></li> 
       </ul>
@@ -107,7 +108,7 @@ information about these functions check the <a class="reference internal" href="
 <dt class="sig sig-object py" id="LT.box.get_data">
 <span class="sig-prename descclassname"><span class="pre">LT.box.</span></span><span class="sig-name descname"><span class="pre">get_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">D</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">var</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#LT.box.get_data" title="Permalink to this definition">¶</a></dt>
 <dd><p>Assume that  B is  the name of LT.box.</p>
-<p>Get all the values of variable ‘my_var’ as a <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.array.html#numpy.array" title="(in NumPy v1.23)"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.array()</span></code></a>:</p>
+<p>Get all the values of variable ‘my_var’ as a <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.array.html#numpy.array" title="(in NumPy v2.1)"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.array()</span></code></a>:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">mv</span> <span class="o">=</span> <span class="n">B</span><span class="o">.</span><span class="n">get_data</span><span class="p">(</span><span class="n">md</span><span class="p">,</span> <span class="s1">&#39;my_var&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -137,12 +138,12 @@ information about these functions check the <a class="reference internal" href="
 <p>The various ways of defining one are:</p>
 <blockquote>
 <div><ul>
-<li><p>If <em>a</em> is a 1D ( <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.array.html#numpy.array" title="(in NumPy v1.23)"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.array()</span></code></a>) containing the data to be histogrammed</p>
+<li><p>If <em>a</em> is a 1D ( <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.array.html#numpy.array" title="(in NumPy v2.1)"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.array()</span></code></a>) containing the data to be histogrammed</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">h</span> <span class="o">=</span> <span class="n">histo</span><span class="p">(</span> <span class="n">a</span> <span class="p">)</span>
 </pre></div>
 </div>
 </li>
-<li><p>If <em>his</em> is the output of the <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.histogram.html#numpy.histogram" title="(in NumPy v1.23)"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.histogram()</span></code></a> function</p>
+<li><p>If <em>his</em> is the output of the <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.histogram.html#numpy.histogram" title="(in NumPy v2.1)"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.histogram()</span></code></a> function</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">h</span> <span class="o">=</span> <span class="n">histo</span><span class="p">(</span><span class="n">histogram</span> <span class="o">=</span> <span class="n">his</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -170,7 +171,7 @@ contains bin content values then:</p>
 </thead>
 <tbody>
 <tr class="row-even"><td><p>values</p></td>
-<td><p>Array of values to be histogrammed (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.array.html#numpy.array" title="(in NumPy v1.23)"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.array()</span></code></a>)</p></td>
+<td><p>Array of values to be histogrammed (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.array.html#numpy.array" title="(in NumPy v2.1)"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.array()</span></code></a>)</p></td>
 </tr>
 <tr class="row-odd"><td><p>range</p></td>
 <td><p>Lower and upper limits  of binning ( e.g. <code class="docutils literal notranslate"><span class="pre">range</span> <span class="pre">=</span> <span class="pre">(10.,20.)</span></code> )</p></td>
@@ -179,16 +180,16 @@ contains bin content values then:</p>
 <td><p>Number of bins</p></td>
 </tr>
 <tr class="row-odd"><td><p>histogram</p></td>
-<td><p>Result of <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.histogram.html#numpy.histogram" title="(in NumPy v1.23)"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.histogram()</span></code></a> function</p></td>
+<td><p>Result of <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.histogram.html#numpy.histogram" title="(in NumPy v2.1)"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.histogram()</span></code></a> function</p></td>
 </tr>
 <tr class="row-even"><td><p>bin_error</p></td>
-<td><p>Array of errors for each bin content (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.array.html#numpy.array" title="(in NumPy v1.23)"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.array()</span></code></a>)</p></td>
+<td><p>Array of errors for each bin content (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.array.html#numpy.array" title="(in NumPy v2.1)"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.array()</span></code></a>)</p></td>
 </tr>
 <tr class="row-odd"><td><p>bin_center</p></td>
-<td><p>Array of bin-center values (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.array.html#numpy.array" title="(in NumPy v1.23)"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.array()</span></code></a>)</p></td>
+<td><p>Array of bin-center values (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.array.html#numpy.array" title="(in NumPy v2.1)"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.array()</span></code></a>)</p></td>
 </tr>
 <tr class="row-even"><td><p>bin_content</p></td>
-<td><p>Array of bin-content values (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.array.html#numpy.array" title="(in NumPy v1.23)"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.array()</span></code></a>)</p></td>
+<td><p>Array of bin-content values (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.array.html#numpy.array" title="(in NumPy v2.1)"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.array()</span></code></a>)</p></td>
 </tr>
 <tr class="row-odd"><td><p>file</p></td>
 <td><p>Load data from file</p></td>
@@ -207,7 +208,7 @@ contains bin content values then:</p>
 </tr>
 </tbody>
 </table>
-<p>Additional keyword arguments are passed to the <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.histogram.html#numpy.histogram" title="(in NumPy v1.23)"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.histogram()</span></code></a> function</p>
+<p>Additional keyword arguments are passed to the <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.histogram.html#numpy.histogram" title="(in NumPy v2.1)"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.histogram()</span></code></a> function</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="LT.box.histo.apply_calibration">
 <span class="sig-name descname"><span class="pre">apply_calibration</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cal</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#LT.box.histo.apply_calibration" title="Permalink to this definition">¶</a></dt>
@@ -239,7 +240,7 @@ contains bin content values then:</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="LT.box.histo.fill">
 <span class="sig-name descname"><span class="pre">fill</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">add</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#LT.box.histo.fill" title="Permalink to this definition">¶</a></dt>
-<dd><p>Fill the histogram with the values stored in the <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.array.html#numpy.array" title="(in NumPy v1.23)"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.array()</span></code></a> y.</p>
+<dd><p>Fill the histogram with the values stored in the <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.array.html#numpy.array" title="(in NumPy v2.1)"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.array()</span></code></a> y.</p>
 <table class="docutils align-default">
 <thead>
 <tr class="row-odd"><th class="head"><p>Keyword</p></th>
@@ -252,7 +253,7 @@ contains bin content values then:</p>
 </tr>
 </tbody>
 </table>
-<p>Additional keyword arguments are passed to the <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.histogram.html#numpy.histogram" title="(in NumPy v1.23)"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.histogram()</span></code></a> function</p>
+<p>Additional keyword arguments are passed to the <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.histogram.html#numpy.histogram" title="(in NumPy v2.1)"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.histogram()</span></code></a> function</p>
 </dd></dl>
 
 <dl class="py method">
@@ -344,7 +345,7 @@ useful if the histogram has been plotted.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="LT.box.histo.init_gauss">
-<span class="sig-name descname"><span class="pre">init_gauss</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">xmin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xmax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#LT.box.histo.init_gauss" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">init_gauss</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">xmin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xmax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ignore_zeros</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#LT.box.histo.init_gauss" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculate the initial parameter guess for a gaussian. These parameters
 can them be used in the call to <a class="reference internal" href="#LT.box.histo.fit" title="LT.box.histo.fit"><code class="xref py py-class docutils literal notranslate"><span class="pre">fit</span></code></a></p>
 </dd></dl>
@@ -566,13 +567,13 @@ the values xmin and xmax. If a window is set only the sum within the window is r
 <p>The various ways of defining one are:</p>
 <blockquote>
 <div><ul>
-<li><p>If <em>xv</em> is a 1D ( <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.array.html#numpy.array" title="(in NumPy v1.23)"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.array()</span></code></a>) containing the x-value data to be histogrammed
+<li><p>If <em>xv</em> is a 1D ( <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.array.html#numpy.array" title="(in NumPy v2.1)"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.array()</span></code></a>) containing the x-value data to be histogrammed
 and <em>yx</em> is a 1D array containing the y-value data :</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">h2</span> <span class="o">=</span> <span class="n">histo2d</span><span class="p">(</span> <span class="n">xv</span><span class="p">,</span> <span class="n">yv</span> <span class="p">)</span>
 </pre></div>
 </div>
 </li>
-<li><p>If <em>his2</em> is the output of the <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.histogram2d.html#numpy.histogram2d" title="(in NumPy v1.23)"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.histogram2d()</span></code></a> function</p>
+<li><p>If <em>his2</em> is the output of the <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.histogram2d.html#numpy.histogram2d" title="(in NumPy v2.1)"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.histogram2d()</span></code></a> function</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">h2</span> <span class="o">=</span> <span class="n">histo2d</span><span class="p">(</span><span class="n">histogram</span> <span class="o">=</span> <span class="n">his2</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -600,10 +601,10 @@ and <code class="docutils literal notranslate"><span class="pre">bcont</span></c
 </thead>
 <tbody>
 <tr class="row-even"><td><p>xvalues</p></td>
-<td><p>Array of x-values to be histogrammed (1d-<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.array.html#numpy.array" title="(in NumPy v1.23)"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.array()</span></code></a>)</p></td>
+<td><p>Array of x-values to be histogrammed (1d-<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.array.html#numpy.array" title="(in NumPy v2.1)"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.array()</span></code></a>)</p></td>
 </tr>
 <tr class="row-odd"><td><p>yvalues</p></td>
-<td><p>Array of y-values to be histogrammed (1d-<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.array.html#numpy.array" title="(in NumPy v1.23)"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.array()</span></code></a>)</p></td>
+<td><p>Array of y-values to be histogrammed (1d-<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.array.html#numpy.array" title="(in NumPy v2.1)"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.array()</span></code></a>)</p></td>
 </tr>
 <tr class="row-even"><td><p>range</p></td>
 <td><p>Lower and upper limits  of binning ( e.g. <code class="docutils literal notranslate"><span class="pre">range</span> <span class="pre">=</span> <span class="pre">(10.,20.)</span></code> )</p></td>
@@ -612,19 +613,19 @@ and <code class="docutils literal notranslate"><span class="pre">bcont</span></c
 <td><p>Number of bins, or [binsx, binsy]</p></td>
 </tr>
 <tr class="row-even"><td><p>histogram</p></td>
-<td><p>Result of <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.histogram2d.html#numpy.histogram2d" title="(in NumPy v1.23)"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.histogram2d()</span></code></a> function</p></td>
+<td><p>Result of <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.histogram2d.html#numpy.histogram2d" title="(in NumPy v2.1)"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.histogram2d()</span></code></a> function</p></td>
 </tr>
 <tr class="row-odd"><td><p>x_bin_center</p></td>
-<td><p>1d-Array of x - bin-center values (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.array.html#numpy.array" title="(in NumPy v1.23)"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.array()</span></code></a>)</p></td>
+<td><p>1d-Array of x - bin-center values (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.array.html#numpy.array" title="(in NumPy v2.1)"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.array()</span></code></a>)</p></td>
 </tr>
 <tr class="row-even"><td><p>y_bin_center</p></td>
-<td><p>1d-Array of y - bin-center values (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.array.html#numpy.array" title="(in NumPy v1.23)"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.array()</span></code></a>)</p></td>
+<td><p>1d-Array of y - bin-center values (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.array.html#numpy.array" title="(in NumPy v2.1)"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.array()</span></code></a>)</p></td>
 </tr>
 <tr class="row-odd"><td><p>bin_content</p></td>
-<td><p>2d-Array of bin-content values (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.array.html#numpy.array" title="(in NumPy v1.23)"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.array()</span></code></a>)</p></td>
+<td><p>2d-Array of bin-content values (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.array.html#numpy.array" title="(in NumPy v2.1)"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.array()</span></code></a>)</p></td>
 </tr>
 <tr class="row-even"><td><p>bin_error</p></td>
-<td><p>2d-Array of errors for each bin content (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.array.html#numpy.array" title="(in NumPy v1.23)"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.array()</span></code></a>)</p></td>
+<td><p>2d-Array of errors for each bin content (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.array.html#numpy.array" title="(in NumPy v2.1)"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.array()</span></code></a>)</p></td>
 </tr>
 <tr class="row-odd"><td><p>file</p></td>
 <td><p>Load data from file</p></td>
@@ -652,7 +653,7 @@ and <code class="docutils literal notranslate"><span class="pre">bcont</span></c
 </tr>
 </tbody>
 </table>
-<p>Additional keyword arguments are passed to the <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.histogram2d.html#numpy.histogram2d" title="(in NumPy v1.23)"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.histogram2d()</span></code></a> function</p>
+<p>Additional keyword arguments are passed to the <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.histogram2d.html#numpy.histogram2d" title="(in NumPy v2.1)"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.histogram2d()</span></code></a> function</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="LT.box.histo2d.apply_calibration">
 <span class="sig-name descname"><span class="pre">apply_calibration</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cal_x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cal_y</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#LT.box.histo2d.apply_calibration" title="Permalink to this definition">¶</a></dt>
@@ -715,7 +716,7 @@ and <code class="docutils literal notranslate"><span class="pre">bcont</span></c
 <dl class="py method">
 <dt class="sig sig-object py" id="LT.box.histo2d.fill">
 <span class="sig-name descname"><span class="pre">fill</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">add</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#LT.box.histo2d.fill" title="Permalink to this definition">¶</a></dt>
-<dd><p>Fill the histogram with the values stored in the <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.array.html#numpy.array" title="(in NumPy v1.23)"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.array()</span></code></a> y.</p>
+<dd><p>Fill the histogram with the values stored in the <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.array.html#numpy.array" title="(in NumPy v2.1)"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.array()</span></code></a> y.</p>
 <table class="docutils align-default">
 <thead>
 <tr class="row-odd"><th class="head"><p>Keyword</p></th>
@@ -728,7 +729,7 @@ and <code class="docutils literal notranslate"><span class="pre">bcont</span></c
 </tr>
 </tbody>
 </table>
-<p>Additional keyword arguments are passed to the <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.histogram.html#numpy.histogram" title="(in NumPy v1.23)"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.histogram()</span></code></a> function</p>
+<p>Additional keyword arguments are passed to the <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.histogram.html#numpy.histogram" title="(in NumPy v2.1)"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.histogram()</span></code></a> function</p>
 </dd></dl>
 
 <dl class="py method">
@@ -740,7 +741,7 @@ the value pair x, y</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="LT.box.histo2d.plot">
-<span class="sig-name descname"><span class="pre">plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">axes=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">graph='patch'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">clevel=10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">colormap=&lt;matplotlib.colors.LinearSegmentedColormap</span> <span class="pre">object&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logz=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#LT.box.histo2d.plot" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">axes=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">graph='patch'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">clevel=10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">colormap=&lt;matplotlib.colors.LinearSegmentedColormap</span> <span class="pre">object&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logz=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">skip_x_label=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">skip_ylabel=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">skip_title=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#LT.box.histo2d.plot" title="Permalink to this definition">¶</a></dt>
 <dd><p>Plot the 2d histogram content:</p>
 <table class="docutils align-default">
 <thead>
@@ -761,7 +762,16 @@ the value pair x, y</p>
 <tr class="row-odd"><td><p>logz</p></td>
 <td><p>if True use a logarithmic scale for content (patch and contour only)</p></td>
 </tr>
-<tr class="row-even"><td><p>kwargs</p></td>
+<tr class="row-even"><td><p>skip_x_label</p></td>
+<td><p>if True do not plot x-label</p></td>
+</tr>
+<tr class="row-odd"><td><p>skip_y_label</p></td>
+<td><p>if True do not plot y-label</p></td>
+</tr>
+<tr class="row-even"><td><p>skip_title</p></td>
+<td><p>if True do not plot title</p></td>
+</tr>
+<tr class="row-odd"><td><p>kwargs</p></td>
 <td><p>additional kwargs are possed to the plotting routines</p></td>
 </tr>
 </tbody>
@@ -1004,6 +1014,50 @@ not copied.</p>
     <h3><a href="../index.html">Table of Contents</a></h3>
     <ul>
 <li><a class="reference internal" href="#">box</a><ul>
+<li><a class="reference internal" href="#LT.box.get_file"><code class="docutils literal notranslate"><span class="pre">get_file()</span></code></a></li>
+<li><a class="reference internal" href="#LT.box.get_data"><code class="docutils literal notranslate"><span class="pre">get_data()</span></code></a></li>
+<li><a class="reference internal" href="#LT.box.get_spectrum"><code class="docutils literal notranslate"><span class="pre">get_spectrum()</span></code></a></li>
+<li><a class="reference internal" href="#LT.box.histo"><code class="docutils literal notranslate"><span class="pre">histo</span></code></a><ul>
+<li><a class="reference internal" href="#LT.box.histo.apply_calibration"><code class="docutils literal notranslate"><span class="pre">histo.apply_calibration()</span></code></a></li>
+<li><a class="reference internal" href="#LT.box.histo.clear"><code class="docutils literal notranslate"><span class="pre">histo.clear()</span></code></a></li>
+<li><a class="reference internal" href="#LT.box.histo.clear_window"><code class="docutils literal notranslate"><span class="pre">histo.clear_window()</span></code></a></li>
+<li><a class="reference internal" href="#LT.box.histo.copy"><code class="docutils literal notranslate"><span class="pre">histo.copy()</span></code></a></li>
+<li><a class="reference internal" href="#LT.box.histo.fill"><code class="docutils literal notranslate"><span class="pre">histo.fill()</span></code></a></li>
+<li><a class="reference internal" href="#LT.box.histo.find_bin"><code class="docutils literal notranslate"><span class="pre">histo.find_bin()</span></code></a></li>
+<li><a class="reference internal" href="#LT.box.histo.fit"><code class="docutils literal notranslate"><span class="pre">histo.fit()</span></code></a></li>
+<li><a class="reference internal" href="#LT.box.histo.fit_func"><code class="docutils literal notranslate"><span class="pre">histo.fit_func()</span></code></a></li>
+<li><a class="reference internal" href="#LT.box.histo.fit_view"><code class="docutils literal notranslate"><span class="pre">histo.fit_view()</span></code></a></li>
+<li><a class="reference internal" href="#LT.box.histo.init_gauss"><code class="docutils literal notranslate"><span class="pre">histo.init_gauss()</span></code></a></li>
+<li><a class="reference internal" href="#LT.box.histo.init_parameters"><code class="docutils literal notranslate"><span class="pre">histo.init_parameters()</span></code></a></li>
+<li><a class="reference internal" href="#LT.box.histo.load"><code class="docutils literal notranslate"><span class="pre">histo.load()</span></code></a></li>
+<li><a class="reference internal" href="#LT.box.histo.plot"><code class="docutils literal notranslate"><span class="pre">histo.plot()</span></code></a></li>
+<li><a class="reference internal" href="#LT.box.histo.plot_exp"><code class="docutils literal notranslate"><span class="pre">histo.plot_exp()</span></code></a></li>
+<li><a class="reference internal" href="#LT.box.histo.plot_fit"><code class="docutils literal notranslate"><span class="pre">histo.plot_fit()</span></code></a></li>
+<li><a class="reference internal" href="#LT.box.histo.rebin"><code class="docutils literal notranslate"><span class="pre">histo.rebin()</span></code></a></li>
+<li><a class="reference internal" href="#LT.box.histo.save"><code class="docutils literal notranslate"><span class="pre">histo.save()</span></code></a></li>
+<li><a class="reference internal" href="#LT.box.histo.set_fit_list"><code class="docutils literal notranslate"><span class="pre">histo.set_fit_list()</span></code></a></li>
+<li><a class="reference internal" href="#LT.box.histo.set_window"><code class="docutils literal notranslate"><span class="pre">histo.set_window()</span></code></a></li>
+<li><a class="reference internal" href="#LT.box.histo.set_window_view"><code class="docutils literal notranslate"><span class="pre">histo.set_window_view()</span></code></a></li>
+<li><a class="reference internal" href="#LT.box.histo.show_fit_list"><code class="docutils literal notranslate"><span class="pre">histo.show_fit_list()</span></code></a></li>
+<li><a class="reference internal" href="#LT.box.histo.sum"><code class="docutils literal notranslate"><span class="pre">histo.sum()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#LT.box.histo2d"><code class="docutils literal notranslate"><span class="pre">histo2d</span></code></a><ul>
+<li><a class="reference internal" href="#LT.box.histo2d.apply_calibration"><code class="docutils literal notranslate"><span class="pre">histo2d.apply_calibration()</span></code></a></li>
+<li><a class="reference internal" href="#LT.box.histo2d.clear"><code class="docutils literal notranslate"><span class="pre">histo2d.clear()</span></code></a></li>
+<li><a class="reference internal" href="#LT.box.histo2d.draw_polygon"><code class="docutils literal notranslate"><span class="pre">histo2d.draw_polygon()</span></code></a></li>
+<li><a class="reference internal" href="#LT.box.histo2d.fill"><code class="docutils literal notranslate"><span class="pre">histo2d.fill()</span></code></a></li>
+<li><a class="reference internal" href="#LT.box.histo2d.find_bin"><code class="docutils literal notranslate"><span class="pre">histo2d.find_bin()</span></code></a></li>
+<li><a class="reference internal" href="#LT.box.histo2d.plot"><code class="docutils literal notranslate"><span class="pre">histo2d.plot()</span></code></a></li>
+<li><a class="reference internal" href="#LT.box.histo2d.poly_cut"><code class="docutils literal notranslate"><span class="pre">histo2d.poly_cut()</span></code></a></li>
+<li><a class="reference internal" href="#LT.box.histo2d.project_x"><code class="docutils literal notranslate"><span class="pre">histo2d.project_x()</span></code></a></li>
+<li><a class="reference internal" href="#LT.box.histo2d.project_y"><code class="docutils literal notranslate"><span class="pre">histo2d.project_y()</span></code></a></li>
+<li><a class="reference internal" href="#LT.box.histo2d.rect_cut"><code class="docutils literal notranslate"><span class="pre">histo2d.rect_cut()</span></code></a></li>
+<li><a class="reference internal" href="#LT.box.histo2d.save"><code class="docutils literal notranslate"><span class="pre">histo2d.save()</span></code></a></li>
+<li><a class="reference internal" href="#LT.box.histo2d.set_nans"><code class="docutils literal notranslate"><span class="pre">histo2d.set_nans()</span></code></a></li>
+<li><a class="reference internal" href="#LT.box.histo2d.sum"><code class="docutils literal notranslate"><span class="pre">histo2d.sum()</span></code></a></li>
+</ul>
+</li>
 <li><a class="reference internal" href="#histogram-operations">Histogram Operations</a></li>
 </ul>
 </li>
@@ -1056,15 +1110,15 @@ not copied.</p>
         <li class="right" >
           <a href="../LT.html" title="The LT Package"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">LabTools3 1.1.3.9 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">LabTools3 1.1.3.13 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../LT.html" >The LT Package</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">box</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2011, Werner Boeglin.
-      Last updated on Aug 16, 2022.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.1.1.
+      Last updated on Aug 20, 2024.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.2.3.
     </div>
   </body>
 </html>
