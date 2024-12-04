@@ -37,4 +37,6 @@ Version 1.1.3.13: fitting of only one parameters enabled for linear fits
 
 Version 1.1.3.14: error calcualtion for filling histograms with weights include sum of weight**2 
 
-Version 1.1.3.15: contination lines enables in parameter file by endine line with "\" or ","" 
+Version 1.1.3.15: contination lines enabled in parameter file by endine line with "\" or ","" 
+
+Version 1.1.3.16: Corrected bug in histo.rebin. gen_fit allows control of relative step size using the diff_step keyword. It is also possible to supply a list of functions to calculate the parameter derivatives. This helps with numerical accuracy in the minimization process (see gen_fit documentation) 

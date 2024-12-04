@@ -1138,7 +1138,7 @@ class histo:
         # mean value of the slices
         mean_sl = np.array([np.mean(x[sl]) for sl in slices[:-1]])
         # factor to correct the sum for slices that are shorter than n
-        fact = np.array([np.float(n)/len(x[sl]) for sl in slices[:-1]])
+        fact = np.array([float(n)/len(x[sl]) for sl in slices[:-1]])
         # return the values
         return sum_sl, mean_sl, slices[:-1], fact
 

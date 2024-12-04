@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setup(
     name = "LabTools3",
-    version = "1.1.3.15",
+    version = "1.1.3.16",
     packages = find_packages(),
     # add additional files
     package_data = {'':['*.bat','*.command']},
@@ -20,7 +20,7 @@ setup(
     keywords = "Data Analysis",
     url = "http://wanda.fiu.edu/LabTools3",   # project home page, if any
     classifiers=[
-        "Programming Language :: Python :: 3.6",
+        "Programming Language :: Python :: 3.8",
         ],
-    python_requires='>=3.6'
+    python_requires='>=3.8'
 )

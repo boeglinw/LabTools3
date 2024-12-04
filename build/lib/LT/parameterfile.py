@@ -39,6 +39,9 @@ Possible data types (dtype) are:
 If ``var_type`` keyword agrument is not used, the function tries to convert to float or bool. If both fails it
 returns the string value.
 
+An input line can be continued (will be concatenated) by adding a backslash as the last character or
+a comma. The comma will be included in the data while the backslash is removed.
+
 Variable names are also called keys.
 """
 

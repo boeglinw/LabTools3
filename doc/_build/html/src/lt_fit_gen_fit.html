@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>gen_fit &#8212; LabTools3 1.1.3.13 documentation</title>
+    <title>gen_fit &#8212; LabTools3 1.1.3.16 documentation</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../_static/classic.css" />
     <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
@@ -38,7 +38,7 @@
         <li class="right" >
           <a href="lt_fit_linear_fit.html" title="linear_fit"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">LabTools3 1.1.3.13 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">LabTools3 1.1.3.16 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../LT_Fit.html" accesskey="U">The LT_Fit Package</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">gen_fit</a></li> 
       </ul>
@@ -61,8 +61,9 @@
 decide to change which parameters are fixed and which are to be fitted.</p>
 <ol class="arabic">
 <li><p>Setting up the parameters:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">LT_Fit.parameters</span> <span class="k">as</span> <span class="nn">P</span>  <span class="c1"># get the parameter module</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">LT_fit.gen_fit</span> <span class="k">as</span> <span class="nn">G</span>     <span class="c1"># load the genfit module</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">LT_Fit.parameters</span> <span class="k">as</span> <span class="nn">P</span>  <span class="c1"># get the parameter module</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">LT_Fit.gen_fit</span> <span class="k">as</span> <span class="nn">G</span>     <span class="c1"># load the genfit module</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">P</span><span class="o">.</span><span class="n">Parameter</span><span class="p">(</span><span class="mf">1.</span><span class="p">,</span> <span class="s1">&#39;amp&#39;</span><span class="p">)</span>     <span class="c1"># parameter a, called &#39;amp&#39;, initialized to 1. </span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="n">P</span><span class="o">.</span><span class="n">Parameter</span><span class="p">(</span><span class="mf">3.</span><span class="p">,</span> <span class="s1">&#39;omega&#39;</span><span class="p">)</span>   <span class="c1"># parameter b, called &#39;omega&#39;, intialized to 3.</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">c</span> <span class="o">=</span> <span class="n">P</span><span class="o">.</span><span class="n">Parameter</span><span class="p">(</span><span class="mf">1.5</span><span class="p">,</span> <span class="s1">&#39;phase&#39;</span><span class="p">)</span>  <span class="c1"># parameter c, called &#39;phase&#39;, initialize to 1.5</span>
@@ -71,14 +72,22 @@ decide to change which parameters are fixed and which are to be fitted.</p>
 </li>
 <li><p>Define the fitting function:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
-<span class="go">....    return a()*sin(b() * x + c() )</span>
+<span class="go">....    return a()*np.sin(b() * x + c() )</span>
+</pre></div>
+</div>
+</li>
+<li><p>Setup pseudo data:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">xval</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">20</span><span class="p">)</span>        <span class="c1"># generate pseudo data</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">y</span> <span class="o">=</span> <span class="n">f</span><span class="p">(</span><span class="n">xval</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">y_exp</span> <span class="o">=</span> <span class="n">y</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">loc</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">scale</span> <span class="o">=</span> <span class="mf">0.05</span><span class="p">,</span> <span class="n">size</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">y</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sig_y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones_like</span><span class="p">(</span><span class="n">y</span><span class="p">)</span><span class="o">*</span><span class="mf">0.05</span>
 </pre></div>
 </div>
 </li>
 <li><p>Now do the fit:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">F</span> <span class="o">=</span> <span class="n">G</span><span class="o">.</span><span class="n">genfit</span><span class="p">(</span> <span class="n">f</span><span class="p">,</span> <span class="p">[</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">],</span> <span class="n">x</span> <span class="o">=</span> <span class="n">xval</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">y_exp</span><span class="p">)</span> <span class="c1">#  the list [a,b,c] defines which parameters are fitted</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">F</span> <span class="o">=</span> <span class="n">G</span><span class="o">.</span><span class="n">genfit</span><span class="p">(</span> <span class="n">f</span><span class="p">,</span> <span class="p">[</span><span class="n">a</span><span class="p">],</span> <span class="n">x</span> <span class="o">=</span> <span class="n">xval</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">y_exp</span><span class="p">,</span> <span class="n">yerr</span> <span class="o">=</span> <span class="n">sigy</span><span class="p">)</span> <span class="c1">#  only a is fitted, but take the exp. error into account</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">F</span> <span class="o">=</span> <span class="n">G</span><span class="o">.</span><span class="n">genfit</span><span class="p">(</span> <span class="n">f</span><span class="p">,</span> <span class="p">[</span><span class="n">a</span><span class="p">,</span> <span class="n">c</span><span class="p">],</span> <span class="n">x</span> <span class="o">=</span> <span class="n">xval</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">y_exp</span><span class="p">,</span> <span class="n">yerr</span> <span class="o">=</span> <span class="n">sigy</span><span class="p">)</span> <span class="c1">#  a and c are fitted b is kept constant</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">F</span> <span class="o">=</span> <span class="n">G</span><span class="o">.</span><span class="n">genfit</span><span class="p">(</span> <span class="n">f</span><span class="p">,</span> <span class="p">[</span><span class="n">a</span><span class="p">],</span> <span class="n">x</span> <span class="o">=</span> <span class="n">xval</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">y_exp</span><span class="p">,</span> <span class="n">y_err</span> <span class="o">=</span> <span class="n">sig_y</span><span class="p">)</span> <span class="c1">#  only a is fitted, but take the exp. error into account</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">F</span> <span class="o">=</span> <span class="n">G</span><span class="o">.</span><span class="n">genfit</span><span class="p">(</span> <span class="n">f</span><span class="p">,</span> <span class="p">[</span><span class="n">a</span><span class="p">,</span> <span class="n">c</span><span class="p">],</span> <span class="n">x</span> <span class="o">=</span> <span class="n">xval</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">y_exp</span><span class="p">,</span> <span class="n">y_err</span> <span class="o">=</span> <span class="n">sig_y</span><span class="p">)</span> <span class="c1">#  a and c are fitted b is kept constant</span>
 </pre></div>
 </div>
 </li>
@@ -90,9 +99,18 @@ decide to change which parameters are fixed and which are to be fitted.</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">F</span> <span class="o">=</span> <span class="n">G</span><span class="o">.</span><span class="n">genfit</span><span class="p">(</span> <span class="n">f</span><span class="p">,</span> <span class="p">[</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">],</span> <span class="n">x</span> <span class="o">=</span> <span class="n">xval</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">y_exp</span><span class="p">)</span>
 </pre></div>
 </div>
+<p>Calculate parameter derivatives analytically:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">dfda</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span> <span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">b</span><span class="p">()</span> <span class="o">*</span> <span class="n">x</span> <span class="o">+</span> <span class="n">c</span><span class="p">()</span> <span class="p">)</span>       <span class="c1"># derivative wrsp a</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dfdb</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span> <span class="p">:</span> <span class="n">a</span><span class="p">()</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">b</span><span class="p">()</span> <span class="o">*</span> <span class="n">x</span> <span class="o">+</span> <span class="n">c</span><span class="p">()</span> <span class="p">)</span><span class="o">*</span><span class="n">x</span> <span class="c1"># derivative wrsp b</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dfdc</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span> <span class="p">:</span> <span class="n">a</span><span class="p">()</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">b</span><span class="p">()</span> <span class="o">*</span> <span class="n">x</span> <span class="o">+</span> <span class="n">c</span><span class="p">()</span> <span class="p">)</span>   <span class="c1"># derivative wrsp c</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">deriv_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">dfda</span><span class="p">,</span> <span class="n">dfdb</span><span class="p">,</span> <span class="n">dfdc</span><span class="p">]</span>                <span class="c1"># list of derivative functions</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># do the fit using analytically calculated derivatives</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">F</span> <span class="o">=</span> <span class="n">G</span><span class="o">.</span><span class="n">genfit</span><span class="p">(</span> <span class="n">f</span><span class="p">,</span> <span class="p">[</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">],</span> <span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">y_exp</span><span class="p">,</span> <span class="n">y_err</span> <span class="o">=</span> <span class="n">sig_y</span><span class="p">,</span> <span class="n">func_deriv</span><span class="o">=</span><span class="n">deriv_list</span><span class="p">)</span> 
+</pre></div>
+</div>
 <p>Finally plot the data and the fit:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">LT.box</span> <span class="k">as</span> <span class="nn">B</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">B</span><span class="o">.</span><span class="n">plot_exp</span><span class="p">(</span><span class="n">xval</span><span class="p">,</span> <span class="n">y_exp</span><span class="p">,</span> <span class="n">sigy</span><span class="p">)</span>   <span class="c1"># plot the data with errorbars</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">B</span><span class="o">.</span><span class="n">plot_exp</span><span class="p">(</span><span class="n">xval</span><span class="p">,</span> <span class="n">y_exp</span><span class="p">,</span> <span class="n">sig_y</span><span class="p">)</span>   <span class="c1"># plot the data with errorbars</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">F</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>                        <span class="c1"># plot the fitted function as a line    </span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">B</span><span class="o">.</span><span class="n">plot_line</span><span class="p">(</span><span class="n">F</span><span class="o">.</span><span class="n">xpl</span><span class="p">,</span> <span class="n">F</span><span class="o">.</span><span class="n">ypl</span><span class="p">)</span>       <span class="c1"># old version of plotting the fitted function as a line</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">F</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>                            <span class="c1"># evaluate the fitted function at x</span>
@@ -102,7 +120,7 @@ decide to change which parameters are fixed and which are to be fitted.</p>
 <hr class="docutils" />
 <dl class="py class">
 <dt class="sig sig-object py" id="LT_Fit.gen_fit.genfit">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">LT_Fit.gen_fit.</span></span><span class="sig-name descname"><span class="pre">genfit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">function</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameters</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_err</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nplot</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">full_output</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ftol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.001</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">print_results</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_fit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#LT_Fit.gen_fit.genfit" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">LT_Fit.gen_fit.</span></span><span class="sig-name descname"><span class="pre">genfit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">function</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameters</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_err</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nplot</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">full_output</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ftol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.001</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">diff_step</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.001</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">print_results</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_fit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">func_deriv</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#LT_Fit.gen_fit.genfit" title="Permalink to this definition">¶</a></dt>
 <dd><p>general non-linear fit  based on the Marquardt algorithm</p>
 <p>Important keywords:</p>
 <table class="docutils align-default">
@@ -127,24 +145,33 @@ decide to change which parameters are fixed and which are to be fitted.</p>
 <tr class="row-even"><td><p>ftol</p></td>
 <td><p>minimal change in chi square to determine if the fit has converged</p></td>
 </tr>
-<tr class="row-odd"><td><p>kwargs</p></td>
+<tr class="row-odd"><td><p>diff_step</p></td>
+<td><p>step size used to the numerical calculation of derivetives with respect to the
+fit parameters (default = 0.001), h = diff_step * par</p></td>
+</tr>
+<tr class="row-even"><td><p>kwargs</p></td>
 <td><p>additional keywords are passes to scipy.optimize.least_squares, examples below</p></td>
 </tr>
-<tr class="row-even"><td><p>bounds</p></td>
+<tr class="row-odd"><td><p>bounds</p></td>
 <td><p>an array for upper and lower bounds for the parameter</p></td>
 </tr>
-<tr class="row-odd"><td><p>loss</p></td>
+<tr class="row-even"><td><p>loss</p></td>
 <td><p>alternative loss function to handle outliers e.g. ‘huber’</p></td>
 </tr>
-<tr class="row-even"><td><p>f_scale</p></td>
+<tr class="row-odd"><td><p>f_scale</p></td>
 <td><p>outliers with a residual more the f_scale should be not affect the result</p></td>
 </tr>
-<tr class="row-odd"><td><p>plot_fit</p></td>
+<tr class="row-even"><td><p>plot_fit</p></td>
 <td><p>(default True) plot the fitted function automatically</p></td>
+</tr>
+<tr class="row-odd"><td><p>func_deriv</p></td>
+<td><p>list of functions corresponding to the fit parameter list (parameters)
+that calculate the derivative of the fit function with respect to each
+of the fit parameters. (default = None)</p></td>
 </tr>
 </tbody>
 </table>
-<p>Additional keyword arguments are passed on to <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.leastsq.html#scipy.optimize.leastsq" title="(in SciPy v1.14.0)"><code class="xref py py-func docutils literal notranslate"><span class="pre">scipy.optimize.leastsq()</span></code></a></p>
+<p>Additional keyword arguments are passed on to <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.leastsq.html#scipy.optimize.leastsq" title="(in SciPy v1.14.1)"><code class="xref py py-func docutils literal notranslate"><span class="pre">scipy.optimize.leastsq()</span></code></a></p>
 <dl class="py method">
 <dt class="sig sig-object py" id="LT_Fit.gen_fit.genfit.get_parameters">
 <span class="sig-name descname"><span class="pre">get_parameters</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#LT_Fit.gen_fit.genfit.get_parameters" title="Permalink to this definition">¶</a></dt>
@@ -271,14 +298,14 @@ decide to change which parameters are fixed and which are to be fitted.</p>
         <li class="right" >
           <a href="lt_fit_linear_fit.html" title="linear_fit"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">LabTools3 1.1.3.13 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">LabTools3 1.1.3.16 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../LT_Fit.html" >The LT_Fit Package</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">gen_fit</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2011, Werner Boeglin.
-      Last updated on Aug 20, 2024.
+      Last updated on Dec 03, 2024.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.2.3.
     </div>
   </body>

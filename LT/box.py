@@ -456,8 +456,10 @@ class histo:
         Keyword        Meaning
         ============   =====================================================
         scale          True: the original bin number is not a multiple of n
-                             and the last bin content will be scaled
-        use_mean       True: the new bin content is the mean of the bin_content
+                             and the last bin content will be scaled accordingly
+                             
+        use_mean       True: the new bin content is the mean of the bin_content 
+                             of n bins
 
         replace        True: replace the current histogram with the
                              rebinned version
@@ -1138,7 +1140,7 @@ class histo:
         # mean value of the slices
         mean_sl = np.array([np.mean(x[sl]) for sl in slices[:-1]])
         # factor to correct the sum for slices that are shorter than n
-        fact = np.array([np.float(n)/len(x[sl]) for sl in slices[:-1]])
+        fact = np.array([float(n)/len(x[sl]) for sl in slices[:-1]])
         # return the values
         return sum_sl, mean_sl, slices[:-1], fact
 
