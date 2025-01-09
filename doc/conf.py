@@ -75,7 +75,7 @@ copyright = u'2011, Werner Boeglin'
 # built documents.
 #
 # The short X.Y version.
-version = '1.3.16'
+version = '1.3.18'
 # The full version, including alpha/beta/rc tags.
 release = '1.'+version
 

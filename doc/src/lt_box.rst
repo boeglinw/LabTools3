@@ -12,6 +12,7 @@ Box Content:
    * :func:`~LT.box.get_data`
    * :func:`~LT.box.get_spectrum`
    * :class:`~LT.box.histo`
+   * :class:`~LT.box.histo2d`
 
 ----------------------------
 

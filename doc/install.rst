@@ -12,7 +12,7 @@ other python distribution you want to use.
 
 There are several methods available for installation:
 
-1. (Recommended) Download the installation script :download:`install_labtools.py<../install_labtools.py>`
+1. (Recommended) Install the labtools from inside **Spyder** (see below)
 
 2. From the command line run the command: ``pip install LabTools3`` (Make sure you have administrator priviledges on Windows, on MacOS or  Linux you might need to use the ``sudo`` command.)
 
@@ -20,7 +20,8 @@ There are several methods available for installation:
 Installation using Anaconda
 ---------------------------
 
-Start **Spyder** and, using the file explorer, go to the directory (or folder) where you stored the ``install_labtools.py`` file.
+Start **Spyder** and inside the console window enter the command
+**!pip install LabTools3**
 
 .. _st_fig1:
 
@@ -28,11 +29,9 @@ Start **Spyder** and, using the file explorer, go to the directory (or folder) w
    :align: center
    :scale: 45%
 
-   Figure 1: Select directory where you stored the ``install_labtools.py`` file.
+   Figure 1: Run the command: **!pip install LabTools3** (the
+   exclamation point is important)
 
-
-In this directory execute the command ``%run install_labtools`` in the command window. If this does not work make
-sure that you are in the correct directory (folder), look for ``install_labtools.py`` in the *Files* window.
 
 This will install the software. Restart spyder and you are ready to use the ``LabTools3``.
 

@@ -646,9 +646,16 @@ class histo:
         of.write('#\ title = %s\n'%(self.title))
         of.write('#\ xlabel = %s\n'%(self.xlabel))
         of.write('#\ ylabel = %s\n'%(self.ylabel))
-        # fir limits used when the last fit was made
+        # fit limits used when the last fit was made
         of.write('#\ fit_index_min = %d\n'%(self.fit_index_min))
         of.write('#\ fit_index_max = %d\n'%(self.fit_index_max))
+        # window settings
+        of.write('#\ window_min = %d\n'%(self.win_min))
+        of.write('#\ window_max = %d\n'%(self.win_max))
+        if self.window_set:
+            of.write('#\ window_set = True\n')
+        else:
+            of.write('#\ window_set = False\n')
         # now write the current fit parameters
         for key in self.fit_par:
             name = key + ' = %r'
@@ -662,7 +669,7 @@ class histo:
             of.write ("%r %r %r \n"%( bc, self.bin_content[i], self.bin_error[i])  )
         of.close()
 
-    def load(self, file='histo.data'):
+    def load(self, file='histo.data', clear_window = False):
         """
 
         read the histogram data from :mod:`~LT.pdatafile`
@@ -680,6 +687,15 @@ class histo:
         self.title = data.par.get_value('title', str)
         self.xlabel = data.par.get_value('xlabel', str)
         self.ylabel = data.par.get_value('ylabel', str)
+        # window parameters
+        try :
+            win_min = data.par.get_value('window_min')
+            win_max = data.par.get_value('window_max')
+            self.set_window(win_min, win_max)
+            self.window_set = data.par.get_value('window_set')
+        except:
+            print('no histogram window information, skipping !')
+            clear_window = True
         # now the fit limits (if they exist)
         try:
             fi_min = data.par.get_value('fit_index_min')
@@ -700,7 +716,8 @@ class histo:
         self.__get_histogram()
         self.bins = self.res[1]
         self.__prepare_histo_plot()
-        self.clear_window()
+        if clear_window:
+            self.clear_window()
         # plot the fit
         x = np.linspace(self.bins[0], self.bins[-1:][0], 100)
         self.fit_dict['xpl'] = x
@@ -898,7 +915,61 @@ class histo:
         print('Chi sq./DoF = ', self.F.chi2_red)
         print('----------------------------------------------------------------------')
         self.calc_fit_plot()
+        
+        
+    def plot_guess(self, xmin = None, xmax = None):
+        """
+        Plot the fit function with the guessed parameters 
 
+        Keyword arguments are:
+
+        ============   =====================================================
+        Keyword        Meaning
+        ============   =====================================================
+        xmin           lower fit limit
+        xmax           upper fit limit
+        ============   =====================================================
+
+        """
+        # is there a range given, or is a window set
+        sel_all = np.ones_like(self.bin_center, dtype = 'bool')
+        if (xmin is None) and (xmax is None):
+            # check if a window is set
+            if self.window_set:
+                # if so use the set window limits
+                sel = (self.win_min <= self.bin_center) & (self.bin_center <= self.win_max)
+                self.fit_indx, = np.where ( sel )
+            else:
+                # if not use all data
+                self.fit_indx, = np.where(sel_all)
+        elif (xmin is None):
+            sel = (self.bin_center <= xmax)
+            if self.window_set:
+                # if so check which is smaller
+                sel_w = (self.bin_center <= self.win_max) & sel
+                self.fit_indx, = np.where(sel_w)
+            else:
+                self.fit_indx, = np.where(sel)
+        elif (xmax is None):
+            sel = (xmin <= self.bin_center)
+            if self.window_set:
+                # if so check which is larger
+                sel_w = (self.win_min <= self.bin_center) & sel
+                self.fit_indx, = np.where(sel_w)
+            else:
+                self.fit_indx, = np.where(sel)
+        else:
+            sel = (xmin <= self.bin_center) & ( self.bin_center <= xmax)
+            if self.window_set:
+                # if so check the set window limits
+                sel_w = (self.win_min <= self.bin_center) & ( self.bin_center <= self.win_max) & sel
+                # use the tighter limits
+                self.fit_indx, = np.where(sel_w)
+            else:
+                self.fit_indx, = np.where(sel)        
+        self.calc_fit_plot()
+        self.plot_fit()
+        
     def fit_view(self, init = True):
         """
 
@@ -2089,7 +2160,7 @@ def get_spectrum(file, calibration = None):
     """
     sp = mcsp.MCA(file)
     sp_title = sp.spectrum['$DATE_MEA'] + \
-        " live time = %6.1f s, total time = %6.1f s"%(sp.spectrum['$MEAS_TIM'][0],\
+        " live time: %6.1f s, total time: %6.1f s"%(sp.spectrum['$MEAS_TIM'][0],\
                                                            sp.spectrum['$MEAS_TIM'][1])
     # create histogram
     if calibration is None:

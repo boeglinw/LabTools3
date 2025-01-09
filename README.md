@@ -40,3 +40,7 @@ Version 1.1.3.14: error calcualtion for filling histograms with weights include 
 Version 1.1.3.15: contination lines enabled in parameter file by endine line with "\" or ","" 
 
 Version 1.1.3.16: Corrected bug in histo.rebin. gen_fit allows control of relative step size using the diff_step keyword. It is also possible to supply a list of functions to calculate the parameter derivatives. This helps with numerical accuracy in the minimization process (see gen_fit documentation) 
+
+Version 1.1.3.17: Histogram window settings are now also saved to data file. Replace equal sign with colon in histogram title in get_spectrum. 
+
+Version 1.1.3.18: Added plot_guess function to histo. This makes it easy to plot fit functions with guessed parameters. 
