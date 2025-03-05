@@ -368,7 +368,7 @@ class histo:
                 # histogram with weights squared
                 kwargs1 = copy.copy(kwargs)
                 kwargs1['weights'] = w2
-                w2 = np.histogram(y, **kwargs1)[0] # save only the bin content
+                w2 = np.histogram(y, bins = self.res[1], **kwargs1)[0] # save only the bin content
             # add the new bin content to the old one
             self.res = (self.res[0] + res[0], self.res[1])
             if self.calc_w2 and self.has_weights:
@@ -928,6 +928,7 @@ class histo:
         ============   =====================================================
         xmin           lower fit limit
         xmax           upper fit limit
+        ============   =====================================================
 
         """
         # is there a range given, or is a window set
