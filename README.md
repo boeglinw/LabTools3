@@ -46,3 +46,5 @@ Version 1.1.3.17: Histogram window settings are now also saved to data file. Rep
 Version 1.1.3.18: Added plot_guess function to histo. This makes it easy to plot fit functions with guessed parameters. 
 
 Version 1.1.3.19: Fixed but when using using the fill function in 1d histograms with weights multiple times.
+
+Version 1.1.3.20: Added show_header to datafile and teh full_precision key word to write_csv.

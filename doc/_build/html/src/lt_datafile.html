@@ -366,6 +366,25 @@ is larger than or equal to 0.</p>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="LT.datafile.dfile.show_header">
+<span class="sig-name descname"><span class="pre">show_header</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">show_all</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#LT.datafile.dfile.show_header" title="Permalink to this definition">¶</a></dt>
+<dd><p>Show the header information of the data file</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>show_all</strong><span class="classifier">Bool, optional</span></dt><dd><p>Show all comments in the header otherwise only the headerline. The default is True.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>None.</dt><dd></dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="LT.datafile.dfile.show_keys">
 <span class="sig-name descname"><span class="pre">show_keys</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#LT.datafile.dfile.show_keys" title="Permalink to this definition">¶</a></dt>
 <dd><p>print a list of variable names in the dictionary</p>
@@ -402,9 +421,23 @@ handle fp. Example:</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="LT.datafile.dfile.write_csv">
-<span class="sig-name descname"><span class="pre">write_csv</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">f</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#LT.datafile.dfile.write_csv" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">write_csv</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">f</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">full_precision</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#LT.datafile.dfile.write_csv" title="Permalink to this definition">¶</a></dt>
 <dd><p>save the current file as a csv file</p>
-<p>f : file name  to be used</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>f</strong><span class="classifier">string</span></dt><dd><p>file name to be used.</p>
+</dd>
+<dt><strong>full_precision</strong><span class="classifier">Bool, optional</span></dt><dd><p>use full precision g format for writing floats. The default is True.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>None.</dt><dd></dd>
+</dl>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
@@ -466,6 +499,7 @@ exist print a message and skip it.</p>
 <li><a class="reference internal" href="#LT.datafile.dfile.select_data_eval"><code class="docutils literal notranslate"><span class="pre">dfile.select_data_eval()</span></code></a></li>
 <li><a class="reference internal" href="#LT.datafile.dfile.show_all_data"><code class="docutils literal notranslate"><span class="pre">dfile.show_all_data()</span></code></a></li>
 <li><a class="reference internal" href="#LT.datafile.dfile.show_data"><code class="docutils literal notranslate"><span class="pre">dfile.show_data()</span></code></a></li>
+<li><a class="reference internal" href="#LT.datafile.dfile.show_header"><code class="docutils literal notranslate"><span class="pre">dfile.show_header()</span></code></a></li>
 <li><a class="reference internal" href="#LT.datafile.dfile.show_keys"><code class="docutils literal notranslate"><span class="pre">dfile.show_keys()</span></code></a></li>
 <li><a class="reference internal" href="#LT.datafile.dfile.sort"><code class="docutils literal notranslate"><span class="pre">dfile.sort()</span></code></a></li>
 <li><a class="reference internal" href="#LT.datafile.dfile.update_header"><code class="docutils literal notranslate"><span class="pre">dfile.update_header()</span></code></a></li>
@@ -535,7 +569,7 @@ exist print a message and skip it.</p>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2011, Werner Boeglin.
-      Last updated on Jan 09, 2025.
+      Last updated on Mar 31, 2025.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.2.3.
     </div>
   </body>

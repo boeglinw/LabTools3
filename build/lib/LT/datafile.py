@@ -88,7 +88,7 @@ except:
     numpy_ok = False
 
 # function to create a dictionary from 2 lists: key, values
-format_dict = {'i':'{:d}', 'f':'{:f}', 's':'{:s}'}
+format_dict = {'i':'{:d}', 'f':'{:f}', 's':'{:s}', 'g':'{:.12g}'}
 # create a dictionary from  an array of keys and values
 #----------------------------------------------------------------------
 def find_duplicates(array):
@@ -465,6 +465,27 @@ class dfile:
 
         """
         return self.adata[:self.headindex+1]
+
+    def show_header(self, show_all = True):
+        """
+        Show the header information of the data file
+
+        Parameters
+        ----------
+        show_all : Bool, optional
+            Show all comments in the header otherwise only the headerline. The default is True.
+
+        Returns
+        -------
+        None.
+
+        """
+        if show_all:
+            for ll in self.get_full_header():
+                print(ll)
+        else:
+            print(self.get_header())
+        
 
     def show_data(self,keylist):
         """
@@ -917,9 +938,16 @@ class dfile:
             fmt += format_dict[self.formats[k]] + ', '
         return fmt.strip()[:-1]
 
-    def make_csv(self):
+    def make_csv(self, full_prec = False):
         keys = self.keys[:-1]
         csv = [ ''.join([k + ',' for k in keys]) ]
+        if full_prec:
+            for fk in self.formats.keys():
+                fmt = self.formats[fk]
+                if (fmt == 'i') or (fmt == 's'):
+                    pass
+                else:
+                    self.formats[fk] = 'g'    # set the general float format key    
         for l in self.data:
             fmt = self.make_fmt()
             data = [l[k] for k in keys]
@@ -927,16 +955,26 @@ class dfile:
             csv.append(ll)
         return csv
 
-    def write_csv(self, f):
+    def write_csv(self, f, full_precision = True):
         """
-        
+                
         save the current file as a csv file
         
-        f : file name  to be used
-        
+
+        Parameters
+        ----------
+        f : string
+            file name to be used.
+        full_precision : Bool, optional
+            use full precision g format for writing floats. The default is True.
+
+        Returns
+        -------
+        None.
+
         """
         o = open(f,'w')
-        csv = self.make_csv()
+        csv = self.make_csv(full_prec = full_precision)
         for l in csv:
             o.write(l + '\n')
         o.close()
