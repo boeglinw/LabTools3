@@ -1571,6 +1571,7 @@ class histo2d:
 
         """
         nz = self.bin_content>0.
+        # nz = self.bin_content!=0.
         self.logz = logz
         self.zmin = self.bin_content[nz].min()
         colormap_l = copy.copy(colormap)
@@ -1957,6 +1958,7 @@ class histo2d:
             return (np.searchsorted(bins, x) - 1 )
 
     def __add__(self, v):
+        #print('__add__', v)
         # add 2 histograms and take care of the errors
         # check the shapes
         if np.isscalar(v):
@@ -1979,6 +1981,7 @@ class histo2d:
             return None
 
     def __sub__(self, v):
+        #print('__sub__', v)
         # subtract 2 histograms and take care of the errors
         # check the shapes
         if np.isscalar(v):
@@ -2001,12 +2004,13 @@ class histo2d:
             return None
 
     def __mul__(self, v):
+        #print('__mul__', v)
         # histogram multiply from left
         if np.isscalar(v):
-            res0 = v*self.res[0]
+            res0 = v*self.bin_content
             err = v*self.bin_error
             res1 = np.copy(self.res[1])
-            res2 = np.copy(self.res[1])
+            res2 = np.copy(self.res[2])
             res = ([res0, res1, res2 ])
             return histo2d(histogram = res, bin_error = err)
         elif np.array_equal(self.bin_content.shape, v.bin_content.shape):
@@ -2024,13 +2028,14 @@ class histo2d:
             return None
 
     def __truediv__(self, v):
+        #print('__truediv__', v)
         # divide 2 histograms and take care of the errors
         # check the shapes
         if np.isscalar(v):
-            res0 = self.res[0]/v
+            res0 = self.bin_content/v
             err = self.bin_error/v
             res1 = np.copy(self.res[1])
-            res2 = np.copy(self.res[1])
+            res2 = np.copy(self.res[2])
             res = ([res0, res1, res2 ])
             return histo2d(histogram = res, bin_error = err)
         elif np.array_equal(self.bin_content.shape, v.bin_content.shape):
@@ -2050,6 +2055,7 @@ class histo2d:
 
 
     def __radd__(self, v):
+        #print('__radd__', v)
         # add 2 histograms and take care of the errors
         # check the shapes
         if np.isscalar(v):
@@ -2072,10 +2078,11 @@ class histo2d:
             return None
 
     def __rsub__(self, v):
+        #print('__rsub__', v)
         # subtract 2 histograms and take care of the errors
         # check the shapes
         if np.isscalar(v):
-            res0 = self.bin_content - v
+            res0 = v - self.bin_content
             err = self.bin_error
             res1 = np.copy(self.res[1])
             res2 = np.copy(self.res[2])
@@ -2083,7 +2090,7 @@ class histo2d:
             return histo2d(histogram = res, bin_error = err)
         elif np.array_equal(self.bin_content.shape, v.bin_content.shape):
             # this is the content
-            res0 = self.bin_content - v.bin_content
+            res0 = v.bin_content - self.bin_content 
             err = np.sqrt( self.bin_error**2 + v.bin_error**2)
             res1 = np.copy(v.res[1])
             res2 = np.copy(v.res[2])
@@ -2094,12 +2101,13 @@ class histo2d:
             return None
 
     def __rmul__(self, v):
+        #print('__rmul__', v)
         # histogram multiply from left
         if np.isscalar(v):
-            res0 = v*self.res[0]
+            res0 = v*self.bin_content
             err = v*self.bin_error
             res1 = np.copy(self.res[1])
-            res2 = np.copy(self.res[1])
+            res2 = np.copy(self.res[2])
             res = ([res0, res1, res2 ])
             return histo2d(histogram = res, bin_error = err)
         elif np.array_equal(self.bin_content.shape, v.bin_content.shape):
@@ -2118,13 +2126,14 @@ class histo2d:
 
 
     def __rtruediv__(self, v):
+        #print('_rtuediv__', v)
         # divide 2 histograms and take care of the errors
         # check the shapes
         if np.isscalar(v):
-            res0 = v/self.res[0]
-            err = v/self.res[0]**2*self.bin_error
+            res0 = v/self.bin_content
+            err = v/self.bin_content**2*self.bin_error
             res1 = np.copy(self.res[1])
-            res2 = np.copy(self.res[1])
+            res2 = np.copy(self.res[2])
             res = ([res0, res1, res2 ])
             return histo2d(histogram = res, bin_error = err)
         elif np.array_equal(self.bin_content.shape, v.bin_content.shape):
