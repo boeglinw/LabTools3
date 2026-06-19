@@ -50,3 +50,5 @@ Version 1.1.3.19: Fixed but when using using the fill function in 1d histograms 
 Version 1.1.3.20: Added show_header to datafile and the full_precision key word to write_csv.
 
 Version 1.1.3.21: Fixed bug in histo2d operations
+
+Version 1.1.3.22: Updated datafile to be able to read new nunmpy output of numbers with types

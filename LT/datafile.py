@@ -333,11 +333,11 @@ class dfile:
             # now try to convert according to the format
             try:
                 if fc == 'f':
-                    f.append(float(k)) # create a float
+                    f.append(float(eval(k))) # create a float
                 if fc == 'i':
-                    f.append(int(k))   # create an integer
+                    f.append(int(eval(k)))   # create an integer
                 if fc == 's':
-                    f.append(k)        # leave as string
+                    f.append(eval(k))        # leave as string
             except:
                 f.append(k) # if not possible leave it,
                 # but make a comment

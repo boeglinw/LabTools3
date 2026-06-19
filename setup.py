@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setup(
     name = "LabTools3",
-    version = "1.1.3.21",
+    version = "1.1.3.22",
     packages = find_packages(),
     # add additional files
     package_data = {'':['*.bat','*.command']},
